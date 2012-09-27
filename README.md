@@ -16,8 +16,8 @@ Currently in the works.  The information below is for development purposes.
     3. Admin panel?
 
 #### DATABASE
-    1. users: id, username, email, hashed & salted password
-    2. posts: owner, content
+    1. users: id, username, visible name, email, hashed & salted password
+    2. posts: owner, content, date posted
         * Should be editable by original poster
 
 ### Stage 2: Pinning and categories
@@ -32,7 +32,7 @@ Currently in the works.  The information below is for development purposes.
 
 #### DATABASE
     1. users: same
-    2. posts: owner, content, category, pinned
+    2. posts: owner, content, date, category, pinned
         * I think pinned posts can be edited by all
         * If so, how do we resolve edit conflicts?
     3. categories: name
