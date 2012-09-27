@@ -10,36 +10,36 @@ Currently in the works.  The information below is for development purposes.
 
 ### Stage 1: minimum viable product
 
-#### SITE MAP
-    1. Login screen
-    2. Content page
-    3. Admin panel?
+#### CONTROLLERS/VIEWS
+    1. login: Login screen
+    2. content: Content page
+    3. settings: Admin panel for now
 
 #### DATABASE
-    1. users: id, username, visible name, email, hashed & salted password
+    1. users: id, admin, username, visible name, email, hashed & salted password
     2. posts: owner, content, date posted
         * Should be editable by original poster
 
 ### Stage 2: Pinning and categories
 
-#### SITE MAP
-    1. Login screen
+#### CONTROLLERS/VIEWS
+    1. login: Login screen
         * Require member confirmation to join
-    2. Content page(s)
-        * One user-visible page per category, but only one controller+view total
+    2. content: Content page(s)
+        * One user-visible page per category; I think this can be done in routes.rb
         * Tabs for categories on left, live feed in first column, pinned posts in second column
-    3. Settings tab, contains administrative options for admins
+    3. settings: Settings tab, contains administrative options for admins
 
 #### DATABASE
-    1. users: same
+    1. users: same, but add admin-changeable permissions to create and edit categories
     2. posts: owner, content, date, category, pinned
         * I think pinned posts can be edited by all
         * If so, how do we resolve edit conflicts?
-    3. categories: name
+    3. categories: name, subtitle, perhaps some admin-changeable appearance settings?
 
 ### Stage 3: Email integration
 
-#### SITE MAP
+#### CONTROLLERS/VIEWS
     * Should stay more or less the same
 
 #### DATABASE
@@ -47,9 +47,9 @@ Currently in the works.  The information below is for development purposes.
     3. posts: same
     3. categories: name, whether to send notifications by default
 
-#### EMAIL
+#### EMAIL STUFF
     * The user should receive an email digest of all the activity for each category
-      that they've signed up for.
+      that they've signed up for.  Heavy activity will be condensed to have multiple
     * Each category uses its name for the email subject, plus "re: " if appropriate
     * Each category has its own email address.  Messages sent to that address from
       addresses owned by members are posted to the board.
