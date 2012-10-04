@@ -1,7 +1,8 @@
 CommComm::Application.routes.draw do
   get "login/entrance"
-
   get "login/login"
+  get "main/topic"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
