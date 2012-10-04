@@ -1,4 +1,6 @@
 CommComm::Application.routes.draw do
+  get "main/topic"
+
   get "login/login"
 
   # The priority is based upon order of creation:
