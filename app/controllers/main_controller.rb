@@ -1,5 +1,5 @@
 class MainController < ApplicationController
   def topic
-    @posts = Post.
+    @posts = Post.order(:post_date)
   end
 end

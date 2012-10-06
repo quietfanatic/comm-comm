@@ -1,4 +1,10 @@
 CommComm::Application.routes.draw do
+  get "post/new"
+
+  get "post/edit"
+
+  get "post/delete"
+
   get "login/entrance"
   get "login/login"
   get "main/topic"

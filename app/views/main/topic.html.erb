@@ -1,2 +1,5 @@
 <h1>Main#topic</h1>
-<p>Find me in app/views/main/topic.html.erb</p>
+
+<% for p in Post.order(:post_date) -%>
+    <p><%= p.content %></p>
+<% end %>
