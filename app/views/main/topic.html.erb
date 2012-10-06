@@ -3,3 +3,7 @@
 <% for p in Post.order(:post_date) -%>
     <p><%= p.content %></p>
 <% end %>
+<%= form_tag('/post/new') do -%>
+    <%= text_area_tag(:content) %>
+    <%= submit_tag("Post") %>
+<% end %>
