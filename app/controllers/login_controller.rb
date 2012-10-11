@@ -10,10 +10,7 @@ class LoginController < ApplicationController
         @redirect = "/login/entrance?state=incorrect"
       end
     else
-      new_user = User.new(email: params["email"])
-      new_user.password = params["password"]
-      new_user.save!
-      @redirect = "/main/topic"
+      @redirect = "/"
     end
   end
 end
