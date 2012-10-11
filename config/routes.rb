@@ -4,7 +4,7 @@ CommComm::Application.routes.draw do
   post "post/delete"
 
   get "login/entrance"
-  get "login/login"
+  post "login/login"
   get "main/topic"
 
 
