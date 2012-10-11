@@ -3,6 +3,9 @@
 <h4>
 Enter your login information below.
 </h4>
+  <% if params["state"] == "incorrect" -%>
+  <div style="color:red">Sorry, the email or the password was a bit wrong.</div>
+  <% end %>
   <%= form_tag "/login/login" do -%>
     Email:    <input type="text" name="email"><br>
     Password: <input type="password" name="password">
