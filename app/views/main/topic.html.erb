@@ -3,7 +3,7 @@
 <hr>
 
 <% for p in Post.order(:post_date) -%>
-    <b><p><%= p.content %></p></b>
+    <b><p>"<%= p.content %>"</p></b>
     <h6><p><%= p.post_date %></p></h6>
     <hr>
 <% end %>
