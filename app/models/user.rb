@@ -1,3 +1,16 @@
+require 'bcrypt'
+
 class User < ActiveRecord::Base
-  attr_accessible :email, :is_admin, :password, :username, :visible_name
+  include BCrypt
+
+  attr_accessible :email, :is_admin, :username, :visible_name
+
+  def password
+    @password ||= Password.new(password_digest)
+  end
+
+  def password=(new)
+    @password = Password.create(new)
+    self.password_digest = @password
+  end
 end
