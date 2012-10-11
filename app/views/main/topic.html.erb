@@ -1,8 +1,13 @@
-<h1>Main#topic</h1>
+<h1>       Your Comm-Comm</h1>
+
+<hr>
 
 <% for p in Post.order(:post_date) -%>
-    <p><%= p.content %></p>
+    <b><p><%= p.content %></p></b>
+    <h6><p><%= p.post_date %></p></h6>
+    <hr>
 <% end %>
+
 <%= form_tag('/post/new') do -%>
     <%= text_area_tag(:content) %>
     <%= submit_tag("Post") %>
