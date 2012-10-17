@@ -1,3 +1,53 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$main-color: #2d7bc9;
+$secondary-color: adjust-hue($main-color, 120deg); //#f5a4c3;
+$third-color: adjust-hue($main-color, 240deg); //#fef6a8;
+
+body{
+    background-color: lighten($third-color, 45%);
+}
+
+h2{
+   color: $secondary-color;
+}
+
+.all_content{
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
+    width:800px;
+    
+    border-style:solid;
+    border-radius:15px;
+    background-color:white;
+}
+.header{
+    color:$main-color;
+    text-align:center;
+}
+.content{
+    padding: 10px 5px 10px 5px;
+}
+.footer{
+
+}
+.post{ 
+    color:$main-color;
+}
+.post_content{
+    padding-bottom:10px;
+}
+.post_date{
+    margin-top:10px;
+    font-size:smaller;
+}
+.post_owner{
+    font-weight:bold;
+}
+.debug{
+    color:red;
+    font-size:small;
+}

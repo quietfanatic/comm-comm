@@ -1,10 +1,14 @@
-<h1>Topic Stream</h1>
+<h2>Topic Stream</h2>
 
+Currently logged in as: <b><%= session[:owner] %></b>
 <hr>
-
-<% for p in Post.order(:post_date) -%>
-    <b><p>"<%= p.content %>"</p></b>
-    <h6><p><%= p.post_date %></p></h6>
+  <% for p in Post.order(:post_date).reverse -%>
+<div class='post'>
+    <div class='post_content'>"<%= p.content %>" </div>
+    <div class='post_date'><%= p.post_date %> </div>
+    <div class='post_owner'><%= p.owner %> </div>
+    <div class='debug'>Debug: <%=" " +  p.id.to_s %> </div>
+</div>
     <hr>
 <% end %>
 

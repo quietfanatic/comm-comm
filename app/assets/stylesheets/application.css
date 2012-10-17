@@ -11,3 +11,49 @@
  *= require_self
  *= require_tree .
  */
+/* variables */
+
+$main-color: #abdaf5;
+$secondary-color: #f5a4c3;
+$third-color: #fef6a8;
+
+body{
+    background-color: lighten($third-color, 50%);
+}
+
+.all_content{
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
+    width:800px;
+    
+    border-style:solid;
+    border-radius:15px;
+    background-color:white;
+}
+.header{
+
+}
+.content{
+    padding: 10px 5px 10px 5px;
+}
+.footer{
+
+}
+.post{ 
+    color:$main-color;
+}
+.post_content{
+    padding-bottom:10px;
+}
+.post_date{
+    margin-top:10px;
+    font-size:smaller;
+}
+.post_owner{
+    font-weight:bold;
+}
+.debug{
+    color:red;
+    font-size:small;
+}
