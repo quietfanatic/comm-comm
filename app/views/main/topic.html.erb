@@ -2,7 +2,7 @@
 
 Currently logged in as: <b><%= @email %></b>
 <hr>
-<% for p in Post.order(:post_date).reverse -%>
+<% for p in Post.order(:post_date) -%>
 <% owner = User.find_by_id(p.owner) -%>
 <% email = owner ? owner.email : '???' -%>
     <div class='post'>
