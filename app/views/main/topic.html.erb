@@ -7,8 +7,8 @@ Currently logged in as: <b><%= @email %></b>
 <% email = owner ? owner.email : '???' -%>
     <div class='post'>
         <div class='post_content'>"<%= p.content %>" </div>
-        <div class='post_date'><%= p.post_date %> </div>
         <div class='post_owner'><%= email %> </div>
+        <div class='post_date'><%= p.post_date.to_formatted_s(:long) %> </div>
         <div class='debug'>Debug: <%=" " +  p.id.to_s %> </div>
     </div>
 <hr>
