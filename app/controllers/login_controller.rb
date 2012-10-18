@@ -14,6 +14,8 @@ class LoginController < ApplicationController
     else
       @redirect = "/login"
     end
-
+  end
+  def journey
+    new_user = User.create(params[:email], params[:password])
   end
 end

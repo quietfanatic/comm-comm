@@ -7,6 +7,7 @@ CommComm::Application.routes.draw do
   get "post/new"
   post "login/login"
   get "main/topic"
+  get "login/journey"
 
 
   # The priority is based upon order of creation:
