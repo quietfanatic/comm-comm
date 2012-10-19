@@ -6,48 +6,88 @@ $main-color: #2d7bc9;
 $secondary-color: adjust-hue($main-color, 120deg); //#f5a4c3;
 $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 
-body{
-    background-color: lighten($third-color, 45%);
+
+.stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    overflow: auto;
 }
 
-h2{
-   color: $secondary-color;
+.pinned {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    bottom: 0;
 }
 
-.all_content{
-    margin-left:auto;
-    margin-right:auto;
-    position:relative;
-    width:800px;
-    
-    border-style:solid;
-    border-radius:15px;
-    background-color:white;
+.post_list {
 }
-.header{
-    color:$main-color;
-    text-align:center;
-}
-.content{
-    padding: 10px 5px 10px 5px;
-}
-.footer{
 
+.post {
+    margin: 0.5em 1em;
+    border: 1px solid black;
+    border-radius: 0.6em;
 }
-.post{ 
-    color:$main-color;
+
+.post_info {
+//    padding-left: 0.4em;
+//    padding-right: 0.4em;
+//    padding-bottom: 0.5em;
+    color: #00007f;
 }
-.post_content{
-    padding-bottom:10px;
+
+.post_id {
+    float: left;
+    margin-left: 1em;
+    margin-bottom: 0.2em;
+    width: 4em;
 }
-.post_date{
-    margin-top:10px;
-    font-size:smaller;
+
+.post_owner {
+    float: left;
+    margin-bottom: 0.2em;
 }
-.post_owner{
-    font-weight:bold;
+
+.post_date {
+    float: right;
+    margin-right: 1em;
+    margin-bottom: 0.2em;
 }
-.debug{
-    color:red;
-    font-size:small;
+
+.post_content {
+    clear: both;
+    font-size: 1.2em;
+    margin: 0.2em 0.5em;
+    white-space: pre-wrap;
 }
+
+
+.new_post_form {
+    margin: 0.5em 1em;
+}
+
+.new_post_form textarea {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    width: 99%;
+    height: 6em;
+    margin-left: auto;
+    margin-right: auto;
+    resize: none;
+}
+
+.new_post_form button {
+    width: 12em;
+    margin-left: 0.1em;
+}
+
+
+
+
+
+

@@ -12,48 +12,42 @@
  *= require_tree .
  */
 /* variables */
-
+/*
 $main-color: #abdaf5;
 $secondary-color: #f5a4c3;
 $third-color: #fef6a8;
-
-body{
-    background-color: lighten($third-color, 50%);
+*/
+body {
+    overflow: hidden;
 }
 
-.all_content{
-    margin-left:auto;
-    margin-right:auto;
-    position:relative;
-    width:800px;
+.navigation {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12em;
+    bottom: 0;
     
-    border-style:solid;
-    border-radius:15px;
-    background-color:white;
+    border-right: solid 1px black;
 }
-.header{
 
+.site_logo {
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0.5em;
+    text-align: center;
 }
-.content{
-    padding: 10px 5px 10px 5px;
+.you_are {
+    text-align: center;
 }
-.footer{
+.identity {
+    text-align: center;
+}
 
-}
-.post{ 
-    color:$main-color;
-}
-.post_content{
-    padding-bottom:10px;
-}
-.post_date{
-    margin-top:10px;
-    font-size:smaller;
-}
-.post_owner{
-    font-weight:bold;
-}
-.debug{
-    color:red;
-    font-size:small;
+.content {
+    position: absolute;
+    left: 12em;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
