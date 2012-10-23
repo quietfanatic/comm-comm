@@ -4,8 +4,10 @@ CommComm::Application.routes.draw do
   post "post/delete"
 
   get "login/entrance"
-  get "login/login"
+  get "post/new"
+  post "login/login"
   get "main/topic"
+  get "login/journey"
 
 
   # The priority is based upon order of creation:

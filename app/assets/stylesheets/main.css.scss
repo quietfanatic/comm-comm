@@ -1,3 +1,93 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$main-color: #2d7bc9;
+$secondary-color: adjust-hue($main-color, 120deg); //#f5a4c3;
+$third-color: adjust-hue($main-color, 240deg); //#fef6a8;
+
+
+.stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    overflow: auto;
+}
+
+.pinned {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    bottom: 0;
+}
+
+.post_list {
+}
+
+.post {
+    margin: 0.5em 1em;
+    border: 1px solid black;
+    border-radius: 0.6em;
+}
+
+.post_info {
+//    padding-left: 0.4em;
+//    padding-right: 0.4em;
+//    padding-bottom: 0.5em;
+    color: #00007f;
+}
+
+.post_id {
+    float: left;
+    margin-left: 1em;
+    margin-bottom: 0.2em;
+    width: 4em;
+}
+
+.post_owner {
+    float: left;
+    margin-bottom: 0.2em;
+}
+
+.post_date {
+    float: right;
+    margin-right: 1em;
+    margin-bottom: 0.2em;
+}
+
+.post_content {
+    clear: both;
+    font-size: 1.2em;
+    margin: 0.2em 0.5em;
+    white-space: pre-wrap;
+}
+
+
+.new_post_form {
+    margin: 0.5em 1em;
+}
+
+.new_post_form textarea {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    width: 99%;
+    height: 6em;
+    margin-left: auto;
+    margin-right: auto;
+    resize: none;
+}
+
+.new_post_form button {
+    width: 12em;
+    margin-left: 0.1em;
+}
+
+
+
+
+
+

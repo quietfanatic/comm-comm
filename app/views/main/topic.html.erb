@@ -1,9 +1,40 @@
-<h1>Main#topic</h1>
+<div class=stream id=stream>
+    <div class=post_list>
+    <% for p in Post.order(:post_date) -%>
+    <% owner = User.find_by_id(p.owner) -%>
+    <% email = owner ? owner.email : '???' -%>
+        <div class=post>
+            <div class=post_info>
+                <div class=post_id><%= p.id.to_s %> </div>
+                <div class=post_owner><%= email %> </div>
+                <div class=post_date><%= p.post_date.to_formatted_s(:long) %> </div>
+            </div>
+            <div class=post_content><%= p.content %></div>
+        </div>
+    <% end %>
+    </div>
+    <div class=new_post_form>
+        <%= form_tag('/post/new') do -%>
+            <textarea name=content></textarea>
+            <button type=submit>Post</button>
+        <% end %>
+    </div>
+    <br>
+</div>
+<script>
+    var stream = document.getElementById('stream');
+    stream.scrollTop = stream.scrollHeight;
+</script>
+<div class=pinned>
+    <div class=post_list>
+        <div class=post>
+            <div class=post_info>
+                <div class=post_id>-1</div>
+                <div class=post_owner>The System</div>
+                <div class=post_date>nowhen</div>
+            </div>
+            <div class=post_content>This is an example pinned post.</div>
+        </div>
+    </div>
+</div>
 
-<% for p in Post.order(:post_date) -%>
-    <p><%= p.content %></p>
-<% end %>
-<%= form_tag('/post/new') do -%>
-    <%= text_area_tag(:content) %>
-    <%= submit_tag("Post") %>
-<% end %>

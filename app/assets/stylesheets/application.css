@@ -11,3 +11,44 @@
  *= require_self
  *= require_tree .
  */
+/* variables */
+/*
+$main-color: #abdaf5;
+$secondary-color: #f5a4c3;
+$third-color: #fef6a8;
+*/
+body {
+    overflow: hidden;
+}
+
+.navigation {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12em;
+    bottom: 0;
+    
+    border-right: solid 1px black;
+}
+
+.site_logo {
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0.5em;
+    text-align: center;
+}
+.you_are {
+    text-align: center;
+}
+.identity {
+    text-align: center;
+    color: #00007f;
+}
+
+.content {
+    position: absolute;
+    left: 12em;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
