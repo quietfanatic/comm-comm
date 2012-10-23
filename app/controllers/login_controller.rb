@@ -12,7 +12,7 @@ class LoginController < ApplicationController
         @redirect ="/login/entrance?state=incorrect"
       end
     else
-      @redirect = "/login"
+      @redirect = "/login/entrance?state=incorrect"
     end
   end
   def journey
