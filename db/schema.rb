@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121018051305) do
+ActiveRecord::Schema.define(:version => 20121023195051) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20121018051305) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "session"
+    t.boolean  "is_confirmed"
   end
 
 end
