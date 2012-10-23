@@ -10,6 +10,7 @@ CommComm::Application.routes.draw do
   get "login/signup"
   post "login/journey"
   get "login/journey"
+  post "login/logout"
 
 
   # The priority is based upon order of creation:

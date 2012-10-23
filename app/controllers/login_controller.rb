@@ -24,4 +24,12 @@ class LoginController < ApplicationController
   end
   def signup
   end
+  def logout
+    user = User.find_by_session(session['session_id'])
+    if user
+      user.session = nil
+      user.save!
+    end
+    redirect_to "/login/entrance?state=logout"
+  end
 end
