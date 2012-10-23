@@ -1,0 +1,16 @@
+<h2>Welcome to <span style='color: teal'>Comm-Comm</span></h2>
+<hr>
+<h4>
+Please fill out this form to request an invitation
+</h4>
+  <% if params["state"] == "password_mismatch" -%>
+  <div style="color:red">Sorry, your password confirmation didn't match your password.</div>
+  <% end %>
+  <%= form_tag "/login/journey" do -%>
+    Email:    <input type="text" name="email"><br>
+    Password: <input type="password" name="password"><br>
+    Password Confirmation: <input type="password" name="confirm_password">
+
+    <br>
+    <button type="submit"> Login!</button>
+  <% end %>
