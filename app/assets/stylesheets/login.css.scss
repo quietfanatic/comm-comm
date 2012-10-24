@@ -1,3 +1,20 @@
 // Place all the styles related to the login controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.credentials_form label {
+    float: left;
+    width: 10em;
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 0.8em;
+}
+.credentials_form button {
+    margin-top: 0.2em;
+    margin-left: 8em;
+}
+
+.request_invitation {
+    margin-top: 1em;
+}
+
