@@ -12,24 +12,35 @@ Currently in the works.  The information below is for development purposes.
 
 #### CONTROLLERS/VIEWS
     1. login: Login screen
+        * Require member confirmation to join
     2. content: Content page
-    3. settings: Admin panel for now
+    3. settings: Nothing
 
 #### DATABASE
-    1. users: id, admin, username, visible name, email, hashed & salted password
+    1. users: id, visible name, email, hashed & salted password, is confirmed
     2. posts: owner, content, date posted
-        * Should be editable by original poster
 
 ### Stage 2: Pinning and 'topics'
 
 #### CONTROLLERS/VIEWS
-    1. login: Login screen
-        * Require member confirmation to join
-    2. content: Content page(s)
-        * One user-visible page per topic; I think this can be done in routes.rb
-        * Tabs for topics on left, live feed in first column, pinned posts in second column
-    3. settings: Settings tab, contains administrative options for admins
-
+    - login
+        - entrance
+        - login (post and redirect)
+        - signup
+        - journey
+    - main
+        - topic
+            * Actually have multiple topics.  They'll be in tabs on the left.
+            * Allow posts to be pinned.
+            * Show only the N most recent non-pinned posts, but load more on request
+    - settings
+        - site
+            * Global site settings (colorscheme perhaps?  Custom css?)
+        - users
+            * Allow confirming members and setting permissions
+        - preferences
+            * User-specific settings (notifications, display settings, etc.)
+        
 #### DATABASE
     1. users: same, but add admin-changeable permissions to create and edit topics
     2. posts: owner, content, date, topic, pinned
