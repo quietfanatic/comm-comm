@@ -12,6 +12,8 @@ CommComm::Application.routes.draw do
   get "login/journey"
   post "login/logout"
 
+  root :to => 'main#topic'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
