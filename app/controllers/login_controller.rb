@@ -12,10 +12,16 @@ class LoginController < ApplicationController
         @redirect ="/login/entrance?state=incorrect"
       end
     else
-      @redirect = "/login"
+      @redirect = "/login/entrance?state=incorrect"
     end
   end
   def journey
-    new_user = User.create(params[:email], params[:password])
+    if (params['password'] == params['confirm_password'])
+      @user = User.create(:email => params["email"], :password => params['confirm_password'])
+    else
+      redirect_to "/login/signup?state=password_mismatch"
+    end
+  end
+  def signup
   end
 end
