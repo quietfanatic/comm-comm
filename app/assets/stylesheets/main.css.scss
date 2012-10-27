@@ -78,7 +78,7 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     height: 6em;
     margin-left: auto;
     margin-right: auto;
-    resize: none;
+    resize: vertical;
 }
 
 .new_post_form button {

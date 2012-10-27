@@ -13,6 +13,11 @@
     <div class=site_logo>Comm-Comm</div>
     <div class=you_are>You are logged in as:</div>
     <div class=identity><%=identity%></div>
+    <% if user -%>
+    <div class=logout><form action="/login/logout" method="post">
+        <button type="submit">Log out</button>
+    </form></div>
+    <% end -%>
 </div>
 <div class=content>
 

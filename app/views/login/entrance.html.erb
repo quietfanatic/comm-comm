@@ -1,16 +1,20 @@
-<h2>Welcome to <span style='color: teal'>Comm-Comm</span></h2>
-<hr>
-<h4>
-Enter your information below
-</h4>
-  <% if params["state"] == "incorrect" -%>
-  <div style="color:red">Sorry, the email or the password was a bit wrong.</div>
-  <% end %>
-  <%= form_tag "/login/login" do -%>
-    Email:    <input type="text" name="email"><br>
-    Password: <input type="password" name="password">
-    <br>
-    <button type="submit"> Login!</button>
-  <% end %>
-<a href="/login/signup">Request an Invitation</a>
-
+<div class="misc_content">
+    <h4>Please log in to use this site.</h4>
+    <% if params["state"] == "incorrect" -%>
+    <div style="color:red">Sorry, the email or the password was a bit wrong.</div>
+    <% end %>
+    <%= form_tag "/login/login", class: "credentials_form" do -%>
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" name="email">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password">
+        </div>
+        <button type="submit">Enter</button>
+    <% end %>
+    <div class=request_invitation>
+        <a href="/login/signup">Request an Invitation</a>
+    </div>
+</div>

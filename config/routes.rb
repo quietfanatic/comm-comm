@@ -4,12 +4,14 @@ CommComm::Application.routes.draw do
   post "post/delete"
 
   get "login/entrance"
-  get "post/new"
   post "login/login"
   get "main/topic"
   get "login/signup"
   post "login/journey"
   get "login/journey"
+  post "login/logout"
+
+  root :to => 'main#topic'
 
 
   # The priority is based upon order of creation:
