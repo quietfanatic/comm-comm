@@ -12,6 +12,33 @@ class PostController < ApplicationController
     end
   end
 
+  def pin
+    post = Post.find_by_id(params['id'])
+    if post
+      post.pinned = true
+      post.save!
+    end
+    topic = Topic.find_by_id(post.topic)
+    if topic
+      redirect_to "/main/topic?topic=#{topic}"
+    else
+      redirect_to "/main/topic"
+    end
+  end
+  def unpin
+    post = Post.find_by_id(params['id'])
+    if post
+      post.pinned = false
+      post.save!
+    end
+    topic = Topic.find_by_id(post.topic)
+    if topic
+      redirect_to "/main/topic?topic=#{topic}"
+    else
+      redirect_to "/main/topic"
+    end
+  end
+
   def edit
   end
 

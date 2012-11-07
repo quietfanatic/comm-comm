@@ -13,6 +13,9 @@ CommComm::Application.routes.draw do
   get "post/list"
   root :to => 'main#topic'
 
+  get 'post/pin'
+  get 'post/unpin'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
