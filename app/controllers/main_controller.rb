@@ -12,5 +12,6 @@ class MainController < ApplicationController
       redirect_to '/login/entrance'
     end
     @topic = Topic.find_by_name(params['topic'])
+    @posts = Post.order(:post_date).find_all_by_topic(@topic ? @topic.id : nil)
   end
 end

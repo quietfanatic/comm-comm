@@ -2,7 +2,7 @@
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
 <div class=stream id=stream>
     <div class=post_list id=stream_post_list>
-    <% for p in Post.order(:post_date).find_all_by_topic(@topic ? @topic.id : nil) -%>
+    <% for p in @posts -%>
     <% owner = User.find_by_id(p.owner) -%>
     <% email = owner ? owner.email : '???' -%>
         <div class="post real_post">
