@@ -5,6 +5,11 @@ class PostController < ApplicationController
     if !Post.last || Post.last.content != params['content']
       Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
     end
+    if @topic
+      redirect_to "/main/topic?topic=#{@topic.name}"
+    else
+      redirect_to '/main/topic'
+    end
   end
 
   def edit
