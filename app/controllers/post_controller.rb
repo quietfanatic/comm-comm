@@ -1,8 +1,9 @@
 class PostController < ApplicationController
   def new
+    @current_topic = params['topic']
     @user = User.find_by_session(session['session_id'])
     if !Post.last || Post.last.content != params['content']
-      Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id)
+      Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @current_topic ? Topic.find_by_name(@current_topic).id : nil )
     end
   end
 

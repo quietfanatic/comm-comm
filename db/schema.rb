@@ -11,12 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121023195051) do
+ActiveRecord::Schema.define(:version => 20121107014619) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
     t.string   "content"
     t.datetime "post_date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "topic"
+  end
+
+  create_table "topics", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
