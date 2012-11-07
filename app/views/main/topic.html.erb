@@ -1,6 +1,6 @@
 <div class=stream id=stream>
-    <div class=post_list>
-    <% for p in Post.order(:post_date).find_all_by_topic(@current_topic ? @current_topic.id : nil) -%>
+    <div class=post_list id=stream_post_list>
+    <% for p in Post.order(:post_date).find_all_by_topic(@topic ? @topic.id : nil) -%>
     <% owner = User.find_by_id(p.owner) -%>
     <% email = owner ? owner.email : '???' -%>
         <div class="post real_post">
@@ -17,8 +17,8 @@
         <%= form_tag('/post/new') do -%>
             <textarea name=content tabindex=1 id=new_post_textarea autofocus></textarea>
             <button type=submit tabindex=2>Post</button>
-            <%if @current_topic %>
-                <input type='hidden' value='<%= @current_topic %>'/>
+            <%if @topic %>
+                <input type=hidden name=topic value="<%= @topic.name %>"/>
             <%end%>
         <% end %>
     </div>
@@ -62,7 +62,11 @@
     function mycoolupdater () {
         var client = new XMLHttpRequest();
         client.onreadystatechange = mycoolhandler;
+        <% if @topic -%>
+        client.open("GET", "/post/list?topic=<%= @topic.name %>&since=" + latest);
+        <% else %>
         client.open("GET", "/post/list?since=" + latest);
+        <% end %>
         client.send();
     }
     setTimeout( "mycoolupdater()", 15000 );

@@ -1,3 +1,7 @@
 <h3>Your post has been heard.</h3>
 <p>Redirecting...</p>
+<% if @topic -%>
+<script>window.location = "/main/topic?topic=<%=@topic.name%>"</script>
+<% else -%>
 <script>window.location = "/main/topic"</script>
+<% end -%>

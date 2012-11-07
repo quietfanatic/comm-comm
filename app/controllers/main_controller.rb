@@ -11,6 +11,6 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
-    @current_topic = Topic.find_by_name(params['topic'])
+    @topic = Topic.find_by_name(params['topic'])
   end
 end
