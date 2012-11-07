@@ -30,6 +30,6 @@ class PostController < ApplicationController
     else
       @new_posts = []
     end
-    render layout: false
+    render file: "../views/post/list.xml.erb", layout: false
   end
 end

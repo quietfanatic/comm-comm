@@ -45,18 +45,24 @@
     function mycoolhandler () {
         if (this.readyState == this.DONE) {
             if (this.status == 200) {
-                if (this.responseText != null) {
-                    var html = (new DOMParser()).parseFromString(this.responseText, "text/html");
-                    if (html == null) alert("WAT");
+                if (this.responseXML != null) {
+                    html = this.responseXML;
                     var stream_post_list = document.getElementById("stream_post_list");
                     var new_posts = html.getElementById("new_posts");
+                    if (new_posts == null) {
+                        alert("Uh oh, something went wrong when loading new posts.");
+                    }
                     latest = parseInt(html.getElementById("new_latest").textContent);
                     while (new_posts.firstChild != null) {
                         stream_post_list.appendChild(new_posts.firstChild);
                     }
                 }
+                else {
+                    alert("Uh oh, something went quite wrong when loading new posts.");
+                    return;
+                }
             }
-            setTimeout( "mycoolupdater()", 15000 );
+            setTimeout( "mycoolupdater()", 5000 );
         }
     }
     function mycoolupdater () {
@@ -69,5 +75,5 @@
         <% end %>
         client.send();
     }
-    setTimeout( "mycoolupdater()", 15000 );
+    setTimeout( "mycoolupdater()", 5000 );
 </script>
