@@ -13,5 +13,16 @@ class MainController < ApplicationController
     end
     @topic = Topic.find_by_name(params['topic'])
     @posts = Post.order(:post_date).find_all_by_topic(@topic ? @topic.id : nil)
+    if @topic
+      @pinned = Post.order(:post_date).where(
+        "topic = :topic AND pinned = :pinned",
+        topic: @topic, pinned: true
+      )
+    else
+      @pinned = Post.order(:post_date).where(
+        "topic IS NULL AND pinned = :pinned",
+        pinned: true
+      )
+    end
   end
 end

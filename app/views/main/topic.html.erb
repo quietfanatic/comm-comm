@@ -13,29 +13,33 @@
             </div>
             <div class=post_content><%= p.content %></div>
         </div>
-    <% end %>
+    <% end -%>
     </div>
     <div class=new_post_form id=stream_post_form>
-        <%= form_tag('/post/new') do -%>
-            <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
-            <button type=submit tabindex=2 id=new_post_submit>Post</button>
-            <%if @topic %>
-                <input type=hidden name=topic value="<%= @topic.name %>"/>
-            <%end%>
-        <% end %>
+    <%= form_tag('/post/new') do -%>
+        <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
+        <button type=submit tabindex=2 id=new_post_submit>Post</button>
+        <% if @topic -%>
+            <input type=hidden name=topic value="<%= @topic.name %>"/>
+        <% end -%>
+    <% end -%>
     </div>
     <br>
 </div>
 <div class=pinned>
     <div class=post_list>
-        <div class=post>
+    <% for p in @pinned -%>
+    <% owner = User.find_by_id(p.owner) -%>
+    <% email = owner ? owner.email : '???' -%>
+        <div class="post real_post">
             <div class=post_info>
-                <div class=post_id>-1</div>
-                <div class=post_owner>The System</div>
-                <div class=post_date>nowhen</div>
+                <div class=post_id><%= p.id.to_s %> </div>
+                <div class=post_owner><%= email %> </div>
+                <div class=post_date><%= p.post_date.to_formatted_s(:long) %> </div>
             </div>
-            <div class=post_content>compare(EMACS, VIM) == NaN</div>
+            <div class=post_content><%= p.content %></div>
         </div>
+    <% end -%>
     </div>
 </div>
 <script>
@@ -82,9 +86,9 @@
         client.onreadystatechange = mycoolhandler;
         <% if @topic -%>
         client.open("GET", "/post/list?topic=<%= @topic.name %>&since=" + latest);
-        <% else %>
+        <% else -%>
         client.open("GET", "/post/list?since=" + latest);
-        <% end %>
+        <% end -%>
         client.send();
     }
     setTimeout( "mycoolupdater()", 5000 );
