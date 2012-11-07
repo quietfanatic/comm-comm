@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121107014619) do
+ActiveRecord::Schema.define(:version => 20121107222230) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(:version => 20121107014619) do
   end
 
   create_table "users", :force => true do |t|
-    t.boolean  "is_admin"
     t.string   "username"
     t.string   "visible_name"
     t.string   "email"
