@@ -9,6 +9,8 @@
 <body>
 <% user = User.find_by_session(session['session_id']) -%>
 <% identity = user ? user.email : "not logged in." -%>
+<% in_topic = yield(:in_topic) -%>
+<% topic_name = yield(:topic_name) -%>
 <div class=navigation>
     <div class=site_logo>Comm-Comm</div>
     <div class=you_are>You are logged in as:</div>
@@ -18,9 +20,12 @@
         <button type="submit">Log out</button>
     </form></div>
     <div class=topic_tabs>
-        <a class=topic_tab href="/main/topic">uncategorized</a>
+        <% tabclass = (in_topic && topic_name == "Uncategorized") ? 'topic_tab current' : 'topic_tab' -%>
+        <!--<%= in_topic %> <%= topic_name %>-->
+        <a class="<%=tabclass%>" href="/main/topic">Uncategorized</a>
     <% for t in Topic.all -%>
-        <a class=topic_tab href="/main/topic?topic=<%=t.name%>"><%=t.name%></a>
+        <% tabclass = (in_topic && topic_name == t.name) ? 'topic_tab current' : 'topic_tab' -%>
+        <a class="<%=tabclass%>" href="/main/topic?topic=<%=t.name%>"><%=t.name%></a>
     <% end -%>
     <% end -%>
     </div>

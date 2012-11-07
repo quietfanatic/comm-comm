@@ -1,3 +1,5 @@
+<% provide(:in_topic, true) -%>
+<% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
 <div class=stream id=stream>
     <div class=post_list id=stream_post_list>
     <% for p in Post.order(:post_date).find_all_by_topic(@topic ? @topic.id : nil) -%>
