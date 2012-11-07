@@ -1,0 +1,11 @@
+<% owner = User.find_by_id(post.owner) -%>
+<% email = owner ? owner.email : '???' -%>
+<% divclass = post.pinned ? 'post pinned' : 'post' -%>
+    <div class="<%= divclass %>">
+        <div class="post_info">
+            <div class="post_id"><%= post.id.to_s %> </div>
+            <div class="post_owner"><%= email %> </div>
+            <div class="post_date"><%= post.post_date.to_formatted_s(:long) %> </div>
+        </div>
+        <div class="post_content"><%= post.content %></div>
+    </div>
