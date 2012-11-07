@@ -1,6 +1,6 @@
 <div class=stream id=stream>
     <div class=post_list>
-             <% for p in Post.order(:post_date).find_all_by_topic(@current_topic ? @current_topic.id : nil) -%>
+    <% for p in Post.order(:post_date).find_all_by_topic(@current_topic ? @current_topic.id : nil) -%>
     <% owner = User.find_by_id(p.owner) -%>
     <% email = owner ? owner.email : '???' -%>
         <div class="post real_post">
