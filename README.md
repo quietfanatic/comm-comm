@@ -35,17 +35,18 @@ Currently in the works.  The information below is for development purposes.
             * Show only the N most recent non-pinned posts, but load more on request
     - settings
         - site
-            * Global site settings (colorscheme perhaps?  Custom css?)
+            * Create, edit, and delete topics
+            * Global site settings (colorscheme perhaps?)
         - users
             * Allow confirming members and setting permissions
         - preferences
             * User-specific settings (notifications, display settings, etc.)
+            * Change your visible name
         
 #### DATABASE
-    1. users: same, but add admin-changeable permissions to create and edit topics
+    1. users: Implement system of permissions (prefixed with can)
     2. posts: owner, content, date, topic, pinned
-        * I think pinned posts can be edited by all
-        * If so, how do we resolve edit conflicts?
+        * Posts should be reply-toable and derivable by others
     3. topics: name, subtitle, perhaps some admin-changeable appearance settings?
 
 ### Stage 3: Email integration
@@ -54,7 +55,7 @@ Currently in the works.  The information below is for development purposes.
     * Should stay more or less the same
 
 #### DATABASE
-    1. users: same, but with one boolean per topic to recieve email notifications
+    1. users: same, but with one boolean per topic to recieve email notifications?
     3. posts: same
     3. topics: name, whether to send notifications by default
 
