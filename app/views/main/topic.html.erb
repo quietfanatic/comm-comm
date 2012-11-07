@@ -3,7 +3,7 @@
              <% for p in Post.order(:post_date).find_all_by_topic(@current_topic ? @current_topic.id : nil) -%>
     <% owner = User.find_by_id(p.owner) -%>
     <% email = owner ? owner.email : '???' -%>
-        <div class=post>
+        <div class="post real_post">
             <div class=post_info>
                 <div class=post_id><%= p.id.to_s %> </div>
                 <div class=post_owner><%= email %> </div>
@@ -13,10 +13,10 @@
         </div>
     <% end %>
     </div>
-    <div class=new_post_form>
+    <div class=new_post_form id=stream_post_form>
         <%= form_tag('/post/new') do -%>
-            <textarea name=content></textarea>
-            <button type=submit>Post</button>
+            <textarea name=content tabindex=1 id=new_post_textarea autofocus></textarea>
+            <button type=submit tabindex=2>Post</button>
             <%if @current_topic %>
                 <input type='hidden' value='<%= @current_topic %>'/>
             <%end%>
