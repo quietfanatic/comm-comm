@@ -1,5 +1,5 @@
 <div class=stream id=stream>
-    <div class=post_list>
+    <div class=post_list id=stream_post_list>
     <% for p in Post.order(:post_date) -%>
     <% owner = User.find_by_id(p.owner) -%>
     <% email = owner ? owner.email : '???' -%>
@@ -37,4 +37,30 @@
         </div>
     </div>
 </div>
-
+<script>
+    var latest = <%= Post.last.id %>;
+    function mycoolhandler () {
+        if (this.readyState == this.DONE) {
+            if (this.status == 200) {
+                if (this.responseText != null) {
+                    var html = (new DOMParser()).parseFromString(this.responseText, "text/html");
+                    if (html == null) alert("WAT");
+                    var stream_post_list = document.getElementById("stream_post_list");
+                    var new_posts = html.getElementById("new_posts");
+                    latest = parseInt(html.getElementById("new_latest").textContent);
+                    while (new_posts.firstChild != null) {
+                        stream_post_list.appendChild(new_posts.firstChild);
+                    }
+                }
+            }
+            setTimeout( "mycoolupdater()", 15000 );
+        }
+    }
+    function mycoolupdater () {
+        var client = new XMLHttpRequest();
+        client.onreadystatechange = mycoolhandler;
+        client.open("GET", "/post/list?since=" + latest);
+        client.send();
+    }
+    setTimeout( "mycoolupdater()", 15000 );
+</script>
