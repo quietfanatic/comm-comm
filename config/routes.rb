@@ -6,6 +6,7 @@ CommComm::Application.routes.draw do
   get "login/entrance"
   post "login/login"
   get "main/topic"
+  get "main/settings"
   get "login/signup"
   post "login/journey"
   get "login/journey"

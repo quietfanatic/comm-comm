@@ -82,6 +82,9 @@ body {
     border-right: 1px solid white;
     font-weight: bold;
 }
+.settings_tab {
+    margin-top: 1em;
+}
 
 .misc_content {
     margin: 2em;

@@ -1,0 +1,45 @@
+<% provide(:in_topic, true) -%>
+<% provide(:topic_name, "_SETTINGS") -%>
+<div class="settings_page misc_content">
+<% if @user.can_edit_topics -%>
+    <h4>Topics</h4>
+    <div class=topics>
+<!--
+        <% for t in @topics -%>
+        <div class=topic>
+            <%= form_tag '/topic/edit', action: 'POST' do -%>
+            <span class=topic_id><%=t.id%></span>
+            <input type=hidden name=id value="<%=t.id%>"/>
+            <input type=text name=name value="<%=t.name%>"/>
+            <button type=submit>Change</button>
+            <% end -%>
+            <%= form_tag '/topic/delete', action: 'POST' do -%>
+            <input type=hidden name=id value="<%=t.id%>"/>
+            <button type=submit>Delete</button>
+            <% end -%>
+        </div>
+        <% end -%>
+-->
+        <%= form_tag '/topic/new', action: 'POST' do -%>
+            <input type=text name=new_name />
+            <button type=submit>Create</button>
+        <% end -%>
+    </div>
+<% end -%>
+<% if @user.can_confirm_users or @user.can_edit_users -%>
+    <h4>Unconfirmed Users</h4>
+    <div class=users>
+        <% for u in @users.select {|u| not u.is_confirmed} -%>
+        <div class=user>
+            <%= form_tag '/user/confirm', action: 'POST' do -%>
+            <span class=user_id><%=u.id%></span>
+            <input type=hidden name=id value="<%=u.id%>"/>
+            <span class=user_email><%=u.email%></span>
+            <span class=user_visible_name><%=u.visible_name%></span>
+            <button type=submit>Confirm</button>
+            <% end -%>
+        </div>
+        <% end -%>
+    </div>
+<% end -%>
+</div>
