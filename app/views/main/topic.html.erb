@@ -67,7 +67,7 @@
         var client = new XMLHttpRequest();
         client.onreadystatechange = mycoolhandler;
         <% if @topic -%>
-        client.open("GET", "/post/list?topic=<%= URI.escape(@topic.name) %>&since=" + latest);
+        client.open("GET", "/post/list?topic=<%= @topic.id %>&since=" + latest);
         <% else -%>
         client.open("GET", "/post/list?since=" + latest);
         <% end -%>

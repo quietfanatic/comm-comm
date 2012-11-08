@@ -1,12 +1,12 @@
 class PostController < ApplicationController
   def new
-    @topic = Topic.find_by_name(params['topic'])
+    @topic = Topic.find_by_id(params['topic'])
     @user = User.find_by_session(session['session_id'])
     if !Post.last || Post.last.content != params['content']
       Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
     end
     if @topic
-      redirect_to "/main/topic?topic=#{URI.escape(@topic.name)}"
+      redirect_to "/main/topic?topic=#{@topic.id}"
     else
       redirect_to '/main/topic'
     end
@@ -19,7 +19,7 @@ class PostController < ApplicationController
       post.save!
       topic = Topic.find_by_id(post.topic)
       if topic
-        redirect_to "/main/topic?topic=#{URI.escape(topic.name)}"
+        redirect_to "/main/topic?topic=#{topic.id}"
       else
         redirect_to "/main/topic"
       end
@@ -34,7 +34,7 @@ class PostController < ApplicationController
       post.save!
       topic = Topic.find_by_id(post.topic)
       if topic
-        redirect_to "/main/topic?topic=#{URI.escape(topic.name)}"
+        redirect_to "/main/topic?topic=#{topic.id}"
       else
         redirect_to "/main/topic"
       end
