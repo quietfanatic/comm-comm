@@ -8,12 +8,12 @@
 </head>
 <body>
 <% user = User.find_by_session(session['session_id']) -%>
-<% identity = user ? user.email : "not logged in." -%>
+<% identity = user ? user.visible_name || user.email : "not logged in." -%>
 <% in_topic = yield(:in_topic) -%>
 <% topic_name = yield(:topic_name) -%>
 <div class=navigation>
     <div class=site_logo>Comm-Comm</div>
-    <div class=you_are>You are logged in as:</div>
+    <div class=you_are>You are:</div>
     <div class=identity><%=identity%></div>
     <% if user -%>
     <div class=logout><form action="/login/logout" method="post">
