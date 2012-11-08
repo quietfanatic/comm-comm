@@ -58,7 +58,7 @@
                     return;
                 }
             }
-            else {
+            else if (this.status != 0) {
                 alert("There was an error when loading new posts:\nThe server returned " + this.status);
             }
         }
