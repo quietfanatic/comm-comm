@@ -16,46 +16,69 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     overflow: auto;
 }
 
-.pinned {
+.pinned_posts {
     position: absolute;
     right: 0;
     top: 0;
-    width: 50%;
     bottom: 0;
+    width: 50%;
+    overflow: auto;
 }
 
 .post_list {
 }
 
 .post {
+    clear: both;
     margin: 0.5em 1em;
     border: 1px solid black;
     border-radius: 0.6em;
 }
 
+.stream .post.pinned {
+    border: none;
+}
+
+
 .post_info {
-//    padding-left: 0.4em;
-//    padding-right: 0.4em;
-//    padding-bottom: 0.5em;
+    display: block;
+    min-height: 1.2em;
+    margin-bottom: 0.2em;
     color: #00007f;
+}
+.stream .post.pinned .post_info {
+    color: #7f7fbf;
 }
 
 .post_id {
     float: left;
     margin-left: 1em;
-    margin-bottom: 0.2em;
     width: 4em;
 }
 
 .post_owner {
     float: left;
-    margin-bottom: 0.2em;
 }
 
 .post_date {
     float: right;
-    margin-right: 1em;
-    margin-bottom: 0.2em;
+    margin-right: 0.4em;
+}
+
+.post_buttons {
+    float: right;
+    margin-right: 0.4em;
+}
+.post_buttons button {
+    display: inline;
+    padding: none;
+    margin: none;
+    border: none;
+    background: none;
+    cursor: pointer; cursor: hand;
+    font-size: 1.2em;
+    line-height: 0.9em;
+    color: #00007f;
 }
 
 .post_content {
@@ -64,9 +87,12 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     margin: 0.2em 0.5em;
     white-space: pre-wrap;
 }
-
+.stream .post.pinned .post_content {
+    display: none;
+}
 
 .new_post_form {
+    clear: both;
     margin: 0.5em 1em;
 }
 
