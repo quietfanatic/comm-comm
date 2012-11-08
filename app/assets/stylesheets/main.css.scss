@@ -54,8 +54,23 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 
 .post_date {
     float: right;
-    margin-right: 1em;
+    margin-right: 0.4em;
     margin-bottom: 0.2em;
+}
+
+.post_buttons {
+    float: right;
+    margin-right: 0.4em;
+    margin-bottom: 0.2em;
+}
+.post_buttons button {
+    display: inline;
+    padding: none;
+    margin: none;
+    border: none;
+    background: none;
+    cursor: pointer; cursor: hand;
+    color: #0000ff;
 }
 
 .post_content {
@@ -64,7 +79,6 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     margin: 0.2em 0.5em;
     white-space: pre-wrap;
 }
-
 
 .new_post_form {
     margin: 0.5em 1em;

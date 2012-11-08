@@ -20,16 +20,7 @@
 <div class=pinned_posts>
     <div class=post_list id=pinned_post_list>
     <% for p in @pinned -%>
-    <% owner = User.find_by_id(p.owner) -%>
-    <% email = owner ? owner.email : '???' -%>
-        <div class="post real_post">
-            <div class=post_info>
-                <div class=post_id><%= p.id.to_s %> </div>
-                <div class=post_owner><%= email %> </div>
-                <div class=post_date><%= p.post_date.to_formatted_s(:long) %> </div>
-            </div>
-            <div class=post_content><%= p.content %></div>
-        </div>
+        <%= render 'post/view', post: p %>
     <% end -%>
     </div>
 </div>
