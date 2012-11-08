@@ -88,4 +88,5 @@ body {
 
 .misc_content {
     margin: 2em;
+    overflow: auto;
 }
