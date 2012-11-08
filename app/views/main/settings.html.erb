@@ -1,6 +1,16 @@
 <% provide(:in_topic, true) -%>
 <% provide(:topic_name, "_SETTINGS") -%>
 <div class="settings_page misc_content">
+    <h4>Profile</h4>
+    <div class=profile>
+        <%= form_tag 'user/edit', action: 'POST' do -%>
+        <label for=email>Email address:</label>
+        <input type=text name=email value="<%= @user.email %>" />
+        <label for=name>Visible name:</label>
+        <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+        <button type=submit>Change</button>
+        <% end -%>
+    </div>
 <% if @user.can_edit_topics -%>
     <h4>Topics</h4>
     <div class=topics>
