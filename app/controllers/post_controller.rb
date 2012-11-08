@@ -51,7 +51,7 @@ class PostController < ApplicationController
   end
 
   def list
-    @topic = Topic.find_by_name(params['topic'])
+    @topic = Topic.find_by_id(params['topic'])
     if since = params["since"].to_i
       if @topic
         @new_posts = Post.order(:post_date).where(
