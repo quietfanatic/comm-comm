@@ -76,7 +76,6 @@ body {
     height: 2em;
     text-align: right;
     line-height: 2em;
-    padding-right: 1em;
 }
 .topic_tab.current {
     border-right: 1px solid white;
@@ -84,6 +83,20 @@ body {
 }
 .settings_tab {
     margin-top: 1em;
+}
+
+.tab_indicator {
+    display: inline-block;
+    padding-left: 0.5em;
+    line-height: 1em;
+    width: 0.5em;
+    text-align: center;
+    overflow: hidden;
+    color: #ffffff;
+}
+
+.tab_indicator.activity {
+    color: #00007f;
 }
 
 .misc_content {
