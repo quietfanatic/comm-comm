@@ -29,7 +29,7 @@
 <% if @user.can_confirm_users or @user.can_edit_users -%>
     <h4>Unconfirmed Users</h4>
     <div class=users>
-        <% for u in @users.select {|u| not u.is_confirmed} -%>
+        <% for u in @unconfirmed_users -%>
         <div class=user>
             <%= form_tag '/user/confirm', action: 'POST' do -%>
             <span class=user_id><%=u.id%></span>

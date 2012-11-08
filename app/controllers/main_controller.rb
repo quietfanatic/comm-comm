@@ -41,7 +41,7 @@ class MainController < ApplicationController
       @topics = Topic.all
     end
     if @user.can_edit_users or @user.can_confirm_users
-      @users = User.all
+      @unconfirmed_users = User.where("is_confirmed = 'f' OR is_confirmed IS NULL")
     end
   end
 end
