@@ -38,18 +38,18 @@
     var update_delay = 4000;
     var latest = <%= Post.last ? Post.last.id : 0 %>;
 
-    function mycoolhandler () {
+    function handle_update () {
         if (this.readyState == this.DONE) {
             if (this.status == 200) {
                 if (this.responseXML != null) {
                     html = this.responseXML;
                     var new_posts = html.getElementById("new_posts");
                     if (new_posts == null) {
-                        error_message.innerText = "There was an error when loading new posts:\nThe server didn't include new_posts";
+                        make_error("There was an error when loading new posts:\nThe server didn't include new_posts");
                         return;
                     }
                     new_latest = html.getElementById("new_latest");
-                    if (new_latest != null) latest = parseInt(new_latest.text);
+                    if (new_latest != null) latest = parseInt(new_latest.textContent);
                     var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
                     var added_posts = false;
                     while (new_posts.firstChild != null) {
@@ -59,22 +59,28 @@
                     }
                     if (added_posts) update_delay = 4000;
                     else if (update_delay < 32000) update_delay += 4000;
-                    setTimeout( "mycoolupdater()", update_delay );
+                    setTimeout( "request_update()", update_delay );
                     if (wants_scroll && added_posts) scroll_stream();
                 }
                 else {
-                    error_message.innerText = "There was an error when loading new posts:\nThe server didn't response with valid XML";
+                    make_error("There was an error when loading new posts:\nThe server didn't response with valid XML");
                     return;
                 }
             }
             else if (this.status != 0) {
-                error_message.innerText = "There was an error when loading new posts:\nThe server returned " + this.status;
+                make_error("There was an error when loading new posts:\nThe server returned " + this.status);
+                return;
             }
         }
     }
-    function mycoolupdater () {
+    function make_error (mess) {
+        error_message.textContent = mess;
+        var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
+        if (wants_scroll) scroll_stream();
+    }
+    function request_update () {
         var client = new XMLHttpRequest();
-        client.onreadystatechange = mycoolhandler;
+        client.onreadystatechange = handle_update;
         <% if @topic -%>
         client.open("GET", "/post/list?topic=<%= @topic.id %>&since=" + latest);
         <% else -%>
@@ -82,5 +88,5 @@
         <% end -%>
         client.send();
     }
-    setTimeout( "mycoolupdater()", update_delay );
+    setTimeout( "request_update()", update_delay );
 </script>
