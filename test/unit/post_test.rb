@@ -11,7 +11,7 @@ class PostTest < ActiveSupport::TestCase
    
    test "journey should exist" do
      visit '/login/journey'
-	 assert page.has_content?('Your journey is not yet complete.')
+	 assert page.has_content?('Comm-Comm')
    end
    
 end
