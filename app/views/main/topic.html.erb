@@ -11,7 +11,7 @@
         <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
         <button type=submit tabindex=2 id=new_post_submit>Post</button>
         <% if @topic -%>
-            <input type=hidden name=topic value="<%= @topic.name %>"/>
+            <input type=hidden name=topic value="<%= @topic.id %>"/>
         <% end -%>
     <% end -%>
     </div>
