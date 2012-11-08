@@ -1,10 +1,10 @@
 <% owner = User.find_by_id(post.owner) -%>
-<% email = owner ? owner.email : '???' -%>
+<% name = owner ? owner.visible_name || owner.email : '???' -%>
 <% divclass = post.pinned ? 'post pinned' : 'post' -%>
     <div class="<%= divclass %>">
         <div class="post_info">
             <div class="post_id"><%= post.id.to_s %> </div>
-            <div class="post_owner"><%= email %> </div>
+            <div class="post_owner"><%= name  %> </div>
             <div class="post_buttons">
             <% if post.pinned %>
                 <%= form_tag '/post/unpin', action: 'POST' do -%>
