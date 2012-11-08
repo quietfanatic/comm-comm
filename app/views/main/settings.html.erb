@@ -3,7 +3,8 @@
 <div class="settings_page misc_content">
     <h4>Profile</h4>
     <div class=profile>
-        <%= form_tag 'user/edit', action: 'POST' do -%>
+        <%= form_tag '/user/edit', action: 'POST' do -%>
+        <input type=hidden name=id value="<%= @user.id %>" />
         <label for=email>Email address:</label>
         <input type=text name=email value="<%= @user.email %>" />
         <label for=name>Visible name:</label>
