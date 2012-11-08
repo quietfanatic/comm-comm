@@ -17,10 +17,12 @@ class PostController < ApplicationController
     if post
       post.pinned = true
       post.save!
-    end
-    topic = Topic.find_by_id(post.topic)
-    if topic
-      redirect_to "/main/topic?topic=#{topic}"
+      topic = Topic.find_by_id(post.topic)
+      if topic
+        redirect_to "/main/topic?topic=#{topic.name}"
+      else
+        redirect_to "/main/topic"
+      end
     else
       redirect_to "/main/topic"
     end
@@ -30,10 +32,12 @@ class PostController < ApplicationController
     if post
       post.pinned = false
       post.save!
-    end
-    topic = Topic.find_by_id(post.topic)
-    if topic
-      redirect_to "/main/topic?topic=#{topic}"
+      topic = Topic.find_by_id(post.topic)
+      if topic
+        redirect_to "/main/topic?topic=#{topic.name}"
+      else
+        redirect_to "/main/topic"
+      end
     else
       redirect_to "/main/topic"
     end
