@@ -32,7 +32,7 @@
     }
     scroll_stream();
 
-    var latest = <%= Post.last.id %>;
+    var latest = <%= Post.last ? Post.last.id : 0 %>;
     function mycoolhandler () {
         if (this.readyState == this.DONE) {
             if (this.status == 200) {
