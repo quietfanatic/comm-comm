@@ -16,6 +16,7 @@ CommComm::Application.routes.draw do
 
   post 'post/pin'
   post 'post/unpin'
+  post 'topic/new'
 
 
   # The priority is based upon order of creation:
