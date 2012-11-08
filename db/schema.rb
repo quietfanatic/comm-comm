@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121108004928) do
+ActiveRecord::Schema.define(:version => 20121108050821) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
-    t.string   "content"
+    t.text     "content",    :limit => 255
     t.datetime "post_date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "topic"
     t.boolean  "pinned"
   end
