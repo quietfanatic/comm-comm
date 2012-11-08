@@ -25,7 +25,7 @@
         <a class="<%=tabclass%>" href="/main/topic">Uncategorized</a>
     <% for t in Topic.all -%>
         <% tabclass = (in_topic && topic_name == t.name) ? 'topic_tab current' : 'topic_tab' -%>
-        <a class="<%=tabclass%>" href="/main/topic?topic=<%=t.name%>"><%=t.name%></a>
+        <a class="<%=tabclass%>" href="/main/topic?topic=<%=URI.escape(t.name)%>"><%=t.name%></a>
     <% end -%>
         <% tabclass = (in_topic && topic_name == "_SETTINGS") ? 'topic_tab current settings_tab' : 'topic_tab settings_tab' -%>
         <a class="<%=tabclass%>" href="/main/settings">Settings</a>
