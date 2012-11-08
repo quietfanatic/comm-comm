@@ -27,12 +27,15 @@
 <script>
     var stream = document.getElementById('stream');
     var stream_post_list = document.getElementById('stream_post_list');
+
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
     }
     scroll_stream();
 
+    var update_delay = 4000;
     var latest = <%= Post.last ? Post.last.id : 0 %>;
+
     function mycoolhandler () {
         if (this.readyState == this.DONE) {
             if (this.status == 200) {
@@ -50,7 +53,9 @@
                             added_posts = true;
                         stream_post_list.appendChild(new_posts.firstChild);
                     }
-                    setTimeout( "mycoolupdater()", 5000 );
+                    if (added_posts) update_delay = 4000;
+                    else if (update_delay < 32000) update_delay += 4000;
+                    setTimeout( "mycoolupdater()", update_delay );
                     if (wants_scroll && added_posts) scroll_stream();
                 }
                 else {
@@ -73,5 +78,5 @@
         <% end -%>
         client.send();
     }
-    setTimeout( "mycoolupdater()", 5000 );
+    setTimeout( "mycoolupdater()", update_delay );
 </script>
