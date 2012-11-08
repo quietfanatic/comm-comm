@@ -37,6 +37,11 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
-
+    if @user.can_edit_topics
+      @topics = Topic.all
+    end
+    if @user.can_edit_users or @user.can_confirm_users
+      @users = User.all
+    end
   end
 end
