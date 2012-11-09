@@ -1,45 +1,59 @@
 class PostController < ApplicationController
   def new
-    @topic = Topic.find_by_id(params['topic'])
-    @user = User.find_by_session(session['session_id'])
-    if !Post.last || Post.last.content != params['content']
-      Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
-    end
-    if @topic
-      redirect_to "/main/topic?topic=#{@topic.id}"
+    @user = User.logged_in(session)
+    if @user
+      @topic = Topic.find_by_id(params['topic'])
+      if !Post.last || Post.last.content != params['content']
+        Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
+      end
+      if @topic
+        redirect_to "/main/topic?topic=#{@topic.id}"
+      else
+        redirect_to '/main/topic'
+      end
     else
-      redirect_to '/main/topic'
+      redirect_to '/login/entrance'
     end
   end
 
   def pin
-    post = Post.find_by_id(params['id'])
-    if post
-      post.pinned = true
-      post.save!
-      topic = Topic.find_by_id(post.topic)
-      if topic
-        redirect_to "/main/topic?topic=#{topic.id}"
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post
+        post.pinned = true
+        post.save!
+        topic = Topic.find_by_id(post.topic)
+        if topic
+          redirect_to "/main/topic?topic=#{topic.id}"
+        else
+          redirect_to "/main/topic"
+        end
       else
         redirect_to "/main/topic"
       end
     else
-      redirect_to "/main/topic"
+      redirect_to '/login/entrance'
     end
   end
   def unpin
-    post = Post.find_by_id(params['id'])
-    if post
-      post.pinned = false
-      post.save!
-      topic = Topic.find_by_id(post.topic)
-      if topic
-        redirect_to "/main/topic?topic=#{topic.id}"
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post
+        post.pinned = false
+        post.save!
+        topic = Topic.find_by_id(post.topic)
+        if topic
+          redirect_to "/main/topic?topic=#{topic.id}"
+        else
+          redirect_to "/main/topic"
+        end
       else
         redirect_to "/main/topic"
       end
     else
-      redirect_to "/main/topic"
+      redirect_to '/login/entrance'
     end
   end
 
@@ -47,25 +61,29 @@ class PostController < ApplicationController
   end
 
   def delete
-    Post.destroy(id: params['id'])
   end
 
   def list
-    @topic = Topic.find_by_id(params['topic'])
-    if since = params["since"].to_i
-      if @topic
-        @new_posts = Post.order(:post_date).where(
-          "topic = :topic AND id > :since",
-          topic: @topic.id, since: since
-        )
+    @user = User.logged_in(session)
+    if @user
+      @topic = Topic.find_by_id(params['topic'])
+      if since = params["since"].to_i
+        if @topic
+          @new_posts = Post.order(:post_date).where(
+            "topic = :topic AND id > :since",
+            topic: @topic.id, since: since
+          )
+        else
+          @new_posts = Post.order(:post_date).where(
+            "id > :since", since: since
+          )
+        end
       else
-        @new_posts = Post.order(:post_date).where(
-          "id > :since", since: since
-        )
+        @new_posts = []
       end
+      render file: "../views/post/list.xml.erb", layout: false
     else
-      @new_posts = []
+      redirect_to '/login/entrance'
     end
-    render file: "../views/post/list.xml.erb", layout: false
   end
 end

@@ -89,14 +89,14 @@ body {
     display: inline-block;
     padding-left: 0.5em;
     line-height: 1em;
-    width: 0.5em;
+    width: 0.4em;
     text-align: center;
     overflow: hidden;
     color: #ffffff;
 }
 
 .tab_indicator.activity {
-    color: #00007f;
+    color: #ff7f00;
 }
 
 .misc_content {

@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   def confirm
-    @current_user = User.find_by_session(session['session_id'])
+    @current_user = User.logged_in(session)
     if @current_user
       if @current_user.is_confirmed and @current_user.can_confirm_users
         @user = User.find_by_id(params['id'])
@@ -15,9 +15,9 @@ class UserController < ApplicationController
     end
   end
   def edit
-    @current_user = User.find_by_session(session['session_id'])
-    @user = User.find_by_id(params['id'])
+    @current_user = User.logged_in(session)
     if @current_user
+      @user = User.find_by_id(params['id'])
       if @user and @current_user.is_confirmed and (@current_user.can_edit_users or @current_user.id == @user.id)
         if @user
           if params['email']
