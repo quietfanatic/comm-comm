@@ -3,7 +3,7 @@
 <div class="settings_page misc_content">
     <h4>Profile</h4>
     <div class=profile>
-        <form action="/user/edit" method=POST>
+        <%= form_tag '/user/edit', action: 'POST' -%>
             <input type=hidden name=id value="<%= @user.id %>" />
             <label for=email>Email address:</label>
             <input type=text name=email value="<%= @user.email %>" />
@@ -17,16 +17,16 @@
     <div class=topics>
         <% for t in @topics -%>
         <div class=topic>
-            <form action="/topic/edit" method=POST>
+            <%= form_tag '/topic/edit',  action: 'POST' do -%>
                 <span class=topic_id><%=t.id%></span>
                 <input type=hidden name=id value="<%=t.id%>"/>
                 <input type=text name=name value="<%=t.name%>"/>
                 <button type=submit>Change</button>
-            </form>
-            <form action="/topic/delete" method=POST>
+            <% end -%>
+            <%= form_tag '/topic/delete', action: POST' do -%>
                 <input type=hidden name=id value="<%=t.id%>"/>
                 <button type=submit>Delete</button>
-            </form>
+            <% end -%>
         </div>
         <% end -%>
         <%= form_tag '/topic/new', action: 'POST' do -%>

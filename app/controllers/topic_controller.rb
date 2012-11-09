@@ -1,6 +1,7 @@
 class TopicController < ApplicationController
   def new
     @current_user = User.logged_in(session)
+    Rails.logger.warn @current_user
     if @current_user
       if @current_user.is_confirmed and @current_user.can_edit_topics
         name = params['name']
