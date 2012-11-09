@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121108050821) do
+ActiveRecord::Schema.define(:version => 20121109065949) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -25,8 +25,9 @@ ActiveRecord::Schema.define(:version => 20121108050821) do
 
   create_table "topics", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "last_activity"
   end
 
   create_table "users", :force => true do |t|

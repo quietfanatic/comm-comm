@@ -32,4 +32,6 @@ class MainController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
+  def update
+  end
 end
