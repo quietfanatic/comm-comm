@@ -6,13 +6,11 @@ class MainController < ApplicationController
       @posts = Post.order(:created_at).find_all_by_topic(@topic ? @topic.id : nil)
       if @topic
         @pinned = Post.order(:created_at).where(
-          "topic = :topic AND pinned = :pinned",
-          topic: @topic, pinned: true
+          topic: @topic.id, pinned: true
         )
       else
         @pinned = Post.order(:created_at).where(
-          "topic IS NULL AND pinned = :pinned",
-          pinned: true
+          topic: nil, pinned: true
         )
       end
       @indicators = Topic.all.select{ |t|
