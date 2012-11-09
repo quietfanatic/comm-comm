@@ -3,7 +3,7 @@ class TopicUser < ActiveRecord::Base
 
   def self.get (topic, user)
     return TopicUser.where(
-      "topic = :topic AND user = :user",
+      "topic == :topic AND user == :user",
       topic: topic.id, user: user.id
     ).first_or_create(topic: topic.id, user: user.id)
   end
