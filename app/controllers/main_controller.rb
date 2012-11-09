@@ -53,7 +53,8 @@ class MainController < ApplicationController
           )
         else
           @new_posts = Post.order(:post_date).where(
-            "id > :since", since: since
+            "topic IS NULL AND id > :since",
+            since: since
           )
         end
         @new_indicators = Topic.all.select{ |t|

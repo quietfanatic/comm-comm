@@ -61,14 +61,23 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 }
 
 .post_date {
+    display: block;
     float: right;
-    margin-right: 0.4em;
+    margin-right: 0.6em;
+}
+.post:hover .post_date {
+    display: none;
 }
 
 .post_buttons {
+    display: none;
     float: right;
     margin-right: 0.4em;
 }
+.post:hover .post_buttons {
+    display: block;
+}
+
 .post_buttons button {
     display: inline;
     padding: none;
