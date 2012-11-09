@@ -15,10 +15,12 @@ class MainController < ApplicationController
           pinned: true
         )
       end
-      @indicators = Topic.all.select{ |t|
-        updated_to = TopicUser.get(t, @user).updated_to || 0
-        t.last_activity && t.last_activity > updated_to
-      }.map{|t|t.id}
+#      @indicators = Topic.all.select{ |t|
+#        updated_to = TopicUser.get(t, @user).updated_to
+#        updated_to = 0 unless updated_to
+#        return t.last_activity && t.last_activity > updated_to
+#      }.map{|t|t.id}
+      @indicators = []
       if @topic
         topic_user = TopicUser.get(@topic, @user)
         topic_user.updated_to = @topic.last_activity

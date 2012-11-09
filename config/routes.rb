@@ -17,6 +17,7 @@ CommComm::Application.routes.draw do
   post 'post/pin'
   post 'post/unpin'
   post 'topic/new'
+  post 'topic/edit'
   post 'user/confirm'
   post 'user/edit'
 
