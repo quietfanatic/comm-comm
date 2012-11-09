@@ -4,7 +4,11 @@ class PostController < ApplicationController
     if @user
       @topic = Topic.find_by_id(params['topic'])
       if !Post.last || Post.last.content != params['content']
-        Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
+        @post = Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
+        if @topic
+          @topic.last_activity = @post.id
+          @topic.save!
+        end
       end
       if @topic
         redirect_to "/main/topic?topic=#{@topic.id}"
