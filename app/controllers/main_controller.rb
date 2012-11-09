@@ -3,14 +3,14 @@ class MainController < ApplicationController
     @user = User.logged_in(session)
     if @user
       @topic = Topic.find_by_id(params['topic'])
-      @posts = Post.order(:post_date).find_all_by_topic(@topic ? @topic.id : nil)
+      @posts = Post.order(:created_at).find_all_by_topic(@topic ? @topic.id : nil)
       if @topic
-        @pinned = Post.order(:post_date).where(
+        @pinned = Post.order(:created_at).where(
           "topic = :topic AND pinned = :pinned",
           topic: @topic, pinned: true
         )
       else
-        @pinned = Post.order(:post_date).where(
+        @pinned = Post.order(:created_at).where(
           "topic IS NULL AND pinned = :pinned",
           pinned: true
         )
@@ -47,12 +47,12 @@ class MainController < ApplicationController
       @topic = Topic.find_by_id(params['topic'])
       if since = params["since"].to_i
         if @topic
-          @new_posts = Post.order(:post_date).where(
+          @new_posts = Post.order(:created_at).where(
             "topic = :topic AND id > :since",
             topic: @topic.id, since: since
           )
         else
-          @new_posts = Post.order(:post_date).where(
+          @new_posts = Post.order(:created_at).where(
             "topic IS NULL AND id > :since",
             since: since
           )

@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :content, :owner, :post_date, :topic, :pinned, :type, :reference
+  attr_accessible :content, :owner, :topic, :pinned, :type, :reference
    # These constants enumerate the different types of posts
   NORMAL = 0
   REPLY = 1  # These will probably be indistinguishable from NORMAL posts
