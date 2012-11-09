@@ -5,7 +5,7 @@ class TopicUser < ActiveRecord::Base
     return TopicUser.where(
       "topic = :topic AND user = :user",
       topic: topic.id, user: user.id
-    ).first_or_create(topic: topic, user: user)
+    ).first_or_create(topic: topic.id, user: user.id)
   end
 
 end
