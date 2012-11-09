@@ -89,11 +89,15 @@ body {
 
 .tab_indicator {
     float: right;
-    padding-left: 0.5em;
-    line-height: 1em;
-    width: 0.4em;
-    text-align: center;
+    width: 0em;
+    height: 0em;
+    position: relative;
+    left: 0.5em;
+    border: 0.5em solid;
+    border-radius: 100%;
     overflow: hidden;
+    margin-top: 0.4em;
+
     color: #ffffff;
 }
 
