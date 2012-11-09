@@ -2,12 +2,10 @@ class TopicUser < ActiveRecord::Base
   attr_accessible :topic, :user, :updated_to
 
   def self.get (topic, user)
-    got = TopicUser.where(
+    return TopicUser.where(
       "topic = :topic AND user = :user",
       topic: topic.id, user: user.id
-    )
-    return got if got
-    return TopicUser.create(topic: topic.id, user: user.id)
+    ).first_or_create(topic: topic, user: user)
   end
 
 end

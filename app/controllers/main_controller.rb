@@ -15,6 +15,11 @@ class MainController < ApplicationController
           pinned: true
         )
       end
+      if @topic
+        topic_user = TopicUser.get(@topic, @user)
+        topic_user.updated_to = @topic.last_activity
+        topic_user.save!
+      end
     else
       redirect_to '/login/entrance'
     end
@@ -47,9 +52,17 @@ class MainController < ApplicationController
             "id > :since", since: since
           )
         end
-        @new_indicators = Topic.all.select{ |t| t.last_activity && t.last_activity >= since }.map{|t|t.id}
+        @new_indicators = Topic.all.select{ |t|
+          updated_to = TopicUser.get(t, @user).updated_to || 0
+          t.last_activity && t.last_activity > updated_to
+        }.map{|t|t.id}
       else
         @new_posts = []
+      end
+      if @topic
+        topic_user = TopicUser.get(@topic, @user)
+        topic_user.updated_to = @topic.last_activity
+        topic_user.save!
       end
       render file: "../views/main/update.xml.erb", layout: false
     else
