@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121109200626) do
+ActiveRecord::Schema.define(:version => 20121109223950) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20121109200626) do
   create_table "topic_users", :force => true do |t|
     t.integer "updated_to"
     t.integer "topic"
-    t.integer "user"
+    t.integer "user_id"
   end
 
   create_table "topics", :force => true do |t|
