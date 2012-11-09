@@ -3,11 +3,13 @@ class PostController < ApplicationController
     @user = User.logged_in(session)
     if @user
       @topic = Topic.find_by_id(params['topic'])
-      if !Post.last || Post.last.content != params['content']
-        @post = Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
-        if @topic
-          @topic.last_activity = @post.id
-          @topic.save!
+      if params['content'] and params['content'] =~ /\S/
+        if !Post.last or Post.last.content != params['content']
+          @post = Post.create(content: params['content'], post_date: DateTime.now, owner: @user.id, topic: @topic ? @topic.id : nil )
+          if @topic
+            @topic.last_activity = @post.id
+            @topic.save!
+          end
         end
       end
       if @topic
