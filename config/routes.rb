@@ -1,19 +1,19 @@
 CommComm::Application.routes.draw do
-  post "post/new"
-  post "post/edit"
-  post "post/delete"
 
   get "login/entrance"
   post "login/login"
-  get "main/topic"
-  get "main/settings"
   get "login/signup"
   post "login/journey"
   get "login/journey"
   post "login/logout"
+
+  get "main/topic"
+  get "main/settings"
   get "main/update"
+
   root :to => 'main#topic'
 
+  post "post/new"
   post 'post/pin'
   post 'post/unpin'
   post 'topic/new'
