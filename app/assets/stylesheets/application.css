@@ -98,6 +98,9 @@ body {
 .tab_indicator.activity {
     color: #ff7f00;
 }
+.topic_tab.current .tab_indicator.activity {
+    color: #ffffff;
+}
 
 .misc_content {
     margin: 2em;
