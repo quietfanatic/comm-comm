@@ -9,12 +9,12 @@
             <% if post.pinned %>
                 <%= form_tag '/post/unpin', action: 'POST' do -%>
                     <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="unpin_button">⤺</button>
+                    <button type="submit" class="unpin_button">⤺ Unpin</button>
                 <% end -%>
             <% else -%>
                 <%= form_tag '/post/pin', action: 'POST' do -%>
                     <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="pin_button">⤻</button>
+                    <button type="submit" class="pin_button">⤻ Pin</button>
                 <% end -%>
             <% end -%>
             </div>
