@@ -1,3 +1,3 @@
 class TopicUser < ActiveRecord::Base
-  attr_accessible :update_to
+  attr_accessible :topic, :user, :updated_to
 end

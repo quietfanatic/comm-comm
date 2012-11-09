@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121109065949) do
+ActiveRecord::Schema.define(:version => 20121109083246) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -21,6 +21,12 @@ ActiveRecord::Schema.define(:version => 20121109065949) do
     t.datetime "updated_at",                :null => false
     t.integer  "topic"
     t.boolean  "pinned"
+  end
+
+  create_table "topic_users", :force => true do |t|
+    t.integer "updated_to"
+    t.integer "topic"
+    t.integer "user"
   end
 
   create_table "topics", :force => true do |t|

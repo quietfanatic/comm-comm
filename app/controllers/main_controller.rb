@@ -51,6 +51,8 @@ class MainController < ApplicationController
       else
         @new_posts = []
       end
+      if @topic
+      end
       render file: "../views/main/update.xml.erb", layout: false
     else
       redirect_to '/login/entrance'
