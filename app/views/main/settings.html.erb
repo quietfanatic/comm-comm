@@ -23,7 +23,7 @@
                 <input type=text name=name value="<%=t.name%>"/>
                 <button type=submit>Change</button>
             <% end -%>
-            <%= form_tag '/topic/delete', action: POST' do -%>
+            <%= form_tag '/topic/delete', action: 'POST' do -%>
                 <input type=hidden name=id value="<%=t.id%>"/>
                 <button type=submit>Delete</button>
             <% end -%>
