@@ -11,7 +11,7 @@ CommComm::Application.routes.draw do
   post "login/journey"
   get "login/journey"
   post "login/logout"
-  get "post/list"
+  get "main/update"
   root :to => 'main#topic'
 
   post 'post/pin'

@@ -33,5 +33,26 @@ class MainController < ApplicationController
     end
   end
   def update
+    @user = User.logged_in(session)
+    if @user
+      @topic = Topic.find_by_id(params['topic'])
+      if since = params["since"].to_i
+        if @topic
+          @new_posts = Post.order(:post_date).where(
+            "topic = :topic AND id > :since",
+            topic: @topic.id, since: since
+          )
+        else
+          @new_posts = Post.order(:post_date).where(
+            "id > :since", since: since
+          )
+        end
+      else
+        @new_posts = []
+      end
+      render file: "../views/main/update.xml.erb", layout: false
+    else
+      redirect_to '/login/entrance'
+    end
   end
 end
