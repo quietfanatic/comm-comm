@@ -91,9 +91,9 @@
         var client = new XMLHttpRequest();
         client.onreadystatechange = handle_update;
         <% if @topic -%>
-        client.open("GET", "/main/update?topic=<%= @topic.id %>&since=" + latest);
+        client.open("GET", "/main/update.xml?topic=<%= @topic.id %>&since=" + latest);
         <% else -%>
-        client.open("GET", "/main/update?since=" + latest);
+        client.open("GET", "/main/update.xml?since=" + latest);
         <% end -%>
         client.send();
     }

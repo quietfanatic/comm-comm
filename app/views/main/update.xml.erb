@@ -8,6 +8,8 @@
     <% end -%>
     </div>
     <div id="new_latest"><%= Post.last.id -%></div>
-    <div id="new_indicators"><%=@new_indicators.join(' ')%></div>
+    <% if @indicators -%>
+    <div id="new_indicators"><%=@indicators.join(' ')%></div>
+    <%end -%>
 </body>
 </html>
