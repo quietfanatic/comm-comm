@@ -47,6 +47,7 @@ class MainController < ApplicationController
             "id > :since", since: since
           )
         end
+        @new_indicators = Topic.all.select{ |t| t.last_activity && t.last_activity >= since }.map{|t|t.id}
       else
         @new_posts = []
       end
