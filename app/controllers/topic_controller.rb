@@ -1,6 +1,6 @@
 class TopicController < ApplicationController
   def new
-    @current_user = User.find_by_session(session['session_id'])
+    @current_user = User.logged_in(session)
     if @current_user
       if @current_user.is_confirmed and @current_user.can_edit_topics
         @name = params['name']

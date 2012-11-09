@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  email: yo_mama@bama.llama
+  username: yo_mama
+  visible_name: yo_mama
+  is_confirmed: true
+  can_edit_topics: true
+  can_edit_posts: true
+  can_edit_users: true
+  can_confirm_users: true
+
+two:
+  email: yo_daddy@baddy.laddy
+  username: yo_daddy
+  visible_name: yo_daddy
+  is_confirmed: true
+  can_edit_topics: true
+  can_edit_posts: true
+  can_edit_users: true
+  can_confirm_users: true

@@ -91,6 +91,12 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     display: none;
 }
 
+.error_message {
+    margin: 0.2em 2em;
+    white-space: pre-wrap;
+    color: red;
+}
+
 .new_post_form {
     clear: both;
     margin: 0.5em 1em;
