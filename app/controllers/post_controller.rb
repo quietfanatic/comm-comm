@@ -29,8 +29,8 @@ class PostController < ApplicationController
       if post
         post.pinned = true
         post.save!
-        Post.create(type: Post::PINNING, reference: post.id, owner: @user.id, topic: @topic ? @topic.id : nil)
         topic = Topic.find_by_id(post.topic)
+        Post.create(post_type: Post::PINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
         if topic
           redirect_to "/main/topic?topic=#{topic.id}"
         else
@@ -50,8 +50,8 @@ class PostController < ApplicationController
       if post
         post.pinned = false
         post.save!
-        Post.create(type: Post::UNPINNING, reference: post.id, owner: @user.id, topic: @topic ? @topic.id : nil)
         topic = Topic.find_by_id(post.topic)
+        Post.create(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
         if topic
           redirect_to "/main/topic?topic=#{topic.id}"
         else

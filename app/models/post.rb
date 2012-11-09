@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :content, :owner, :topic, :pinned, :type, :reference
+  attr_accessible :content, :owner, :topic, :pinned, :post_type, :reference
    # These constants enumerate the different types of posts
   NORMAL = 0
   REPLY = 1  # These will probably be indistinguishable from NORMAL posts
@@ -13,14 +13,14 @@ class Post < ActiveRecord::Base
   USER_EDITING = 9
 
   def is_normal
-    return type == nil || type == NORMAL || type == REPLY
+    return post_type == nil || post_type == NORMAL || post_type == REPLY
   end
   def is_event
     return !is_normal
   end
 
   def event_string
-    case type
+    case post_type
     when nil
       return " wrote"
     when NORMAL
