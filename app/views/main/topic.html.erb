@@ -1,5 +1,6 @@
 <% provide(:in_topic, true) -%>
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
+<% provide(:indicators, @indicators) -%>
 <div class=stream id=stream>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
