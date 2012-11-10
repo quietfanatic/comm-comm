@@ -77,7 +77,6 @@ class MainController < ApplicationController
         topic_user.updated_to = @topic.last_activity
         topic_user.save!
       end
-      render file: "../views/main/update.xml.erb", layout: false
     else
       redirect_to '/login/entrance'
     end
