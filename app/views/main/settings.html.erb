@@ -3,12 +3,16 @@
 <div class=settings_page>
     <div class=section>
     <div class=section_heading>Profile</div>
-        <%= form_tag '/user/edit', action: 'POST' do %>
+        <%= form_tag '/user/edit', action: 'POST', class: 'profile_form' do %>
             <input type=hidden name=id value="<%= @user.id %>" />
-            <label for=email>Email address:</label>
-            <input type=text name=email value="<%= @user.email %>" />
-            <label for=name>Visible name:</label>
-            <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+            <div>
+                <label for=email>Email address:</label>
+                <input type=text name=email value="<%= @user.email %>" />
+            </div>
+            <div>
+                <label for=name>Visible name:</label>
+                <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+            </div>
             <button type=submit>Change</button>
         <% end -%>
     </div>

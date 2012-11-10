@@ -166,6 +166,22 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     margin-left: 1em;
 }
 
+.profile_form div {
+    line-height: 1.2em;
+    margin-left: -1em;
+}
+
+.profile_form label {
+    float: left;
+    width: 8em;
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 0.8em;
+}
+.profile_form input {
+    vertical-align: middle;
+}
+
 .topic_row .topic_id,
 .user_row .user_id {
     display: inline-block;
