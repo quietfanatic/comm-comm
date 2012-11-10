@@ -38,6 +38,8 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 .stream .post.pinned,
 .post.event {
     border: none;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
 }
 
 
