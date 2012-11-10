@@ -10,6 +10,7 @@ group :development, :test do
   gem 'capybara', '1.1.3'
   gem 'rspec-rails', '2.11.4'
   gem 'ruby-prof', '0.11.2'
+  gem 'nokogiri'
 end
 
 # Gems used only for assets and not required
