@@ -10,7 +10,7 @@ class PostTest < ActiveSupport::TestCase
 	test "new should exist" do
 		visit '/main/topic'
 		#fill_in 'content', :with => 'Test Content'
-		click_on 'new_post_submit'
+		find('tubmit#new_post_submit').click
 		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
 	end
 
