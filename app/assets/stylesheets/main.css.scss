@@ -35,7 +35,8 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     border-radius: 0.6em;
 }
 
-.stream .post.pinned {
+.stream .post.pinned,
+.post.event {
     border: none;
 }
 
@@ -49,6 +50,20 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 .stream .post.pinned .post_info {
     color: #7f7fbf;
 }
+.post.event .post_info {
+    color: #007f00;
+}
+.post.yelled {
+    border: 2px solid #bf3f00;
+}
+.post.yelled .post_info {
+    color: #bf3f00;
+    font-weight: bold;
+}
+.stream .post.pinned.yelled .post_info {
+    color: #cf7f5f;
+    font-weight: bold;
+}
 
 .post_id {
     float: left;
@@ -57,18 +72,35 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 }
 
 .post_owner {
-    float: left;
+    display: inline;
+}
+.post_event {
+    display: inline;
+    color: #000000;
 }
 
 .post_date {
+    display: block;
     float: right;
-    margin-right: 0.4em;
+    margin-right: 0.6em;
+}
+.post:hover .post_date {
+    display: none;
 }
 
 .post_buttons {
+    display: none;
     float: right;
     margin-right: 0.4em;
 }
+.post:hover .post_buttons {
+    display: block;
+}
+
+.post_buttons form {
+    display: inline;
+ }
+
 .post_buttons button {
     display: inline;
     padding: none;
@@ -76,8 +108,8 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     border: none;
     background: none;
     cursor: pointer; cursor: hand;
-    font-size: 1.2em;
-    line-height: 0.9em;
+    line-height: 1em;
+    padding-left: 0em;
     color: #00007f;
 }
 
@@ -87,7 +119,8 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     margin: 0.2em 0.5em;
     white-space: pre-wrap;
 }
-.stream .post.pinned .post_content {
+.stream .post.pinned .post_content,
+.stream .post.event .post_content {
     display: none;
 }
 

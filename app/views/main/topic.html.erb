@@ -1,5 +1,6 @@
 <% provide(:in_topic, true) -%>
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
+<% provide(:indicators, @indicators) -%>
 <div class=stream id=stream>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
@@ -61,6 +62,14 @@
                     else if (update_delay < 32000) update_delay += 4000;
                     setTimeout( "request_update()", update_delay );
                     if (wants_scroll && added_posts) scroll_stream();
+                    var new_indicators = html.getElementById("new_indicators");
+                    if (new_indicators) {
+                        var inds = new_indicators.textContent.match(/\S+/g);
+                        for (var i = 0; i < inds.length; i++) {
+                            var tab = document.getElementById("indicator_" + inds[i]);
+                            if (tab) tab.className += ' activity';
+                        }
+                    }
                 }
                 else {
                     make_error("There was an error when loading new posts:\nThe server didn't response with valid XML");
@@ -82,9 +91,9 @@
         var client = new XMLHttpRequest();
         client.onreadystatechange = handle_update;
         <% if @topic -%>
-        client.open("GET", "/post/list?topic=<%= @topic.id %>&since=" + latest);
+        client.open("GET", "/main/update.xml?topic=<%= @topic.id %>&since=" + latest);
         <% else -%>
-        client.open("GET", "/post/list?since=" + latest);
+        client.open("GET", "/main/update.xml?since=" + latest);
         <% end -%>
         client.send();
     }

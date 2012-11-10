@@ -1,24 +1,43 @@
 <% owner = User.find_by_id(post.owner) -%>
 <% name = owner ? owner.visible_name || owner.email : '???' -%>
-<% divclass = post.pinned ? 'post pinned' : 'post' -%>
+<% divclass = 'post' -%>
+<% divclass += ' pinned' if post.pinned -%>
+<% divclass += ' yelled' if post.yelled -%>
+<% divclass += ' event' if post.is_event -%>
     <div class="<%= divclass %>">
         <div class="post_info">
-            <div class="post_id"><%= post.id.to_s %> </div>
-            <div class="post_owner"><%= name  %> </div>
+            <div class="post_id"><%= post.id.to_s %></div>
+            <div class="post_owner"><%= name %></div>
+            <% if post.is_event -%>
+            <div class="post_event"><%= post.event_string %></div>
+            <% end -%>
             <div class="post_buttons">
-            <% if post.pinned %>
-                <%= form_tag '/post/unpin', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="unpin_button">⤺</button>
+            <% if post.is_normal -%>
+                <% if post.yelled -%>
+                    <%= form_tag '/post/unyell', action: 'POST' do -%>
+                        <input type="hidden" name="id" value="<%= post.id %>" />
+                        <button type="submit" class="yell_button">△ Unyell</button>
+                    <% end -%>
+                <% else -%>
+                    <%= form_tag '/post/yell', action: 'POST' do -%>
+                        <input type="hidden" name="id" value="<%= post.id %>" />
+                        <button type="submit" class="unyell_button">⚠ Yell</button>
+                    <% end -%>
                 <% end -%>
-            <% else -%>
-                <%= form_tag '/post/pin', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="pin_button">⤻</button>
+                <% if post.pinned -%>
+                    <%= form_tag '/post/unpin', action: 'POST' do -%>
+                        <input type="hidden" name="id" value="<%= post.id %>" />
+                        <button type="submit" class="unpin_button">⤺ Unpin</button>
+                    <% end -%>
+                <% else -%>
+                    <%= form_tag '/post/pin', action: 'POST' do -%>
+                        <input type="hidden" name="id" value="<%= post.id %>" />
+                        <button type="submit" class="pin_button">⤻ Pin</button>
+                    <% end -%>
                 <% end -%>
             <% end -%>
             </div>
-            <div class="post_date"><%= post.post_date.to_formatted_s(:short) %> </div>
+            <div class="post_date"><%= post.created_at.to_formatted_s(:short) %> </div>
         </div>
         <div class="post_content"><%= post.content %></div>
     </div>

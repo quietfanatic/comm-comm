@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>New post list for AJAX use</title></head>
+<body>
+    <div id="new_posts" class="post_list">
+    <% for p in @new_posts -%>
+    <%= render 'post/view', post: p -%>
+    <% end -%>
+    </div>
+    <div id="new_latest"><%= Post.last.id -%></div>
+    <% if @indicators -%>
+    <div id="new_indicators"><%=@indicators.join(' ')%></div>
+    <%end -%>
+</body>
+</html>

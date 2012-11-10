@@ -3,34 +3,32 @@
 <div class="settings_page misc_content">
     <h4>Profile</h4>
     <div class=profile>
-        <%= form_tag '/user/edit', action: 'POST' do -%>
-        <input type=hidden name=id value="<%= @user.id %>" />
-        <label for=email>Email address:</label>
-        <input type=text name=email value="<%= @user.email %>" />
-        <label for=name>Visible name:</label>
-        <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
-        <button type=submit>Change</button>
-        <% end -%>
+        <%= form_tag '/user/edit', action: 'POST' -%>
+            <input type=hidden name=id value="<%= @user.id %>" />
+            <label for=email>Email address:</label>
+            <input type=text name=email value="<%= @user.email %>" />
+            <label for=name>Visible name:</label>
+            <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+            <button type=submit>Change</button>
+        </form>
     </div>
 <% if @user.can_edit_topics -%>
     <h4>Topics</h4>
     <div class=topics>
-<!--
         <% for t in @topics -%>
         <div class=topic>
-            <%= form_tag '/topic/edit', action: 'POST' do -%>
-            <span class=topic_id><%=t.id%></span>
-            <input type=hidden name=id value="<%=t.id%>"/>
-            <input type=text name=name value="<%=t.name%>"/>
-            <button type=submit>Change</button>
+            <%= form_tag '/topic/edit',  action: 'POST' do -%>
+                <span class=topic_id><%=t.id%></span>
+                <input type=hidden name=id value="<%=t.id%>"/>
+                <input type=text name=name value="<%=t.name%>"/>
+                <button type=submit>Change</button>
             <% end -%>
             <%= form_tag '/topic/delete', action: 'POST' do -%>
-            <input type=hidden name=id value="<%=t.id%>"/>
-            <button type=submit>Delete</button>
+                <input type=hidden name=id value="<%=t.id%>"/>
+                <button type=submit>Delete</button>
             <% end -%>
         </div>
         <% end -%>
--->
         <%= form_tag '/topic/new', action: 'POST' do -%>
             <input type=text name=name />
             <button type=submit>Create</button>

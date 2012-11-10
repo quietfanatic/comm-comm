@@ -11,8 +11,9 @@
 <% identity = user ? user.visible_name || user.email : "not logged in." -%>
 <% in_topic = yield(:in_topic) -%>
 <% topic_name = yield(:topic_name) -%>
+<% indicators = yield(:indicators) || [] -%>
 <div class=navigation>
-    <div class=site_logo>Comm-Comm</div>
+    <div class=site_logo>Comm Comm</div>
     <div class=you_are>You are:</div>
     <div class=identity><%=identity%></div>
     <% if user -%>
@@ -22,13 +23,14 @@
     <div class=topic_tabs>
         <% tabclass = (in_topic && topic_name == "Uncategorized") ? 'topic_tab current' : 'topic_tab' -%>
         <!--<%= in_topic %> <%= topic_name %>-->
-        <a class="<%=tabclass%>" href="/main/topic">Uncategorized<span class=tab_indicator id=indicator_0>●</span></a>
-    <% for t in Topic.all -%>
+        <a class="<%=tabclass%>" href="/main/topic"><span class=tab_indicator id=indicator_0></span>Uncategorized</a>
+    <% for t in Topic.order(:id).all -%>
         <% tabclass = (in_topic && topic_name == t.name) ? 'topic_tab current' : 'topic_tab' -%>
-        <a class="<%=tabclass%>" href="/main/topic?topic=<%=t.id%>"><%=t.name%><span class="tab_indicator" id="indicator_<%=t.id%>">●</span></a>
+        <% indclass = (indicators.index(t.id.to_s) != nil) ? 'tab_indicator activity' : 'tab_indicator' -%>
+        <a class="<%=tabclass%>" href="/main/topic?topic=<%=t.id%>"><span class="<%=indclass%>" id="indicator_<%=t.id%>"></span><%=t.name%></a>
     <% end -%>
         <% tabclass = (in_topic && topic_name == "_SETTINGS") ? 'topic_tab current settings_tab' : 'topic_tab settings_tab' -%>
-        <a class="<%=tabclass%>" href="/main/settings">Settings<span class=tab_indicator id=indicator__SETTINGS>●</span></a>
+        <a class="<%=tabclass%>" href="/main/settings"><span class=tab_indicator id=indicator__SETTINGS></span>Settings</a>
     <% end -%>
     </div>
 </div>
