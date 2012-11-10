@@ -1,6 +1,6 @@
 require 'test_helper'
 require 'capybara/rails'
-require 'selenium/rspec/spec_helper'
+require 'selenium-webdriver'
 
 class PostTest < ActiveSupport::TestCase
 	include Capybara::DSL
@@ -9,9 +9,8 @@ class PostTest < ActiveSupport::TestCase
 	
 	test "new should exist" do
 		visit '/main/topic'
-		#post '/post/new'
 		#fill_in 'content', :with => 'Test Content'
-		click_on 'submit'
+		click_on 'new_post_submit'
 		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
 	end
 
