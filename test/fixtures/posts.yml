@@ -3,9 +3,9 @@
 one:
   owner: 1
   content: MyString
-  post_date: 2012-10-03 22:45:19
+  created_at: 2012-10-03 22:45:19
 
 two:
   owner: 1
   content: Ponies
-  post_date: 2012-10-03 22:45:19
+  created_at: 2012-10-03 22:45:19

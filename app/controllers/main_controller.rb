@@ -3,7 +3,10 @@ class MainController < ApplicationController
     @user = User.logged_in(session)
     if @user
       @topic = Topic.find_by_id(params['topic'])
-      @posts = Post.order(:created_at).find_all_by_topic(@topic ? @topic.id : nil)
+      ppp = 50
+      @posts = Post.where(topic: @topic ? @topic.id : nil)
+      @posts = @posts.order('created_at desc').limit(ppp).reverse
+
       if @topic
         @pinned = Post.order(:created_at).where(
           topic: @topic.id, pinned: true
@@ -25,12 +28,19 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
+    ppp = 50 # posts_per_page
+    if @posts && @posts.length > ppp
+      len = @posts.length
+      start = @posts.length - ppp
+      @posts = @posts[start...len]
+    end
+
   end
   def settings
     @user = User.logged_in(session)
     if @user
       if @user.can_edit_topics
-        @topics = Topic.all
+        @topics = Topic.order('"order", "id"').all
       end
       if @user.can_edit_users or @user.can_confirm_users
         @unconfirmed_users = User.where("is_confirmed = 'f' OR is_confirmed IS NULL")
@@ -67,7 +77,6 @@ class MainController < ApplicationController
         topic_user.updated_to = @topic.last_activity
         topic_user.save!
       end
-      render file: "../views/main/update.xml.erb", layout: false
     else
       redirect_to '/login/entrance'
     end

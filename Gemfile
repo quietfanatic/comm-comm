@@ -11,6 +11,7 @@ group :development, :test do
   gem 'selenium-webdriver', '2.25.0'
   gem 'rspec-rails', '2.11.4'
   gem 'ruby-prof', '0.11.2'
+  gem 'nokogiri'
 end
 
 # Gems used only for assets and not required
@@ -45,4 +46,9 @@ end
 
 # To use debugger
 # gem 'debugger'
+
+ # For password encryption
 gem 'bcrypt-ruby', :require => "bcrypt"
+ # For BBCode
+gem 'bb-ruby', '0.9.5'
+

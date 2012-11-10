@@ -1,3 +1,3 @@
 class Topic < ActiveRecord::Base
-    attr_accessible :name, :last_activity
+    attr_accessible :name, :last_activity, :order
 end
