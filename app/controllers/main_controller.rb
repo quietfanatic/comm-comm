@@ -3,7 +3,10 @@ class MainController < ApplicationController
     @user = User.logged_in(session)
     if @user
       @topic = Topic.find_by_id(params['topic'])
-      @posts = Post.order(:created_at).find_all_by_topic(@topic ? @topic.id : nil)
+      ppp = 50
+      @posts = Post.where(topic: @topic ? @topic.id : nil)
+      @posts = @posts.order('created_at desc').limit(ppp).reverse
+
       if @topic
         @pinned = Post.order(:created_at).where(
           topic: @topic.id, pinned: true
