@@ -189,6 +189,13 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     display: inline-block;
     width: 3em;
 }
+.topic_row .topic_order {
+    display: inline-block;
+    width: 6em;
+}
+.topic_row .topic_order input {
+    width: 5em;
+}
 .topic_row .topic_name {
     display: inline-block;
     width: 11em;

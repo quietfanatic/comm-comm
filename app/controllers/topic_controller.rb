@@ -41,6 +41,18 @@ class TopicController < ApplicationController
                 content: oldname + "\n" + topic.name
               )
             end
+            order = params['order']
+            if order and order != topic.order
+              topic.order = order
+              topic.save!
+              Post.create(
+                post_type: Post::TOPIC_REORDERING,
+                topic: topic.id,
+                reference: topic.id,
+                owner: @current_user.id,
+                content: oldname
+              )
+            end
           elsif params['do'] == 'delete'
              # Deletion of topics is NYI
           end

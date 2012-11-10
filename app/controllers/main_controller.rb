@@ -40,7 +40,7 @@ class MainController < ApplicationController
     @user = User.logged_in(session)
     if @user
       if @user.can_edit_topics
-        @topics = Topic.all
+        @topics = Topic.order('"order", "id"').all
       end
       if @user.can_edit_users or @user.can_confirm_users
         @unconfirmed_users = User.where("is_confirmed = 'f' OR is_confirmed IS NULL")

@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   attr_accessible :content, :owner, :topic, :pinned, :yelled, :post_type, :reference
    # These constants enumerate the different types of posts
+   # You can add new types, but you cannot reorder types that are already here!
   NORMAL = 0
   REPLY = 1  # These will probably be indistinguishable from NORMAL posts
   PINNING = 2
@@ -13,6 +14,7 @@ class Post < ActiveRecord::Base
   USER_EDITING = 9
   YELLING = 10
   UNYELLING = 11
+  TOPIC_REORDERING = 12
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
@@ -60,8 +62,10 @@ class Post < ActiveRecord::Base
       return " yelled " + reference.to_s
     when UNYELLING
       return " unyelled " + reference.to_s
+    when TOPIC_REORDERING
+      return " reordered " + content
     else
-      return " generated a post I have no idea what to do with"
+      return " generated a mysterious post"
     end
   end
 
