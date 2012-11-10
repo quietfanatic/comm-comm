@@ -48,6 +48,4 @@ end
 
  # For password encryption
 gem 'bcrypt-ruby', :require => "bcrypt"
- # For BBCode
-gem 'bb-ruby', '0.9.5'
 

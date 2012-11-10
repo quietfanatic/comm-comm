@@ -70,12 +70,22 @@ class Post < ActiveRecord::Base
   end
 
   
+  Lit_Tag_Matcher = ['b', 'i', 'u', 's', 'del', 'ins', 'code']
+
   def html_content
-    if (content)
-      return content.bbcode_to_html({}, true, :disable, :video, :email)
-    else
-      return ''
+    return '' unless content;
+    html = content
+    html.gsub!(/[<>&"']/, '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', '"' => '&quot;', "'" => '&apos;')
+    for lit in Lit_Tag_Matcher
+      html.gsub!(/\[#{lit}\](.*?)\[\/#{lit}\]/mi, "<#{lit}>\\1</#{lit}>")
     end
+    html.gsub!(/\[size=(&quot;|&apos;|)(\d+(?:\.\d+)?)\1\](.*?)\[\/size\]/mi, '<span style="font-size: \2em">\3</span>')
+    html.gsub!(/\[size=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/size\]/mi, '<span style="font-size: \2">\3</span>')
+    html.gsub!(/\[url\](.*?)\[\/url\]/mi, '<a href="\1">\1</a>')
+    html.gsub!(/\[url=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/url\]/mi, '<a href="\2">\3</a>')
+    html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 320px; max-height: 320px;" alt="\1"/>')
+    html.gsub!(/\[color=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/color\]/mi, '<span style="color: \2">\3</span>')
+    return html;
   end
 
 end
