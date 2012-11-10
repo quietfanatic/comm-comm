@@ -27,18 +27,22 @@ class TopicController < ApplicationController
       if @current_user.is_confirmed and @current_user.can_edit_topics
         topic = Topic.find_by_id(params['id'])
         if topic
-          name = params['name']
-          if name and name =~ /\S/
-            oldname = topic.name
-            topic.name = name
-            topic.save!
-            Post.create(
-              post_type: Post::TOPIC_RENAMING,
-              topic: topic.id,
-              reference: topic.id,
-              owner: @current_user.id,
-              content: oldname + "\n" + topic.name
-            )
+          if params['do'] == 'change'
+            name = params['name']
+            if name and name =~ /\S/
+              oldname = topic.name
+              topic.name = name
+              topic.save!
+              Post.create(
+                post_type: Post::TOPIC_RENAMING,
+                topic: topic.id,
+                reference: topic.id,
+                owner: @current_user.id,
+                content: oldname + "\n" + topic.name
+              )
+            end
+          elsif params['do'] == 'delete'
+             # Deletion of topics is NYI
           end
         end
       end

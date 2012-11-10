@@ -1,53 +1,69 @@
 <% provide(:in_topic, true) -%>
 <% provide(:topic_name, "_SETTINGS") -%>
-<div class="settings_page misc_content">
-    <h4>Profile</h4>
-    <div class=profile>
-        <%= form_tag '/user/edit', action: 'POST' -%>
+<div class=settings_page>
+    <div class=section>
+    <div class=section_heading>Profile</div>
+        <%= form_tag '/user/edit', action: 'POST', class: 'profile_form' do %>
             <input type=hidden name=id value="<%= @user.id %>" />
-            <label for=email>Email address:</label>
-            <input type=text name=email value="<%= @user.email %>" />
-            <label for=name>Visible name:</label>
-            <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+            <div>
+                <label for=email>Email address:</label>
+                <input type=text name=email value="<%= @user.email %>" />
+            </div>
+            <div>
+                <label for=name>Visible name:</label>
+                <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+            </div>
             <button type=submit>Change</button>
-        </form>
+        <% end -%>
     </div>
 <% if @user.can_edit_topics -%>
-    <h4>Topics</h4>
-    <div class=topics>
+    <div class=section>
+        <div class=section_heading>Topics</div>
+        <div class="topic_row topics_header">
+            <div class=topic_id>ID</div>
+            <div class=topic_name>Name</div>
+        </div>
         <% for t in @topics -%>
-        <div class=topic>
-            <%= form_tag '/topic/edit',  action: 'POST' do -%>
-                <span class=topic_id><%=t.id%></span>
+        <%= form_tag '/topic/edit',  action: 'POST' do %>
+        <div class=topic_row>
+            <div class=topic_id><%=t.id%>
                 <input type=hidden name=id value="<%=t.id%>"/>
+            </div>
+            <div class=topic_name>
                 <input type=text name=name value="<%=t.name%>"/>
-                <button type=submit>Change</button>
-            <% end -%>
-            <%= form_tag '/topic/delete', action: 'POST' do -%>
-                <input type=hidden name=id value="<%=t.id%>"/>
-                <button type=submit>Delete</button>
-            <% end -%>
+            </div>
+            <button name=do value=change>Change</button>
+            <button name=do value=delete>Delete</button>
         </div>
         <% end -%>
-        <%= form_tag '/topic/new', action: 'POST' do -%>
-            <input type=text name=name />
+        <% end -%>
+        <%= form_tag '/topic/new', action: 'POST' do %>
+        <div class=topic_row>
+            <div class=topic_id>New</div>
+            <div class=topic_name>
+                <input type=text name=name />
+            </div>
             <button type=submit>Create</button>
+        </div>
         <% end -%>
     </div>
 <% end -%>
 <% if @user.can_confirm_users or @user.can_edit_users -%>
-    <h4>Unconfirmed Users</h4>
-    <div class=users>
-        <% for u in @unconfirmed_users -%>
-        <div class=user>
-            <%= form_tag '/user/confirm', action: 'POST' do -%>
-            <span class=user_id><%=u.id%></span>
-            <input type=hidden name=id value="<%=u.id%>"/>
-            <span class=user_email><%=u.email%></span>
-            <span class=user_visible_name><%=u.visible_name%></span>
-            <button type=submit>Confirm</button>
-            <% end -%>
+    <div class=section>
+        <div class=section_heading>Unconfirmed Users</div>
+        <div class="user_row user_header">
+            <div class=user_id>ID</div>
+            <div class=user_email>email</div>
         </div>
+        <% for u in @unconfirmed_users -%>
+        <%= form_tag '/user/confirm', action: 'POST' do %>
+        <div class=user_row>
+            <div class=user_id><%=u.id%></div>
+                <input type=hidden name=id value="<%=u.id%>"/>
+            <div class=user_email><%=u.email%></div>
+            <button type=submit>Confirm</button>
+        </div>
+        <% end -%>
         <% end -%>
     </div>
 <% end -%>
