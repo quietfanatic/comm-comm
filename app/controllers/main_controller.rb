@@ -25,14 +25,15 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
-    if @pinned.length > 100
+    ppp = 50
+    if @pinned.length > ppp
       len = @pinned.length
-      start = @pinned.length - 100
+      start = @pinned.length - ppp
       @pinned = @pinned[start...len]
     end
-    if @posts.length > 100
+    if @posts.length > ppp
       len = @posts.length
-      start = @posts.length - 100
+      start = @posts.length - ppp
       @posts = @posts[start...len]
     end
 
