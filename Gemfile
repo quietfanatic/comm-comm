@@ -11,6 +11,7 @@ group :development, :test do
   gem 'selenium-webdriver', '2.25.0'
   gem 'rspec-rails', '2.11.4'
   gem 'ruby-prof', '0.11.2'
+  gem 'database_cleaner'
   gem 'nokogiri'
 end
 

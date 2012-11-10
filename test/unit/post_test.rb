@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class PostTest < ActiveSupport::TestCase
-	include Capybara::DSL
+class PostTest < ActionDispatch::IntegrationTest
 	
 	test "new should exist" do
 		visit '/main/topic'
