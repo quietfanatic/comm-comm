@@ -64,6 +64,48 @@ class PostController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
+  def yell
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post
+        post.yelled = true
+        post.save!
+        topic = Topic.find_by_id(post.topic)
+        Post.create(post_type: Post::YELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        if topic
+          redirect_to "/main/topic?topic=#{topic.id}"
+        else
+          redirect_to "/main/topic"
+        end
+      else
+        redirect_to "/main/topic"
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def unyell
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post
+        post.yelled = false
+        post.save!
+        topic = Topic.find_by_id(post.topic)
+        Post.create(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        if topic
+          redirect_to "/main/topic?topic=#{topic.id}"
+        else
+          redirect_to "/main/topic"
+        end
+      else
+        redirect_to "/main/topic"
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
 
   def edit
   end

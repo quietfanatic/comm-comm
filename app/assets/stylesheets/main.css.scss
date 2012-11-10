@@ -50,8 +50,19 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 .stream .post.pinned .post_info {
     color: #7f7fbf;
 }
-.stream .post.event .post_info {
+.post.event .post_info {
     color: #007f00;
+}
+.post.yelled {
+    border: 2px solid #bf5f00;
+}
+.post.yelled .post_info {
+    color: #bf5f00;
+    font-weight: bold;
+}
+.stream .post.pinned.yelled .post_info {
+    color: #dfa76f;
+    font-weight: bold;
 }
 
 .post_id {
@@ -86,6 +97,10 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     display: block;
 }
 
+.post_buttons form {
+    display: inline;
+ }
+
 .post_buttons button {
     display: inline;
     padding: none;
@@ -94,6 +109,7 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     background: none;
     cursor: pointer; cursor: hand;
     line-height: 1em;
+    padding-left: 0em;
     color: #00007f;
 }
 

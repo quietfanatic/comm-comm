@@ -58,7 +58,6 @@ class Post < ActiveRecord::Base
       end
     when YELLING
       return " yelled " + reference.to_s
-    else
     when UNYELLING
       return " unyelled " + reference.to_s
     else
