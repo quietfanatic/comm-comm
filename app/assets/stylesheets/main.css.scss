@@ -152,7 +152,35 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 }
 
 
+/* SETTINGS */
 
+.section {
+    margin: 1em 1em;
+    border: 1px solid black;
+    border-radius: 0.6em;
+    padding: 0.5em 1em;
+}
+.section_heading {
+    font-weight: bold;
+    margin-bottom: 0.4em;
+    margin-left: 1em;
+}
 
+.topic_row .topic_id,
+.user_row .user_id {
+    display: inline-block;
+    width: 3em;
+}
+.topic_row .topic_name {
+    display: inline-block;
+    width: 11em;
+}
+.topic_row .topic_name input {
+    width: 10em;
+}
 
+.user_row .user_email {
+    display: inline-block;
+    width: 16em;
+}
 
