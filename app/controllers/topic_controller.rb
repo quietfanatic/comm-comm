@@ -27,7 +27,7 @@ class TopicController < ApplicationController
       if @current_user.is_confirmed and @current_user.can_edit_topics
         topic = Topic.find_by_id(params['id'])
         if topic
-          if params['action'] == 'change'
+          if params['do'] == 'change'
             name = params['name']
             if name and name =~ /\S/
               oldname = topic.name
@@ -41,9 +41,8 @@ class TopicController < ApplicationController
                 content: oldname + "\n" + topic.name
               )
             end
-          else if params['action'] == 'delete'
+          elsif params['do'] == 'delete'
              # Deletion of topics is NYI
-            redirect_to '/main/settings'
           end
         end
       end
