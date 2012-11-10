@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :content, :owner, :topic, :pinned, :post_type, :reference
+  attr_accessible :content, :owner, :topic, :pinned, :yelled, :post_type, :reference
    # These constants enumerate the different types of posts
   NORMAL = 0
   REPLY = 1  # These will probably be indistinguishable from NORMAL posts
@@ -11,6 +11,8 @@ class Post < ActiveRecord::Base
   TOPIC_DELETION = 7
   USER_CONFIRMATION = 8
   USER_EDITING = 9
+  YELLING = 10
+  UNYELLING = 11
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
@@ -54,6 +56,11 @@ class Post < ActiveRecord::Base
       else
         return " edited...somebody I can't find any more"
       end
+    when YELLING
+      return " yelled " + reference.to_s
+    else
+    when UNYELLING
+      return " unyelled " + reference.to_s
     else
       return " generated a post I have no idea what to do with"
     end
