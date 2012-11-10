@@ -25,6 +25,17 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
+    if @pinned.length > 100
+      len = @pinned.length
+      start = @pinned.length - 100
+      @pinned = @pinned[start...len]
+    end
+    if @posts.length > 100
+      len = @posts.length
+      start = @posts.length - 100
+      @posts = @posts[start...len]
+    end
+
   end
   def settings
     @user = User.logged_in(session)
