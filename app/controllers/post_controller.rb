@@ -71,6 +71,7 @@ class PostController < ApplicationController
       if post
         post.yelled = true
         post.save!
+        Rails.logger.warn post.yelled
         topic = Topic.find_by_id(post.topic)
         Post.create(post_type: Post::YELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
         if topic
