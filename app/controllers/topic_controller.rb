@@ -1,7 +1,6 @@
 class TopicController < ApplicationController
   def new
     @current_user = User.logged_in(session)
-    Rails.logger.warn @current_user
     if @current_user
       if @current_user.is_confirmed and @current_user.can_edit_topics
         name = params['name']
@@ -12,7 +11,7 @@ class TopicController < ApplicationController
             post_type: Post::TOPIC_CREATION,
             topic: topic.id,
             reference: topic.id,
-            owner: @current_user,
+            owner: @current_user.id,
             content: topic.name
           )
         end
@@ -37,7 +36,7 @@ class TopicController < ApplicationController
               post_type: Post::TOPIC_RENAMING,
               topic: topic.id,
               reference: topic.id,
-              owner: @current_user,
+              owner: @current_user.id,
               content: oldname + "\n" + topic.name
             )
           end
