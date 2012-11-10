@@ -69,5 +69,13 @@ class Post < ActiveRecord::Base
     end
   end
 
+  
+  def html_content
+    if (content)
+      return content.bbcode_to_html({}, true, :disable, :video, :email)
+    else
+      return ''
+    end
+  end
 
 end
