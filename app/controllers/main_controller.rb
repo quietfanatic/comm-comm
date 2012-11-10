@@ -28,7 +28,7 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
-    ppp = 50
+    ppp = 50 # posts_per_page
     if @posts && @posts.length > ppp
       len = @posts.length
       start = @posts.length - ppp
