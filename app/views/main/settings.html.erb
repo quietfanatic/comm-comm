@@ -56,6 +56,7 @@
 <% end -%>
 <% if @user.can_confirm_users or @user.can_edit_users -%>
     <div class=section>
+    <% if @unconfirmed_users.length > 0 -%>
         <div class=section_heading>Unconfirmed Users</div>
         <div class="user_row user_header">
             <div class=user_id>ID</div>
@@ -74,6 +75,9 @@
         </div>
         <% end -%>
         <% end -%>
+    <% else -%>
+        <div class=section_heading>No Unconfirmed Users</div>
+    <% end -%>
     </div>
 <% end -%>
 </div>

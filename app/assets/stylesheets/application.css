@@ -140,4 +140,7 @@ body {
     margin-bottom: 0.4em;
     margin-left: 1em;
 }
+.section_heading:last-child {
+    margin-bottom: 0;
+}
 
