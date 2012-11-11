@@ -72,7 +72,7 @@ class Post < ActiveRecord::Base
     when UNYELLING
       return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when TOPIC_REORDERING
-      return " reordered " + content
+      return " reordered " + (content || "a topic whose name was lost to a bug")
     else
       return " generated a mysterious post"
     end
@@ -98,6 +98,10 @@ class Post < ActiveRecord::Base
       Post.ref_link($1, '&gt;&gt;' + $1, user)
     end
     return html;
+  end
+
+  def scan_for_refs
+    return content.scan(/>>(\d+)/).map {|m| m[0].to_i}
   end
 
 end

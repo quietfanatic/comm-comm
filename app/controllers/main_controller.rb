@@ -1,41 +1,34 @@
 class MainController < ApplicationController
+
+  PPP = 50  # Posts per page
+
   def topic
     @user = User.logged_in(session)
     if @user
       @topic = Topic.find_by_id(params['topic'])
-      ppp = 50
       @posts = Post.where(topic: @topic ? @topic.id : nil)
-      @posts = @posts.order('created_at desc').limit(ppp).reverse
+      @posts = @posts.order('id desc').limit(PPP).all
+      @posts = @posts.reverse if @posts
 
       if @topic
-        @pinned = Post.order(:created_at).where(
+        @pinned = Post.order(:id).where(
           topic: @topic.id, pinned: true
         )
       else
-        @pinned = Post.order(:created_at).where(
+        @pinned = Post.order(:id).where(
           topic: nil, pinned: true
         )
       end
-      @indicators = Topic.all.select{ |t|
-        updated_to = TopicUser.get(t, @user).updated_to || 0
-        t.last_activity && t.last_activity > updated_to
-      }.map{|t|t.id} || []
-      if @topic
+      if @topic and @posts and @posts.length > 0
         topic_user = TopicUser.get(@topic, @user)
-        topic_user.updated_to = @topic.last_activity
+        topic_user.updated_to = @posts.last.id
         topic_user.save!
       end
     else
       redirect_to '/login/entrance'
     end
-    ppp = 50 # posts_per_page
-    if @posts && @posts.length > ppp
-      len = @posts.length
-      start = @posts.length - ppp
-      @posts = @posts[start...len]
-    end
-
   end
+
   def settings
     @user = User.logged_in(session)
     if @user
@@ -55,27 +48,45 @@ class MainController < ApplicationController
       @topic = Topic.find_by_id(params['topic'])
       if since = params["since"].to_i
         if @topic
-          @new_posts = Post.order(:created_at).where(
-            "topic = :topic AND id > :since",
+          @new_posts = Post.order(:id).where(
+            '"topic" = :topic AND "id" > :since',
             topic: @topic.id, since: since
           )
         else
-          @new_posts = Post.order(:created_at).where(
-            "topic IS NULL AND id > :since",
+          @new_posts = Post.order(:id).where(
+            '"topic" IS NULL AND "id" > :since',
             since: since
           )
         end
       else
         @new_posts = []
       end
-      @indicators = Topic.all.select{ |t|
-        updated_to = TopicUser.get(t, @user).updated_to || 0
-        t.last_activity && t.last_activity > updated_to
-      }.map{|t|t.id}
-      if @topic
+      if @topic and @new_posts and @new_posts.length > 0
         topic_user = TopicUser.get(@topic, @user)
-        topic_user.updated_to = @topic.last_activity
+        topic_user.updated_to = @new_posts.last.id
         topic_user.save!
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def backlog
+    @user = User.logged_in(session)
+    if @user
+      @topic = Topic.find_by_id(params['topic'])
+      if before = params["before"].to_i
+        if @topic
+          @old_posts = Post.order('id desc').where(
+            '"topic" = :topic AND "id" < :before',
+            topic: @topic.id, before: before
+          ).limit(PPP).all
+        else
+          @old_posts = Post.order('id desc').where(
+            '"topic" IS NULL AND "id" < :before',
+            before: before
+          ).limit(PPP).all
+        end
+        @old_posts.reverse! if @old_posts
       end
     else
       redirect_to '/login/entrance'

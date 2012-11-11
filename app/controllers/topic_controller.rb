@@ -6,14 +6,16 @@ class TopicController < ApplicationController
         name = params['name']
         if name and name =~ /\S/
           topic = Topic.new(name: name)
-          topic.save!
-          Post.create(
+          event = Post.new(
             post_type: Post::TOPIC_CREATION,
             topic: topic.id,
             reference: topic.id,
             owner: @current_user.id,
             content: topic.name
           )
+          event.save!
+          topic.last_event = event.id
+          topic.save!
         end
       end
       redirect_to '/main/settings'
@@ -29,29 +31,33 @@ class TopicController < ApplicationController
         if topic
           if params['do'] == 'change'
             name = params['name']
-            if name and name =~ /\S/
+            if name and name =~ /\S/ and name != topic.name
               oldname = topic.name
               topic.name = name
-              topic.save!
-              Post.create(
+              event = Post.new(
                 post_type: Post::TOPIC_RENAMING,
                 topic: topic.id,
                 reference: topic.id,
                 owner: @current_user.id,
                 content: oldname + "\n" + topic.name
               )
+              event.save!
+              topic.last_event = event.id
+              topic.save!
             end
             order = params['order']
             if order and order != topic.order
               topic.order = order
-              topic.save!
-              Post.create(
+              event = Post.new(
                 post_type: Post::TOPIC_REORDERING,
                 topic: topic.id,
                 reference: topic.id,
                 owner: @current_user.id,
-                content: oldname
+                content: topic.name
               )
+              event.save!
+              topic.last_event = event.id
+              topic.save!
             end
           elsif params['do'] == 'delete'
              # Deletion of topics is NYI

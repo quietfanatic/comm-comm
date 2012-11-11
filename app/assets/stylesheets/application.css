@@ -27,9 +27,10 @@ body {
     top: 0;
     width: 12em;
     bottom: 0;
-    
-    border-right: solid 1px black;
-    overflow: visible;
+    overflow: hidden;
+}
+.navigation_top {
+    overflow: auto;
 }
 
 .site_logo {
@@ -37,6 +38,11 @@ body {
     font-size: 1.4em;
     padding: 0.5em;
     text-align: center;
+    border-right: 1px solid black;
+}
+.session_info {
+    border-right: 1px solid black;
+    padding-bottom: 3em;
 }
 .you_are {
     text-align: center;
@@ -60,11 +66,7 @@ body {
 }
 
 .topic_tabs {
-    margin-top: 3em;
     margin-left: 1em;
-     /* offset so we can cover the navigation border */
-    position: relative;
-    left: 1px;
 }
 .topic_tab {
     overflow: hidden;
@@ -84,11 +86,12 @@ body {
     border-right: 1px solid white;
     font-weight: bold;
 }
-.settings_tab {
-    margin-top: 1em;
+.tab_gap {
+    height: 1em;
+    border-right: 1px solid black;
 }
 
-.tab_indicator {
+.indicator {
     float: right;
     width: 0em;
     height: 0em;
@@ -101,12 +104,25 @@ body {
 
     color: #ffffff;
 }
-
-.tab_indicator.activity {
-    color: #bfbfff;
+.indicator.got_post {
+    color: #9f9fff;
 }
-.topic_tab.current .tab_indicator.activity {
+.indicator.got_event {
+    color: #7fff7f;
+}
+.indicator.got_yell {
+    color: #ffbf5f;
+}
+.indicator.got_reply {
+    color: #df7fff;
+}
+.topic_tab.current .indicator {
     color: #ffffff;
+}
+
+.navigation_bottom {
+    height: 100%;
+    border-right: 1px solid black;
 }
 
 .misc_content {

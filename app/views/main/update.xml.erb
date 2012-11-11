@@ -8,8 +8,13 @@
     <% end -%>
     </div>
     <div id="new_latest"><%= Post.last.id -%></div>
-    <% if @indicators -%>
-    <div id="new_indicators"><%=@indicators.join(' ')%></div>
-    <%end -%>
+    <div id="new_indicators">
+    <% indicators = TopicUser.indicators(@user) -%>
+    <% for i in 0..(indicators.length - 1) -%>
+    <% if indicators[i] != nil -%>
+        <span id="indicator_<%=i%>" class="<%=indicators[i]%>"></span>
+    <% end -%>
+    <% end -%>        
+    </div>
 </body>
 </html>

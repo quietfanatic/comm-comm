@@ -1,12 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-<%= require 'bcrypt' %>
-<%= include BCrypt %>
 one:
   email: yo_mama@bama.llama
   username: yo_mama
   visible_name: yo_mama
-  password_digest: <%= Password.create(Password.new("mama")) %>
+  password_digest: things
   is_confirmed: true
   can_edit_topics: true
   can_edit_posts: true
@@ -17,7 +15,7 @@ two:
   email: yo_daddy@baddy.laddy
   username: yo_daddy
   visible_name: yo_daddy
-  password_digest: <%= Password.create(Password.new("daddy")) %>
+  password_digest: things
   is_confirmed: true
   can_edit_topics: true
   can_edit_posts: true

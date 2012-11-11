@@ -10,6 +10,7 @@ CommComm::Application.routes.draw do
   get "main/topic"
   get "main/settings"
   get "main/update"
+  get "main/backlog"
 
   root :to => 'main#topic'
 
