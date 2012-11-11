@@ -1,8 +1,6 @@
 <div class="misc_content">
     <h3>Please fill out this form to request an invitation.</h3>
-    <% if params["state"] == "password_mismatch" -%>
-    <div style="color:red">Sorry, your password confirmation didn't match your password.</div>
-    <% end %>
+    <div class=login_error><%=params['error']||''%></div>
     <%= form_tag "/login/journey", class: "credentials_form" do -%>
         <div>
             <label for="email">Email:</label>

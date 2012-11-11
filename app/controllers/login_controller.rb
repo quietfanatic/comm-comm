@@ -21,7 +21,7 @@ class LoginController < ApplicationController
         @user = User.create(:email => params["email"], :password => params['confirm_password'])
       end
     else
-      redirect_to "/login/signup?state=password_mismatch"
+      redirect_to "/login/signup?error=Sorry,+your+password+confirmation+didn't+match+your+password."
     end
   end
   def signup
