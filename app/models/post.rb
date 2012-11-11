@@ -100,4 +100,8 @@ class Post < ActiveRecord::Base
     return html;
   end
 
+  def scan_for_refs
+    return content.scan(/>>(\d+)/).map {|m| m[0].to_i}
+  end
+
 end

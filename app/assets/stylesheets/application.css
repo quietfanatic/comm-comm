@@ -104,7 +104,6 @@ body {
 
     color: #ffffff;
 }
-
 .indicator.got_post {
     color: #9f9fff;
 }
@@ -113,6 +112,9 @@ body {
 }
 .indicator.got_yell {
     color: #ffbf5f;
+}
+.indicator.got_reply {
+    color: #df7fff;
 }
 .topic_tab.current .indicator {
     color: #ffffff;

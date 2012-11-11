@@ -5,10 +5,19 @@ class PostController < ApplicationController
       @topic = Topic.find_by_id(params['topic'])
       if params['content'] and params['content'] =~ /\S/
         if !Post.last or Post.last.content != params['content']
-          @post = Post.create(content: params['content'], owner: @user.id, topic: @topic ? @topic.id : nil )
+          @post = Post.new(content: params['content'], owner: @user.id, topic: @topic ? @topic.id : nil )
+          @post.save!
           if @topic
             @topic.last_post = @post.id
             @topic.save!
+            for ref in @post.scan_for_refs
+              @reffed = Post.find_by_id(ref)
+              if @reffed and @reffed.owner
+                tu = TopicUser.get_by_ids(@topic.id, @reffed.owner)
+                tu.last_reply = @post.id
+                tu.save!
+              end
+            end
           end
         end
       end
