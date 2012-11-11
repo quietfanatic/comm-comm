@@ -5,12 +5,13 @@
     <div class=backlog_area>
         <button class=backlog_button type=button onClick="request_backlog()">Backlog</button>
     </div>
+    <div class=error_area id=backlog_error></div>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
         <%= render 'post/view', post: p, pinned: false, user: @user %>
     <% end -%>
     </div>
-    <div class=error_message id=error_message></div>
+    <div class=error_area id=update_error></div>
     <div class=new_post_form id=stream_post_form>
     <%= form_tag('/post/new') do -%>
         <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
@@ -33,7 +34,8 @@
     var stream = document.getElementById('stream');
     var stream_post_list = document.getElementById('stream_post_list');
     var pinned_post_list = document.getElementById('pinned_post_list');
-    var error_message = document.getElementById('error_message');
+    var update_error = document.getElementById('update_error');
+    var backlog_error = document.getElementById('backlog_error');
     var new_post_content = document.getElementById('new_post_content');
     var showing_post = null;
     var update_delay = 4000;
@@ -94,7 +96,7 @@
                     html = this.responseXML;
                     var new_posts = html.getElementById("new_posts");
                     if (new_posts == null) {
-                        make_error("There was an error when loading new posts:\nThe server didn't include new_posts");
+                        make_error(update_error, "Update error: The server didn't include new_posts");
                         return;
                     }
                     new_latest = html.getElementById("new_latest");
@@ -161,12 +163,12 @@
                     }
                 }
                 else {
-                    make_error("There was an error when loading new posts:\nThe server didn't response with valid XML");
+                    make_error(update_error, "Update error: The server didn't response with valid XML");
                     return;
                 }
             }
             else if (this.status != 0) {
-                make_error("There was an error when loading new posts:\nThe server returned " + this.status);
+                make_error(update_error, "Update error: The server returned " + this.status);
                 return;
             }
         }
@@ -179,7 +181,7 @@
                     html = this.responseXML;
                     var old_posts = html.getElementById("old_posts");
                     if (old_posts == null) {
-                        make_error("There was an error when loading old posts:\nThe server didn't include old_posts");
+                        make_error(backlog_error, "Backlog error: The server didn't include old_posts");
                         return;
                     }
                     var new_earliest = html.getElementById("new_earliest");
@@ -190,21 +192,22 @@
                     }
                 }
                 else {
-                    make_error("There was an error when loading old posts:\nThe server didn't response with valid XML");
+                    make_error(backlog_error, "Backlog error: The server didn't response with valid XML");
                     return;
                 }
             }
             else if (this.status != 0) {
-                make_error("There was an error when loading old posts:\nThe server return " + this.status);
+                make_error(backlog_error, "Backlog error: The server returned " + this.status);
                 return;
             }
         }
     }
 
-    function make_error (mess) {
-        error_message.textContent = mess;
-        var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
-        if (wants_scroll) scroll_stream();
+    function make_error (loc, mess) {
+        loc.textContent = mess;
+    }
+    function clear_error (loc) {
+        loc.textContent = "";
     }
     function request_update () {
         var client = new XMLHttpRequest();
@@ -218,6 +221,7 @@
     }
     setTimeout( "request_update()", update_delay );
     function request_backlog () {
+        clear_error(backlog_error);
         var client = new XMLHttpRequest();
         client.onreadystatechange = handle_backlog;
         <% if @topic -%>
