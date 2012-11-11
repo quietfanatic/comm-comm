@@ -1,11 +1,13 @@
 class MainController < ApplicationController
+
+  PPP = 50  # Posts per page
+
   def topic
     @user = User.logged_in(session)
     if @user
       @topic = Topic.find_by_id(params['topic'])
-      ppp = 50
       @posts = Post.where(topic: @topic ? @topic.id : nil)
-      @posts = @posts.order('id desc').limit(ppp).reverse
+      @posts = @posts.order('id desc').limit(PPP).reverse
 
       if @topic
         @pinned = Post.order(:id).where(
@@ -28,14 +30,8 @@ class MainController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
-    ppp = 50 # posts_per_page
-    if @posts && @posts.length > ppp
-      len = @posts.length
-      start = @posts.length - ppp
-      @posts = @posts[start...len]
-    end
-
   end
+
   def settings
     @user = User.logged_in(session)
     if @user
@@ -89,12 +85,12 @@ class MainController < ApplicationController
           @old_posts = Post.order('id desc').where(
             '"topic" = :topic AND "id" < :before',
             topic: @topic.id, before: before
-          ).reverse
+          ).limit(PPP).reverse
         else
           @old_posts = Post.order('id desc').where(
             '"topic" IS NULL AND "id" < :before',
             before: before
-          ).reverse
+          ).limit(PPP).reverse
         end
       end
     else
