@@ -210,6 +210,10 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 
 .user_row .user_email {
     display: inline-block;
-    width: 16em;
+    min-width: 16em;
+}
+.user_row .user_name {
+    display: inline-block;
+    min-width: 16em;
 }
 
