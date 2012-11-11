@@ -23,20 +23,29 @@ class Post < ActiveRecord::Base
     return !is_normal
   end
 
-  def event_string
+  def self.ref_link (ref, text, user)
+    post = Post.find_by_id(ref.to_i)
+    return text unless post
+    cssclass = "postref"
+    cssclass += " at_you" if post.owner == user.id
+    cssclass += " event" if post.is_event
+    return "<a class=\"#{cssclass}\" onClick=\"show_post(#{ref})\">#{text}</a>"
+  end
+
+  def event_string (user)
     case post_type
     when nil
       return " wrote"
     when NORMAL
       return " wrote"  # This and reply probably won't be shown
     when REPLY
-      return " replied to " + reference.to_s
+      return " replied to " + Post.ref_link(reference.to_s, reference.to_s, user)
     when PINNING
-      return " pinned " + reference.to_s
+      return " pinned " + Post.ref_link(reference.to_s, reference.to_s, user)
     when UNPINNING
-      return " unpinned " + reference.to_s
+      return " unpinned " + Post.ref_link(reference.to_s, reference.to_s, user)
     when MAILING
-      return " mailed " + reference.to_s
+      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user)
     when TOPIC_CREATION
       return " created " + content
     when TOPIC_RENAMING
@@ -59,9 +68,9 @@ class Post < ActiveRecord::Base
         return " edited...somebody I can't find any more"
       end
     when YELLING
-      return " yelled " + reference.to_s
+      return " yelled " + Post.ref_link(reference.to_s, reference.to_s, user)
     when UNYELLING
-      return " unyelled " + reference.to_s
+      return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, user)
     when TOPIC_REORDERING
       return " reordered " + content
     else
@@ -69,10 +78,9 @@ class Post < ActiveRecord::Base
     end
   end
 
-  
   Lit_Tag_Matcher = ['b', 'i', 'u', 's', 'del', 'ins', 'code']
 
-  def html_content
+  def html_content (user)
     return '' unless content;
     html = content
     html.gsub!(/[<>&"']/, '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', '"' => '&quot;', "'" => '&apos;')
@@ -86,6 +94,9 @@ class Post < ActiveRecord::Base
     html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 320px; max-height: 320px;" alt="\1"/>')
     html.gsub!(/\[color=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/color\]/mi, '<span style="color: \2">\3</span>')
     html.gsub!(/(\A|[^"a-zA-Z])([a-zA-Z]+:\/\/[^\s<]+)/, '\1<a href="\2">\2</a>')
+    html.gsub! /&gt;&gt;(\d+)/ do |m|
+      Post.ref_link($1, '&gt;&gt;' + $1, user)
+    end
     return html;
   end
 

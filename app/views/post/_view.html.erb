@@ -14,7 +14,7 @@
             <div class="post_id"><%= post.id.to_s %></div>
             <div class="post_owner"><%= name %></div>
             <% if post.is_event -%>
-            <div class="post_event"><%= post.event_string %></div>
+            <div class="post_event"><%=raw post.event_string(user) %></div>
             <% end -%>
             <div class="post_buttons">
             <% if post.is_normal -%>
@@ -44,5 +44,5 @@
             </div>
             <div class="post_date"><%= post.created_at.to_formatted_s(:short) %> </div>
         </div>
-        <div class="post_content"><%=raw post.html_content %></div>
+        <div class="post_content"><%=raw post.html_content(user) %></div>
     </div>

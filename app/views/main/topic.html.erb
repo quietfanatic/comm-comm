@@ -4,7 +4,7 @@
 <div class=stream id=stream>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
-        <%= render 'post/view', post: p, pinned: false %>
+        <%= render 'post/view', post: p, pinned: false, user: @user %>
     <% end -%>
     </div>
     <div class=error_message id=error_message></div>
@@ -22,7 +22,7 @@
 <div class=pinned_posts>
     <div class=post_list id=pinned_post_list>
     <% for p in @pinned -%>
-        <%= render 'post/view', post: p, pinned: true %>
+        <%= render 'post/view', post: p, pinned: true, user: @user %>
     <% end -%>
     </div>
 </div>
@@ -31,6 +31,7 @@
     var stream_post_list = document.getElementById('stream_post_list');
     var pinned_post_list = document.getElementById('pinned_post_list');
     var error_message = document.getElementById('error_message');
+    var showing_post = null;
 
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
@@ -39,6 +40,27 @@
 
     var update_delay = 4000;
     var latest = <%= Post.last ? Post.last.id : 0 %>;
+
+    function show_post (ref) {
+        if (showing_post) {
+            showing_post.className = showing_post.className.replace(/(\s|^)showing(\s|$)/, ' ');
+            showing_post = null;
+        }
+        var pinned = document.getElementById("pinned_" + parseInt(ref))
+        if (pinned) {
+            pinned.scrollIntoView(true);
+            pinned.className += " showing";
+            showing_post = pinned;
+        }
+        else {
+            var post = document.getElementById("post_" + parseInt(ref))
+            if (post) {
+                post.scrollIntoView(true);
+                post.className += " showing";
+                showing_post = post;
+            }
+        }
+    }
 
     function handle_update () {
         if (this.readyState == this.DONE) {
