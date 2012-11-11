@@ -8,7 +8,7 @@
 </head>
 <body>
 <% user = User.find_by_session(session['session_id']) -%>
-<% identity = user ? user.visible_name || user.email : "not logged in." -%>
+<% identity = user ? user.name : "not logged in." -%>
 <% in_topic = yield(:in_topic) -%>
 <% topic_name = yield(:topic_name) -%>
 <% indicators = yield(:indicators) || [] -%>
