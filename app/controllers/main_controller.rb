@@ -80,6 +80,7 @@ class MainController < ApplicationController
   def backlog
     @user = User.logged_in(session)
     if @user
+      @topic = Topic.find_by_id(params['topic'])
       if before = params["before"].to_i
         if @topic
           @old_posts = Post.order('id desc').where(
