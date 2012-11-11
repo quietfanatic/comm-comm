@@ -70,9 +70,9 @@ body {
 }
 .topic_tab {
     overflow: hidden;
-    text-overflow: ellipsis;
     display: block;
     border: 1px solid black;
+    border-right: 1px solid black;
     border-top-left-radius: 0.6em;
     border-bottom-left-radius: 0.6em;
     margin-top: -1px;
@@ -83,10 +83,8 @@ body {
     line-height: 2em;
 }
 .topic_tab.current {
-    border: 2px solid black;
-    margin-top: -2px;
-    margin-bottom: -2px;
-    margin-left: -1px;
+    border-left: 1px solid black;
+    margin-left: -0.2em;
     padding-right: 1px;
     border-right: 0px;
     font-weight: bold;
