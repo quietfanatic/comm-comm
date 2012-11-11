@@ -31,6 +31,7 @@
     var stream_post_list = document.getElementById('stream_post_list');
     var pinned_post_list = document.getElementById('pinned_post_list');
     var error_message = document.getElementById('error_message');
+    var new_post_content = document.getElementById('new_post_content');
     var showing_post = null;
 
     function scroll_stream () {
@@ -60,6 +61,9 @@
                 showing_post = post;
             }
         }
+    }
+    function reply_to_post (ref) {
+        new_post_content.value += ">>" + parseInt(ref) + " ";
     }
 
     function handle_update () {

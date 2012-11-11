@@ -18,6 +18,7 @@
             <% end -%>
             <div class="post_buttons">
             <% if post.is_normal -%>
+                <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
                 <% if post.yelled -%>
                     <%= form_tag '/post/unyell', action: 'POST' do -%>
                         <input type="hidden" name="id" value="<%= post.id %>" />
