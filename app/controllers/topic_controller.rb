@@ -29,7 +29,7 @@ class TopicController < ApplicationController
         if topic
           if params['do'] == 'change'
             name = params['name']
-            if name and name =~ /\S/
+            if name and name =~ /\S/ and name != topic.name
               oldname = topic.name
               topic.name = name
               topic.save!
@@ -50,7 +50,7 @@ class TopicController < ApplicationController
                 topic: topic.id,
                 reference: topic.id,
                 owner: @current_user.id,
-                content: oldname
+                content: topic.name
               )
             end
           elsif params['do'] == 'delete'

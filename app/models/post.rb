@@ -72,7 +72,7 @@ class Post < ActiveRecord::Base
     when UNYELLING
       return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when TOPIC_REORDERING
-      return " reordered " + content
+      return " reordered " + (content || "a topic whose name was lost to a bug")
     else
       return " generated a mysterious post"
     end
