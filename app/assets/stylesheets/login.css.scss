@@ -2,16 +2,48 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.credentials_form label {
+.login {
+    width: 23em;
+    padding-bottom: 0.8em;
+}
+.login_form label {
+    float: left;
+    width: 6em;
+    margin-left: -1em;
+    text-align: right;
+    padding-right: 0.8em;
+    line-height: 1.6em;
+}
+.login_form input {
+    width: 16em;
+}
+.login_form button {
+    margin-top: 0.2em;
+    margin-left: 4em;
+}
+
+.request_invitation {
+    margin-left: 3em;
+}
+
+.signup {
+    width: 27em;
+    padding-bottom: 0.8em;
+}
+.signup_form label {
     float: left;
     width: 10em;
+    margin-left: -1em;
     text-align: right;
-    vertical-align: middle;
     padding-right: 0.8em;
+    line-height: 1.6em;
 }
-.credentials_form button {
+.signup_form input {
+    width: 16em;
+}
+.signup_form button {
     margin-top: 0.2em;
-    margin-left: 8em;
+    margin-left: 7em;
 }
 
 .request_invitation {
@@ -19,9 +51,10 @@
 }
 
 .login_error {
-    color: red;
-    margin-bottom: 2em;
+    color: #7f0000;
+    margin: 1em 0;
 }
 .login_notice {
-    margin-bottom: 2em;
+    color: #7f0000;
+    margin: 1em 0;
 }

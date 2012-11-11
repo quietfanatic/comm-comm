@@ -9,10 +9,10 @@ class LoginController < ApplicationController
         user.save!
         redirect_to "/main/topic"
       else
-        redirect_to "/login/entrance?error=Sorry,+the+email+or+the+password+was+a+bit+wrong."
+        redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
       end
     else
-      redirect_to "/login/entrance?error=Sorry,+the+email+or+the+password+was+a+bit+wrong."
+      redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
     end
   end
   def journey
@@ -21,7 +21,7 @@ class LoginController < ApplicationController
         @user = User.create(:email => params["email"], :password => params['confirm_password'])
       end
     else
-      redirect_to "/login/signup?error=Sorry,+your+password+confirmation+didn't+match+your+password."
+      redirect_to "/login/signup?error=Sorry,+your+passwords+didn't+match."
     end
   end
   def signup
