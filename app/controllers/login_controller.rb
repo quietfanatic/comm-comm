@@ -17,7 +17,9 @@ class LoginController < ApplicationController
   end
   def journey
     if (params['email'] and params['password'] and params['password'] == params['confirm_password'])
-      @user = User.create(:email => params["email"], :password => params['confirm_password'])
+      unless User.find_by_email(params['email'])
+        @user = User.create(:email => params["email"], :password => params['confirm_password'])
+      end
     else
       redirect_to "/login/signup?state=password_mismatch"
     end
