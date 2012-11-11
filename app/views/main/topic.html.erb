@@ -2,6 +2,7 @@
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
 <% provide(:indicators, @indicators) -%>
 <div class=stream id=stream>
+    <button class=backlog_button type=button onClick="request_backlog()">...</button>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
         <%= render 'post/view', post: p, pinned: false, user: @user %>
@@ -33,14 +34,16 @@
     var error_message = document.getElementById('error_message');
     var new_post_content = document.getElementById('new_post_content');
     var showing_post = null;
+    var update_delay = 4000;
+    <% lastpost = Post.last -%>
+    var latest = <%= lastpost ? lastpost.id : 0 %>;
+    var earliest = <%= @posts.first.id %>;
 
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
     }
     scroll_stream();
 
-    var update_delay = 4000;
-    var latest = <%= Post.last ? Post.last.id : 0 %>;
     function unshow_post () {
         if (showing_post) {
             showing_post.className = showing_post.className.replace(/(\s|^)showing(\s|$)/, ' ');
@@ -166,6 +169,36 @@
             }
         }
     }
+
+    function handle_backlog () {
+        if (this.readyState == this.DONE) {
+            if (this.status == 200) {
+                if (this.responseXML != null) {
+                    html = this.responseXML;
+                    var old_posts = html.getElementById("old_posts");
+                    if (old_posts == null) {
+                        make_error("There was an error when loading old posts:\nThe server didn't include old_posts");
+                        return;
+                    }
+                    var new_earliest = html.getElementById("new_earliest");
+                    if (new_earliest != null) earliest = parseInt(new_earliest.textContent);
+                    while (old_posts.lastChild != null) {
+                        post = old_posts.lastChild;
+                        stream_post_list.insertBefore(post, stream_post_list.firstChild);
+                    }
+                }
+                else {
+                    make_error("There was an error when loading old posts:\nThe server didn't response with valid XML");
+                    return;
+                }
+            }
+            else if (this.status != 0) {
+                make_error("There was an error when loading old posts:\nThe server return " + this.status);
+                return;
+            }
+        }
+    }
+
     function make_error (mess) {
         error_message.textContent = mess;
         var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
@@ -182,4 +215,14 @@
         client.send();
     }
     setTimeout( "request_update()", update_delay );
+    function request_backlog () {
+        var client = new XMLHttpRequest();
+        client.onreadystatechange = handle_backlog;
+        <% if @topic -%>
+        client.open("GET", "/main/backlog.xml?topic=<%= @topic.id %>&before=" + earliest);
+        <% else -%>
+        client.open("GET", "/main/backlog.xml?before=" + earliest);
+        <% end -%>
+        client.send();
+    }
 </script>

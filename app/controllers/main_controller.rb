@@ -5,14 +5,14 @@ class MainController < ApplicationController
       @topic = Topic.find_by_id(params['topic'])
       ppp = 50
       @posts = Post.where(topic: @topic ? @topic.id : nil)
-      @posts = @posts.order('created_at desc').limit(ppp).reverse
+      @posts = @posts.order('id desc').limit(ppp).reverse
 
       if @topic
-        @pinned = Post.order(:created_at).where(
+        @pinned = Post.order(:id).where(
           topic: @topic.id, pinned: true
         )
       else
-        @pinned = Post.order(:created_at).where(
+        @pinned = Post.order(:id).where(
           topic: nil, pinned: true
         )
       end
@@ -55,13 +55,13 @@ class MainController < ApplicationController
       @topic = Topic.find_by_id(params['topic'])
       if since = params["since"].to_i
         if @topic
-          @new_posts = Post.order(:created_at).where(
-            "topic = :topic AND id > :since",
+          @new_posts = Post.order(:id).where(
+            '"topic" = :topic AND "id" > :since',
             topic: @topic.id, since: since
           )
         else
-          @new_posts = Post.order(:created_at).where(
-            "topic IS NULL AND id > :since",
+          @new_posts = Post.order(:id).where(
+            '"topic" IS NULL AND "id" > :since',
             since: since
           )
         end
@@ -76,6 +76,26 @@ class MainController < ApplicationController
         topic_user = TopicUser.get(@topic, @user)
         topic_user.updated_to = @topic.last_activity
         topic_user.save!
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def backlog
+    @user = User.logged_in(session)
+    if @user
+      if before = params["before"].to_i
+        if @topic
+          @old_posts = Post.order('id desc').where(
+            '"topic" = :topic AND "id" < :before',
+            topic: @topic.id, before: before
+          ).reverse
+        else
+          @old_posts = Post.order('id desc').where(
+            '"topic" IS NULL AND "id" < :before',
+            before: before
+          ).reverse
+        end
       end
     else
       redirect_to '/login/entrance'
