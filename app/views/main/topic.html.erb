@@ -41,24 +41,40 @@
 
     var update_delay = 4000;
     var latest = <%= Post.last ? Post.last.id : 0 %>;
-
-    function show_post (ref) {
+    function unshow_post () {
         if (showing_post) {
             showing_post.className = showing_post.className.replace(/(\s|^)showing(\s|$)/, ' ');
-            showing_post = null;
         }
-        var pinned = document.getElementById("pinned_" + parseInt(ref))
+        showing_post = null;
+    }
+    function show_post (ref) {
+        var pinned = document.getElementById("pinned_" + parseInt(ref));
         if (pinned) {
-            pinned.scrollIntoView(true);
-            pinned.className += " showing";
-            showing_post = pinned;
+            if (pinned == showing_post) {
+                unshow_post();
+            }
+            else {
+                pinned.scrollIntoView(true);
+                pinned.className += " showing";
+                if (showing_post) unshow_post();
+                showing_post = pinned;
+            }
         }
         else {
-            var post = document.getElementById("post_" + parseInt(ref))
+            var post = document.getElementById("post_" + parseInt(ref));
             if (post) {
-                post.scrollIntoView(true);
-                post.className += " showing";
-                showing_post = post;
+                if (post == showing_post) {
+                    unshow_post();
+                }
+                else {
+                    post.scrollIntoView(true);
+                    post.className += " showing";
+                    if (showing_post) unshow_post();
+                    showing_post = post;
+                }
+            }
+            else {
+                unshow_post();
             }
         }
     }
