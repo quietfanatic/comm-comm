@@ -25,7 +25,9 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     overflow: auto;
 }
 
-.post_list {
+.backlog_area {
+    text-align: center;
+    margin-top: 1em;
 }
 
 .post {

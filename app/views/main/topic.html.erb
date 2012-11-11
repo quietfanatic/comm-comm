@@ -2,7 +2,9 @@
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
 <% provide(:indicators, @indicators) -%>
 <div class=stream id=stream>
-    <button class=backlog_button type=button onClick="request_backlog()">...</button>
+    <div class=backlog_area>
+        <button class=backlog_button type=button onClick="request_backlog()">Backlog</button>
+    </div>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
         <%= render 'post/view', post: p, pinned: false, user: @user %>
