@@ -85,13 +85,14 @@ class MainController < ApplicationController
           @old_posts = Post.order('id desc').where(
             '"topic" = :topic AND "id" < :before',
             topic: @topic.id, before: before
-          ).limit(PPP).reverse
+          ).limit(PPP).all
         else
           @old_posts = Post.order('id desc').where(
             '"topic" IS NULL AND "id" < :before',
             before: before
-          ).limit(PPP).reverse
+          ).limit(PPP).all
         end
+        @old_posts.reverse! if @old_posts
       end
     else
       redirect_to '/login/entrance'

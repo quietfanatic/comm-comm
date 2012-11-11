@@ -7,6 +7,8 @@
     <%= render 'post/view', post: p, pinned: false, user: @user -%>
     <% end -%>
     </div>
-    <div id="new_earliest"><%= @old_posts.first.id %></div>
+    <% if @old_posts.first -%>
+        <div id="new_earliest"><%= @old_posts.first.id %></div>
+    <% end -%>
 </body>
 </html>
