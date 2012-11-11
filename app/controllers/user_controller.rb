@@ -4,9 +4,13 @@ class UserController < ApplicationController
     if @current_user
       if @current_user.is_confirmed and @current_user.can_confirm_users
         @user = User.find_by_id(params['id'])
-        if @user
-          @user.is_confirmed = true
-          @user.save!
+        if @user and not @user.is_confirmed
+          if params['do'] == 'confirm'
+            @user.is_confirmed = true
+            @user.save!
+          elsif params['do'] == 'deny'
+            @user.delete
+          end
         end
       end
       redirect_to '/main/settings'
