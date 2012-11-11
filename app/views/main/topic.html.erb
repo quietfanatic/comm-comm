@@ -4,7 +4,7 @@
 <div class=stream id=stream>
     <div class=post_list id=stream_post_list>
     <% for p in @posts -%>
-        <%= render 'post/view', post: p %>
+        <%= render 'post/view', post: p, pinned: false %>
     <% end -%>
     </div>
     <div class=error_message id=error_message></div>
@@ -22,13 +22,14 @@
 <div class=pinned_posts>
     <div class=post_list id=pinned_post_list>
     <% for p in @pinned -%>
-        <%= render 'post/view', post: p %>
+        <%= render 'post/view', post: p, pinned: true %>
     <% end -%>
     </div>
 </div>
 <script>
     var stream = document.getElementById('stream');
     var stream_post_list = document.getElementById('stream_post_list');
+    var pinned_post_list = document.getElementById('pinned_post_list');
     var error_message = document.getElementById('error_message');
 
     function scroll_stream () {
@@ -54,9 +55,48 @@
                     var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
                     var added_posts = false;
                     while (new_posts.firstChild != null) {
-                        if (new_posts.firstChild.nodeType == new_posts.firstChild.ELEMENT_NODE)
+                        post = new_posts.firstChild;
+                        if (post.nodeType == post.ELEMENT_NODE) {
                             added_posts = true;
-                        stream_post_list.appendChild(new_posts.firstChild);
+                            var event_match = post.className.match(/(\s|^)this_(.*)_(.*)(\s|$)/);
+                            make_error(event_match);
+                            if (event_match) {
+                                if (event_match[2] == "pins") {
+                                    var pinned = document.getElementById("post_" + event_match[3]);
+                                    if (pinned) {
+                                        pinned.className += " pinned";
+                                        pinned_pinned = pinned.cloneNode();
+                                        pinned_pinned.id = "pinned_" + event_match[3];
+                                        pinned_post_list.appendChild(pinned_pinned);
+                                    }
+                                }
+                                else if (event_match[2] == "unpins") {
+                                    var pinned_unpinned = document.getElementById("pinned_" + event_match[3]);
+                                    if (pinned_unpinned) {
+                                        pinned_post_list.removeChild(pinned_unpinned);
+                                    }
+                                    var unpinned = document.getElementById("post_" + event_match[3]);
+                                    if (unpinned) {
+                                        unpinned.className = unpinned.className.replace(/(\s|^)pinned(\s|$)/, ' ');
+                                    }
+                                }
+                                else if (event_match[2] == "yells") {
+                                    var yelled = document.getElementById("post_" + event_match[3]);
+                                    if (yelled) yelled.className += " yelled";
+                                    var pinned_yelled = document.getElementById("pinned_" + event_match[3]);
+                                    if (pinned_yelled) pinned_yelled.className += " yelled";
+                                }
+                                else if (event_match[2] == "unyells") {
+                                    var unyelled = document.getElementById("post_" + event_match[3]);
+                                    if (unyelled)
+                                        unyelled.className = unyelled.className.replace(/(\s|^)yelled(\s|$)/, ' ');
+                                    var pinned_unyelled = document.getElementById("pinned_" + event_match[3]);
+                                    if (pinned_unyelled)
+                                        pinned_unyelled.className = pinned_unyelled.className.replace(/(\s|^)yelled(\s|$)/, ' ');
+                                }
+                            }
+                        }
+                        stream_post_list.appendChild(post);
                     }
                     if (added_posts) update_delay = 4000;
                     else if (update_delay < 32000) update_delay += 4000;
@@ -65,9 +105,11 @@
                     var new_indicators = html.getElementById("new_indicators");
                     if (new_indicators) {
                         var inds = new_indicators.textContent.match(/\S+/g);
-                        for (var i = 0; i < inds.length; i++) {
-                            var tab = document.getElementById("indicator_" + inds[i]);
-                            if (tab) tab.className += ' activity';
+                        if (inds) {
+                            for (var i = 0; i < inds.length; i++) {
+                                var tab = document.getElementById("indicator_" + inds[i]);
+                                if (tab) tab.className += ' activity';
+                            }
                         }
                     }
                 }

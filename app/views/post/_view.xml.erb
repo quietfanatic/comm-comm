@@ -4,7 +4,12 @@
 <% divclass += ' pinned' if post.pinned -%>
 <% divclass += ' yelled' if post.yelled -%>
 <% divclass += ' event' if post.is_event -%>
-    <div class="<%= divclass %>">
+<% divclass += " this_pins_" + post.reference.to_s if post.post_type == Post::PINNING -%>
+<% divclass += " this_unpins_" + post.reference.to_s if post.post_type == Post::UNPINNING -%>
+<% divclass += " this_yells_" + post.reference.to_s if post.post_type == Post::YELLING -%>
+<% divclass += " this_unyells_" + post.reference.to_s if post.post_type == Post::UNYELLING -%>
+<% divid = (pinned ? "pinned_" : "post_") + post.id.to_s -%>
+    <div class="<%= divclass %>" id="<%= divid %>">
         <div class="post_info">
             <div class="post_id"><%= post.id.to_s %></div>
             <div class="post_owner"><%= name %></div>
