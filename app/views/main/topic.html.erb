@@ -2,7 +2,7 @@
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
 <% provide(:indicators, @indicators) -%>
 <div class=stream id=stream>
-    <div class=backlog_area>
+    <div class=backlog_area id=backlog_area>
         <button class=backlog_button type=button onClick="request_backlog()">Backlog</button>
     </div>
     <div class=error_area id=backlog_error></div>
@@ -35,6 +35,7 @@
     var stream_post_list = document.getElementById('stream_post_list');
     var pinned_post_list = document.getElementById('pinned_post_list');
     var update_error = document.getElementById('update_error');
+    var backlog_area = document.getElementById('backlog_area');
     var backlog_error = document.getElementById('backlog_error');
     var new_post_content = document.getElementById('new_post_content');
     var showing_post = null;
@@ -99,9 +100,8 @@
                         make_error(update_error, "Update error: The server didn't include new_posts");
                         return;
                     }
-                    new_latest = html.getElementById("new_latest");
-                    if (new_latest != null) latest = parseInt(new_latest.textContent);
                     var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
+                     // Update posts
                     var added_posts = false;
                     while (new_posts.firstChild != null) {
                         post = new_posts.firstChild;
@@ -147,10 +147,10 @@
                         }
                         stream_post_list.appendChild(post);
                     }
-                    if (added_posts) update_delay = 4000;
-                    else if (update_delay < 32000) update_delay += 4000;
-                    setTimeout( "request_update()", update_delay );
-                    if (wants_scroll && added_posts) scroll_stream();
+                     // Update latest post id
+                    new_latest = html.getElementById("new_latest");
+                    if (new_latest != null) latest = parseInt(new_latest.textContent);
+                     // Update indicators
                     var new_indicators = html.getElementById("new_indicators");
                     if (new_indicators) {
                         var inds = new_indicators.textContent.match(/\S+/g);
@@ -161,6 +161,12 @@
                             }
                         }
                     }
+                     // Set new timeout
+                    if (added_posts) update_delay = 4000;
+                    else if (update_delay < 32000) update_delay += 4000;
+                    setTimeout( "request_update()", update_delay );
+                     // Scroll to bottom
+                    if (wants_scroll && added_posts) scroll_stream();
                 }
                 else {
                     make_error(update_error, "Update error: The server didn't response with valid XML");
@@ -184,12 +190,16 @@
                         make_error(backlog_error, "Backlog error: The server didn't include old_posts");
                         return;
                     }
-                    var new_earliest = html.getElementById("new_earliest");
-                    if (new_earliest != null) earliest = parseInt(new_earliest.textContent);
                     while (old_posts.lastChild != null) {
                         post = old_posts.lastChild;
                         stream_post_list.insertBefore(post, stream_post_list.firstChild);
                     }
+                    var new_earliest = html.getElementById("new_earliest");
+                    if (new_earliest != null)
+                        earliest = parseInt(new_earliest.textContent);
+                    else
+                        backlog_area.textContent = "";
+
                 }
                 else {
                     make_error(backlog_error, "Backlog error: The server didn't response with valid XML");
