@@ -18,8 +18,10 @@ class TopicUser < ActiveRecord::Base
     indicators = []
     for tu in TopicUser.find_all_by_user_id(user.id)
       mytop = Topic.find_by_id(tu.topic)
-      if (mytop.last_activity and mytop.last_activity > tu.updated_to)
+      if (mytop.last_post and mytop.last_post > tu.updated_to)
         indicators[tu.topic] = POST
+      elsif (mytop.last_event and mytop.last_event > tu.updated_to)
+        indicators[tu.topic] = EVENT
       else
         indicators[tu.topic] = OFF
       end

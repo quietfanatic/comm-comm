@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121110212317) do
+ActiveRecord::Schema.define(:version => 20121111065217) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -29,14 +29,17 @@ ActiveRecord::Schema.define(:version => 20121110212317) do
     t.integer "updated_to"
     t.integer "topic"
     t.integer "user_id"
+    t.integer "last_reply"
   end
 
   create_table "topics", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "last_activity"
-    t.float    "order",         :default => 0.0, :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+    t.integer  "last_event"
+    t.float    "order",      :default => 0.0, :null => false
+    t.integer  "last_post"
+    t.integer  "last_yell"
   end
 
   create_table "users", :force => true do |t|

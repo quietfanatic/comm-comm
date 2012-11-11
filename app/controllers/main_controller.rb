@@ -7,7 +7,8 @@ class MainController < ApplicationController
     if @user
       @topic = Topic.find_by_id(params['topic'])
       @posts = Post.where(topic: @topic ? @topic.id : nil)
-      @posts = @posts.order('id desc').limit(PPP).reverse
+      @posts = @posts.order('id desc').limit(PPP).all
+      @posts = @posts.reverse if @posts
 
       if @topic
         @pinned = Post.order(:id).where(
@@ -18,9 +19,9 @@ class MainController < ApplicationController
           topic: nil, pinned: true
         )
       end
-      if @topic
+      if @topic and @posts and @posts.length > 0
         topic_user = TopicUser.get(@topic, @user)
-        topic_user.updated_to = @topic.last_activity
+        topic_user.updated_to = @posts.last.id
         topic_user.save!
       end
     else
@@ -60,9 +61,9 @@ class MainController < ApplicationController
       else
         @new_posts = []
       end
-      if @topic
+      if @topic and @new_posts and @new_posts.length > 0
         topic_user = TopicUser.get(@topic, @user)
-        topic_user.updated_to = @topic.last_activity
+        topic_user.updated_to = @new_posts.last.id
         topic_user.save!
       end
     else

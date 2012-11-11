@@ -7,7 +7,7 @@ class PostController < ApplicationController
         if !Post.last or Post.last.content != params['content']
           @post = Post.create(content: params['content'], owner: @user.id, topic: @topic ? @topic.id : nil )
           if @topic
-            @topic.last_activity = @post.id
+            @topic.last_post = @post.id
             @topic.save!
           end
         end
@@ -30,8 +30,11 @@ class PostController < ApplicationController
         post.pinned = true
         post.save!
         topic = Topic.find_by_id(post.topic)
-        Post.create(post_type: Post::PINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event = Post.new(post_type: Post::PINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event.save!
         if topic
+          topic.last_event = event.id;
+          topic.save!
           redirect_to "/main/topic?topic=#{topic.id}"
         else
           redirect_to "/main/topic"
@@ -51,8 +54,11 @@ class PostController < ApplicationController
         post.pinned = false
         post.save!
         topic = Topic.find_by_id(post.topic)
-        Post.create(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event = Post.new(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event.save!
         if topic
+          topic.last_event = event.id;
+          topic.save!
           redirect_to "/main/topic?topic=#{topic.id}"
         else
           redirect_to "/main/topic"
@@ -73,8 +79,11 @@ class PostController < ApplicationController
         post.save!
         Rails.logger.warn post.yelled
         topic = Topic.find_by_id(post.topic)
-        Post.create(post_type: Post::YELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event = Post.new(post_type: Post::YELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event.save!
         if topic
+          topic.last_yell = event.id;
+          topic.save!
           redirect_to "/main/topic?topic=#{topic.id}"
         else
           redirect_to "/main/topic"
@@ -94,8 +103,11 @@ class PostController < ApplicationController
         post.yelled = false
         post.save!
         topic = Topic.find_by_id(post.topic)
-        Post.create(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event = Post.new(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event.save!
         if topic
+          topic.last_event = event.id;
+          topic.save!
           redirect_to "/main/topic?topic=#{topic.id}"
         else
           redirect_to "/main/topic"
