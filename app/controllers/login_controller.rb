@@ -7,12 +7,12 @@ class LoginController < ApplicationController
       if user.password == params["password"]
         user.session = session['session_id']
         user.save!
-        @redirect ="/main/topic"
+        redirect_to "/main/topic"
       else
-        @redirect ="/login/entrance?state=incorrect"
+        redirect_to "/login/entrance?state=incorrect"
       end
     else
-      @redirect = "/login/entrance?state=incorrect"
+      redirect_to "/login/entrance?state=incorrect"
     end
   end
   def journey
