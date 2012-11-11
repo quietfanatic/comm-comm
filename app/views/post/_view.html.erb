@@ -17,7 +17,6 @@
             <div class="post_event"><%=raw post.event_string(user) %></div>
             <% end -%>
             <div class="post_buttons">
-                <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
             <% if post.is_normal -%>
                 <% if post.yelled -%>
                 <%= form_tag '/post/unyell', action: 'POST' do -%>
@@ -42,6 +41,7 @@
                 <% end -%>
                 <% end -%>
             <% end -%>
+                <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
             </div>
             <div class="post_date"><%= post.created_at.to_formatted_s(:short) %> </div>
         </div>
