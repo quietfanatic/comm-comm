@@ -11,7 +11,8 @@
 <% identity = user ? user.name : "not logged in." -%>
 <% in_topic = yield(:in_topic) -%>
 <% topic_name = yield(:topic_name) -%>
-<% indicators = yield(:indicators) || [] -%>
+<% indicators = TopicUser.indicators(user) -%>
+<!--<%= indicators.join(' ') %>-->
 <div class=navigation>
     <div class=navigation_top>
         <div class=site_logo>Comm Comm</div>
@@ -27,15 +28,15 @@
         <% if user -%>
         <div class=topic_tabs>
             <% tabclass = (in_topic && topic_name == "Uncategorized") ? 'topic_tab current' : 'topic_tab' -%>
-            <a class="<%=tabclass%>" href="/main/topic"><span class=tab_indicator id=indicator_0></span>Uncategorized</a>
+            <a class="<%=tabclass%>" href="/main/topic"><span class=indicator id=indicator_0></span>Uncategorized</a>
         <% for t in Topic.order('"order", "id"').all -%>
             <% tabclass = (in_topic && topic_name == t.name) ? 'topic_tab current' : 'topic_tab' -%>
-            <% indclass = (indicators.index(t.id.to_s) != nil) ? 'tab_indicator activity' : 'tab_indicator' -%>
+            <% indclass = (indicators[t.id] == nil ? TopicUser::OFF : indicators[t.id]) -%>
             <a class="<%=tabclass%>" href="/main/topic?topic=<%=t.id%>"><span class="<%=indclass%>" id="indicator_<%=t.id%>"></span><%=t.name%></a>
         <% end -%>
         <div class=tab_gap></div>
             <% tabclass = (in_topic && topic_name == "_SETTINGS") ? 'topic_tab current settings_tab' : 'topic_tab settings_tab' -%>
-            <a class="<%=tabclass%>" href="/main/settings"><span class=tab_indicator id=indicator__SETTINGS></span>Settings</a>
+            <a class="<%=tabclass%>" href="/main/settings"><span class=indicator id=indicator__SETTINGS></span>Settings</a>
         </div>
         <% end -%>
     </div>

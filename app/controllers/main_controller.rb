@@ -18,10 +18,6 @@ class MainController < ApplicationController
           topic: nil, pinned: true
         )
       end
-      @indicators = Topic.all.select{ |t|
-        updated_to = TopicUser.get(t, @user).updated_to || 0
-        t.last_activity && t.last_activity > updated_to
-      }.map{|t|t.id} || []
       if @topic
         topic_user = TopicUser.get(@topic, @user)
         topic_user.updated_to = @topic.last_activity
@@ -64,10 +60,6 @@ class MainController < ApplicationController
       else
         @new_posts = []
       end
-      @indicators = Topic.all.select{ |t|
-        updated_to = TopicUser.get(t, @user).updated_to || 0
-        t.last_activity && t.last_activity > updated_to
-      }.map{|t|t.id}
       if @topic
         topic_user = TopicUser.get(@topic, @user)
         topic_user.updated_to = @topic.last_activity

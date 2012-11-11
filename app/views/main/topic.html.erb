@@ -1,6 +1,5 @@
 <% provide(:in_topic, true) -%>
 <% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
-<% provide(:indicators, @indicators) -%>
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= MainController::PPP -%>
@@ -166,11 +165,16 @@
                      // Update indicators
                     var new_indicators = html.getElementById("new_indicators");
                     if (new_indicators) {
-                        var inds = new_indicators.textContent.match(/\S+/g);
-                        if (inds) {
-                            for (var i = 0; i < inds.length; i++) {
-                                var tab = document.getElementById("indicator_" + inds[i]);
-                                if (tab) tab.className += ' activity';
+                        var inds = new_indicators.getElementsByTagName("span");
+                        if (inds.length == 0) make_error(update_error, "Warning: Server sent an empty new_indicators");
+                        for (var i = 0; i < inds.length; i++) {
+                            var ind = inds[i];
+                            var old_ind = document.getElementById(ind.id);
+                            if (old_ind) {
+                                old_ind.className = ind.className;
+                            }
+                            else {
+                                make_error(update_error, "Warning: Server sent a new " + ind.id + " but we don't have one of those.");
                             }
                         }
                     }

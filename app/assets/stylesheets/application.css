@@ -91,7 +91,7 @@ body {
     border-right: 1px solid black;
 }
 
-.tab_indicator {
+.indicator {
     float: right;
     width: 0em;
     height: 0em;
@@ -105,10 +105,10 @@ body {
     color: #ffffff;
 }
 
-.tab_indicator.activity {
+.indicator.got_post {
     color: #bfbfff;
 }
-.topic_tab.current .tab_indicator.activity {
+.topic_tab.current .indicator {
     color: #ffffff;
 }
 
