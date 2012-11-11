@@ -110,7 +110,6 @@
                         if (post.nodeType == post.ELEMENT_NODE) {
                             added_posts = true;
                             var event_match = post.className.match(/(\s|^)this_(.*)_(.*)(\s|$)/);
-                            make_error(event_match);
                             if (event_match) {
                                 if (event_match[2] == "pins") {
                                     var pinned = document.getElementById("post_" + event_match[3]);
