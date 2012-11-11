@@ -106,7 +106,13 @@ body {
 }
 
 .indicator.got_post {
-    color: #bfbfff;
+    color: #9f9fff;
+}
+.indicator.got_event {
+    color: #7fff7f;
+}
+.indicator.got_yell {
+    color: #ffbf5f;
 }
 .topic_tab.current .indicator {
     color: #ffffff;
