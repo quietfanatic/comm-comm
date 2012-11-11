@@ -30,4 +30,8 @@ class User < ActiveRecord::Base
     return user
   end
 
+  def self.any_unconfirmed?
+    return User.find_by_is_confirmed(nil)
+  end
+
 end

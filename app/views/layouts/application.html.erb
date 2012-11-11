@@ -36,7 +36,8 @@
         <% end -%>
         <div class=tab_gap></div>
             <% tabclass = (in_topic && topic_name == "_SETTINGS") ? 'topic_tab current settings_tab' : 'topic_tab settings_tab' -%>
-            <a class="<%=tabclass%>" href="/main/settings"><span class=indicator id=indicator__SETTINGS></span>Settings</a>
+            <% indclass = User.any_unconfirmed? ? TopicUser::EVENT : TopicUser::OFF -%>
+            <a class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
         </div>
         <% end -%>
     </div>
