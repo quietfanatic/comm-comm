@@ -17,7 +17,7 @@ class LoginController < ApplicationController
   end
   def journey
     if params['email'] !~ /\S/
-      redirect_to "/login/singup?error=Sorry,+you+must+provide+an+email+address."
+      redirect_to "/login/signup?error=Sorry,+you+must+provide+an+email+address."
     elsif params['email'] !~ /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]$/
       redirect_to "/login/signup?error=Sorry,+that+email+address+wasn't+accepted."
     elsif params['name'] !~ /\S/
@@ -31,7 +31,7 @@ class LoginController < ApplicationController
     elsif params['password'] != params['confirm_password']
       redirect_to "/login/signup?error=Sorry,+your+passwords+didn't+match."
     elsif User.find_by_email(params['email'])
-      redirect_to "/login/singup?error=Sorry,+That+email+address+is+in+use."
+      redirect_to "/login/signup?error=Sorry,+That+email+address+is+in+use."
     else
       @user = User.create(
         email: params['email'],
