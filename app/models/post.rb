@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
     post = Post.find_by_id(ref.to_i)
     return text unless post
     cssclass = "postref"
-    cssclass += " at_you" if post.owner == user.id
+    cssclass += " at_you" if user and post.owner == user.id
     cssclass += " event" if post.is_event
     return "<a class=\"#{cssclass}\" onClick=\"show_post(#{ref})\">#{text}</a>"
   end
@@ -41,9 +41,9 @@ class Post < ActiveRecord::Base
     when REPLY
       return " replied to " + Post.ref_link(reference.to_s, reference.to_s, user)
     when PINNING
-      return " pinned " + Post.ref_link(reference.to_s, reference.to_s, user)
+      return " pinned " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when UNPINNING
-      return " unpinned " + Post.ref_link(reference.to_s, reference.to_s, user)
+      return " unpinned " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when MAILING
       return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user)
     when TOPIC_CREATION
@@ -68,9 +68,9 @@ class Post < ActiveRecord::Base
         return " edited...somebody I can't find any more"
       end
     when YELLING
-      return " yelled " + Post.ref_link(reference.to_s, reference.to_s, user)
+      return " yelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when UNYELLING
-      return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, user)
+      return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when TOPIC_REORDERING
       return " reordered " + content
     else
