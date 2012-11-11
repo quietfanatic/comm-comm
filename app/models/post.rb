@@ -56,14 +56,14 @@ class Post < ActiveRecord::Base
     when USER_CONFIRMATION
       confirmed_user = User.find_by_id(reference)
       if (confirmed_user)
-        return " confirmed " + (confirmed_user.visible_name || confirmed_user.email)
+        return " confirmed " + confirmed_user.name
       else
         return " confirmed...somebody I can't find any more"
       end
     when USER_EDITING
       edited_user = User.find_by_id(reference)
       if (edited_user)
-        return " edited " + (edited_user.visible_name || edited_user.email)
+        return " edited " + edited_user.name
       else
         return " edited...somebody I can't find any more"
       end

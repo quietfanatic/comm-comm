@@ -6,6 +6,13 @@ class User < ActiveRecord::Base
   attr_accessible :email, :username, :visible_name, :is_confirmed, :can_edit_topics, :can_edit_posts, :can_edit_users, :can_confirm_users
   attr_protected :session
 
+  def name
+    return visible_name if visible_name
+    email.match(/^([^@]+)/)
+    return $1 if $1
+    return "an ineffable user"
+  end
+
   def password
     @password ||= Password.new(password_digest)
   end

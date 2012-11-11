@@ -11,7 +11,7 @@
             </div>
             <div>
                 <label for=name>Visible name:</label>
-                <input type=text name=name value="<%= @user.visible_name || @user.email %>" />
+                <input type=text name=name value="<%= @user.name %>" />
             </div>
             <button type=submit>Change</button>
         <% end -%>

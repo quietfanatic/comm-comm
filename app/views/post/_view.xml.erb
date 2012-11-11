@@ -1,5 +1,5 @@
 <% owner = User.find_by_id(post.owner) -%>
-<% name = owner ? owner.visible_name || owner.email : '???' -%>
+<% name = owner ? owner.name : '???' -%>
 <% divclass = 'post' -%>
 <% divclass += ' pinned' if post.pinned -%>
 <% divclass += ' yelled' if post.yelled -%>
