@@ -109,6 +109,17 @@
                         post = new_posts.firstChild;
                         if (post.nodeType == post.ELEMENT_NODE) {
                             added_posts = true;
+                             // Add onclick handler for reply button, because I guess events on html
+                             // elements loaded through AJAX don't get registered.  XSS safety?
+                            var pid_match = post.id.match(/post_(\d+)/);
+                            if (pid_match != null) {
+                                var buttons = post.getElementsByTagName("button");
+                                for (var i = 0; i < buttons.length; i++) {
+                                    if (buttons[i].className == "reply_button")
+                                        buttons[i].onclick = function(){reply_to_post(parseInt(pid_match[1]));};
+                                }
+                            }
+                             // Check if we need to pin/unpin/yell/unyell
                             var event_match = post.className.match(/(\s|^)this_(.*)_(.*)(\s|$)/);
                             if (event_match) {
                                 if (event_match[2] == "pins") {
@@ -146,6 +157,7 @@
                                 }
                             }
                         }
+                         // Actually add the post
                         stream_post_list.appendChild(post);
                     }
                      // Update latest post id
