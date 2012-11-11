@@ -9,10 +9,10 @@ class LoginController < ApplicationController
         user.save!
         redirect_to "/main/topic"
       else
-        redirect_to "/login/entrance?state=incorrect"
+        redirect_to "/login/entrance?error=Sorry,+the+email+or+the+password+was+a+bit+wrong."
       end
     else
-      redirect_to "/login/entrance?state=incorrect"
+      redirect_to "/login/entrance?error=Sorry,+the+email+or+the+password+was+a+bit+wrong."
     end
   end
   def journey
@@ -32,6 +32,6 @@ class LoginController < ApplicationController
       user.session = nil
       user.save!
     end
-    redirect_to "/login/entrance?state=logout"
+    redirect_to "/login/entrance?notice=You+have+been+logged+out."
   end
 end
