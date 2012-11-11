@@ -157,6 +157,7 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 }
 
 .postref {
+    cursor: pointer; cursor: hand;
     color: #00007f;
 }
 .postref.event {
@@ -164,6 +165,9 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 }
 .postref.at_you {
     color: #9f009f;
+}
+.postref:hover {
+    text-decoration: underline;
 }
 
 
