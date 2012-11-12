@@ -146,7 +146,7 @@ function get_ajaxifier (latest, earliest, board) {
                      // Set new timeout
                     if (added_posts) update_delay = 4000;
                     else if (update_delay < 32000) update_delay += 4000;
-                    setTimeout( "request_update()", update_delay );
+                    setTimeout( request_update, update_delay );
                      // Scroll to bottom
                     if (wants_scroll && added_posts) scroll_stream();
                 }
@@ -210,7 +210,6 @@ function get_ajaxifier (latest, earliest, board) {
             client.open("GET", "/main/update.xml?since=" + latest);
         client.send();
     }
-    setTimeout( "request_update()", update_delay );
     function request_backlog () {
         clear_error(backlog_error);
         var client = new XMLHttpRequest();
@@ -220,5 +219,21 @@ function get_ajaxifier (latest, earliest, board) {
         else
             client.open("GET", "/main/backlog.xml?before=" + earliest);
         client.send();
+    }
+    function start_updating () {
+        setTimeout( request_update, update_delay );
+    }
+    return {
+        scroll_stream: scroll_stream,
+        unshow_post: unshow_post,
+    	show_post: show_post,
+    	reply_to_post: reply_to_post,
+    	handle_update: handle_update,
+    	handle_backlog: handle_backlog,
+    	make_error: make_error,
+    	clear_error: clear_error,
+    	request_update: request_update,
+    	request_backlog: request_backlog,
+    	start_updating: start_updating,
     }
 }

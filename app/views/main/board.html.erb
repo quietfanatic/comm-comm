@@ -32,5 +32,12 @@
     </div>
 </div>
 <script>
-    var ajaxifier = ajaxifier(0, 0, 0);
+    <% lastpost = Post.last =%>
+    var ajaxifier = get_ajaxifier(
+        <%= lastpost ? lastpost.id : 0 %>,
+        <%= @posts.first.id %>,
+        <%= @topic ? @topic.id : 'null' %>
+    );
+    ajaxifier.scroll_stream();
+    ajaxifier.start_updating();
 </script>
