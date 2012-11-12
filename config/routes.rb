@@ -6,13 +6,14 @@ CommComm::Application.routes.draw do
   post "login/journey"
   get "login/journey"
   post "login/logout"
-
-  get "main/topic"
+  
+  get "main/topic"  # temporary redirect
+  get "main/board"
   get "main/settings"
   get "main/update"
   get "main/backlog"
 
-  root :to => 'main#topic'
+  root :to => 'main#board'
 
   post "post/new"
   post 'post/pin'
@@ -21,8 +22,8 @@ CommComm::Application.routes.draw do
   post 'post/unyell'
   post 'post/hide'
   post 'post/unhide'
-  post 'topic/new'
-  post 'topic/edit'
+  post 'board/new'
+  post 'board/edit'
   post 'user/confirm'
   post 'user/edit'
 

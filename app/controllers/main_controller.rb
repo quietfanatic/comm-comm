@@ -1,7 +1,9 @@
 class MainController < ApplicationController
 
   PPP = 50  # Posts per page
-
+  def topic
+    redirect_to '/main/board'  # deprecation yay!
+  end
   def board
     @user = User.logged_in(session)
     if @user
