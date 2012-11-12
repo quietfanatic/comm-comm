@@ -39,6 +39,7 @@
 }
 
 .stream .post.pinned,
+.post.hidden,
 .post.event {
     border: none;
     background-color: inherit;
@@ -57,7 +58,8 @@
     margin-bottom: 0.2em;
     color: $cs-normal-header;
 }
-.stream .post.pinned .post_info {
+.stream .post.pinned .post_info,
+.post.hidden .post_info {
     color: $cs-normal-hidden;
 }
 .post.event .post_info {
@@ -131,7 +133,8 @@
     overflow-x: auto;
 }
 .stream .post.pinned .post_content,
-.stream .post.event .post_content {
+.post.hidden .post_content,
+.post.event .post_content {
     display: none;
 }
 

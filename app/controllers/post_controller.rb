@@ -128,6 +128,54 @@ class PostController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
+  def hide
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post
+        post.hidden = true
+        post.save!
+        topic = Topic.find_by_id(post.topic)
+        event = Post.new(post_type: Post::HIDING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event.save!
+        if topic
+          topic.last_event = event.id;
+          topic.save!
+          redirect_to "/main/topic?topic=#{topic.id}"
+        else
+          redirect_to "/main/topic"
+        end
+      else
+        redirect_to "/main/topic"
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def unhide
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post
+        post.hidden = false
+        post.save!
+        topic = Topic.find_by_id(post.topic)
+        event = Post.new(post_type: Post::UNHIDING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        event.save!
+        if topic
+          topic.last_event = event.id;
+          topic.save!
+          redirect_to "/main/topic?topic=#{topic.id}"
+        else
+          redirect_to "/main/topic"
+        end
+      else
+        redirect_to "/main/topic"
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
 
   def edit
   end

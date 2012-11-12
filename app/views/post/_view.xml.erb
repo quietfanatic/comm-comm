@@ -2,12 +2,15 @@
 <% name = owner ? owner.name : '???' -%>
 <% divclass = 'post' -%>
 <% divclass += ' pinned' if post.pinned -%>
+<% divclass += ' hidden' if post.hidden -%>
 <% divclass += ' yelled' if post.yelled -%>
 <% divclass += ' event' if post.is_event -%>
 <% divclass += " this_pins_" + post.reference.to_s if post.post_type == Post::PINNING -%>
 <% divclass += " this_unpins_" + post.reference.to_s if post.post_type == Post::UNPINNING -%>
 <% divclass += " this_yells_" + post.reference.to_s if post.post_type == Post::YELLING -%>
 <% divclass += " this_unyells_" + post.reference.to_s if post.post_type == Post::UNYELLING -%>
+<% divclass += " this_hides_" + post.reference.to_s if post.post_type == Post::HIDING -%>
+<% divclass += " this_unhides_" + post.reference.to_s if post.post_type == Post::UNHIDING -%>
 <% divid = (pinned ? "pinned_" : "post_") + post.id.to_s -%>
     <div class="<%= divclass %>" id="<%= divid %>">
         <div class="post_info">
@@ -18,28 +21,41 @@
             <% end -%>
             <div class="post_buttons">
             <% if post.is_normal -%>
-                <% if post.yelled -%>
+<!--
+              <% if post.yelled -%>
                 <%= form_tag '/post/unyell', action: 'POST' do -%>
                     <input type="hidden" name="id" value="<%= post.id %>" />
                     <button type="submit" class="yell_button">△ Unyell</button>
                 <% end -%>
-                <% else -%>
+              <% else -%>
                 <%= form_tag '/post/yell', action: 'POST' do -%>
                     <input type="hidden" name="id" value="<%= post.id %>" />
                     <button type="submit" class="unyell_button">⚠ Yell</button>
                 <% end -%>
-                <% end -%>
-                <% if post.pinned -%>
+              <% end -%>
+-->
+              <% if post.pinned -%>
                 <%= form_tag '/post/unpin', action: 'POST' do -%>
                     <input type="hidden" name="id" value="<%= post.id %>" />
                     <button type="submit" class="unpin_button">⤺ Unpin</button>
                 <% end -%>
-                <% else -%>
+              <% else -%>
+               <% if post.hidden -%>
+                <%= form_tag '/post/unhide', action: 'POST' do -%>
+                    <input type="hidden" name="id" value="<%= post.id %>" />
+                    <button type="submit" class="unhide_button">⊚ Unhide</button>
+                <% end -%>
+               <% elsif post.owner == user.id or post.content =~ /\[img\]/ -%>
+                <%= form_tag '/post/hide', action: 'POST' do -%>
+                    <input type="hidden" name="id" value="<%= post.id %>" />
+                    <button type="submit" class="hide_button">⊗ Hide</button>
+                <% end -%>
+               <% end -%>
                 <%= form_tag '/post/pin', action: 'POST' do -%>
                     <input type="hidden" name="id" value="<%= post.id %>" />
                     <button type="submit" class="pin_button">⤻ Pin</button>
                 <% end -%>
-                <% end -%>
+              <% end -%>
             <% end -%>
                 <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
             </div>
