@@ -18,6 +18,8 @@
 
 body {
     overflow: hidden;
+    background-color: $navigation-bg-color;
+    background: url('https://cas.westmont.edu/themes/mywestmont/images/campus_bright.jpg') no-repeat center center fixed; 
 }
 
 .navigation {
@@ -27,8 +29,6 @@ body {
     width: 12em;
     bottom: 0;
     overflow: hidden;
-    background-color: $navigation-bg-color;
-    background-image: url(https://cas.westmont.edu/themes/mywestmont/images/campus_bright.jpg);
 }
 .navigation_top {
     overflow: auto;
@@ -108,7 +108,7 @@ body {
     overflow: hidden;
     margin-top: 0.4em;
 
-    color: $board-bg-color;
+    color: transparent;
 }
 .indicator.got_post {
     color: $cs-normal-indicator;
@@ -123,7 +123,7 @@ body {
     color: $cs-mention-indicator;
 }
 .topic_tab.current .indicator {
-    color: $board-bg-color;
+    color: transparent;
 }
 
 .navigation_bottom {
