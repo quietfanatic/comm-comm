@@ -1,13 +1,13 @@
-class TopicUser < ActiveRecord::Base
-  attr_accessible :topic, :user_id, :updated_to, :last_reply
+class BoardUser < ActiveRecord::Base
+  attr_accessible :board, :user_id, :updated_to, :last_reply
 
   def self.get_by_ids (tid, uid)
-    return TopicUser.where(
-      topic: tid, user_id: uid
-    ).first_or_create(topic: tid, user_id: uid);
+    return BoardUser.where(
+      board: tid, user_id: uid
+    ).first_or_create(board: tid, user_id: uid);
   end
-  def self.get (topic, user)
-    return get_by_ids(topic.id, user.id)
+  def self.get (board, user)
+    return get_by_ids(board.id, user.id)
   end
 
   OFF = "indicator"
@@ -19,19 +19,19 @@ class TopicUser < ActiveRecord::Base
 
   def self.indicators (user)
     indicators = []
-    for tu in TopicUser.find_all_by_user_id(user.id)
-      mytop = Topic.find_by_id(tu.topic)
+    for tu in BoardUser.find_all_by_user_id(user.id)
+      mytop = Board.find_by_id(tu.board)
       if mytop
         if (tu.last_reply and tu.last_reply > tu.updated_to)
-          indicators[tu.topic] = REPLY
+          indicators[tu.board] = REPLY
         elsif (mytop.last_yell and mytop.last_yell > tu.updated_to)
-          indicators[tu.topic] = YELL
+          indicators[tu.board] = YELL
         elsif (mytop.last_post and mytop.last_post > tu.updated_to)
-          indicators[tu.topic] = POST
+          indicators[tu.board] = POST
         elsif (mytop.last_event and mytop.last_event > tu.updated_to)
-          indicators[tu.topic] = EVENT
+          indicators[tu.board] = EVENT
         else
-          indicators[tu.topic] = OFF
+          indicators[tu.board] = OFF
         end
       end
     end

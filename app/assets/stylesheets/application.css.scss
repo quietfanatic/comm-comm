@@ -68,10 +68,10 @@ body {
     background-color: $board-bg-color;
 }
 
-.topic_tabs {
+.board_tabs {
     margin-left: 1em;
 }
-.topic_tab {
+.board_tab {
     overflow: hidden;
     display: block;
     border: 1px solid black;
@@ -86,7 +86,7 @@ body {
     line-height: 2em;
     background-color: $board-bg-color;
 }
-.topic_tab.current {
+.board_tab.current {
     border-left: 1px solid black;
     margin-left: -0.2em;
     padding-right: 1px;
@@ -123,7 +123,7 @@ body {
 .indicator.got_reply {
     color: $cs-mention-indicator;
 }
-.topic_tab.current .indicator {
+.board_tab.current .indicator {
     color: transparent;
 }
 

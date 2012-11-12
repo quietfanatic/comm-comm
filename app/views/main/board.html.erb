@@ -1,5 +1,5 @@
-<% provide(:in_topic, true) -%>
-<% provide(:topic_name, @topic ? @topic.name : "Uncategorized") -%>
+<% provide(:in_board, true) -%>
+<% provide(:board_name, @board ? @board.name : "Uncategorized") -%>
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= MainController::PPP -%>
@@ -17,8 +17,8 @@
     <%= form_tag('/post/new') do -%>
         <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
         <button type=submit tabindex=2 id="new_post_submit">Post</button>
-        <% if @topic -%>
-            <input type=hidden name=topic value="<%= @topic.id %>"/>
+        <% if @board -%>
+            <input type=hidden name=board value="<%= @board.id %>"/>
         <% end -%>
     <% end -%>
     </div>
@@ -31,4 +31,6 @@
     <% end -%>
     </div>
 </div>
-<script>scroll_stream()</script>
+<script>
+    var ajaxifier = ajaxifier(0, 0, 0);
+</script>
