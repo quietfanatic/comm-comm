@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
    # These constants enumerate the different types of posts
    # You can add new types, but you cannot reorder types that are already here!
   NORMAL = 0
-  REPLY = 1  # These will probably be indistinguishable from NORMAL posts
+  REPLY = 1  # UNUSED
   PINNING = 2
   UNPINNING = 3
   MAILING = 4
@@ -11,10 +11,13 @@ class Post < ActiveRecord::Base
   TOPIC_RENAMING = 6
   TOPIC_DELETION = 7
   USER_CONFIRMATION = 8
-  USER_EDITING = 9
+  USER_EDITING = 9  # UNUSED
   YELLING = 10
   UNYELLING = 11
   TOPIC_REORDERING = 12
+  HIDING = 13
+  UNHIDING = 14
+  EDITING = 15
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
@@ -73,6 +76,12 @@ class Post < ActiveRecord::Base
       return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when TOPIC_REORDERING
       return " reordered " + (content || "a topic whose name was lost to a bug")
+    when HIDING
+      return " hid " + Post.ref_link(reference.to_s, reference.to_s, nil)
+    when UNHIDING
+      return " unhid " + Post.ref_link(reference.to_s, reference.to_s, nil)
+    when EDITING
+      return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
     else
       return " generated a mysterious post"
     end
