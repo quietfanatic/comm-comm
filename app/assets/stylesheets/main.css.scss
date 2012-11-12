@@ -128,6 +128,7 @@
     font-size: 1.2em;
     margin: 0.2em 0.5em;
     white-space: pre-wrap;
+    overflow-x: auto;
 }
 .stream .post.pinned .post_content,
 .stream .post.event .post_content {
