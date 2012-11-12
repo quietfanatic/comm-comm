@@ -7,7 +7,7 @@ class LoginController < ApplicationController
       if user.password == params["password"]
         user.session = session['session_id']
         user.save!
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       else
         redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
       end

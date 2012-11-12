@@ -211,8 +211,8 @@ function clear_error (loc) {
 function request_update () {
     var client = new XMLHttpRequest();
     client.onreadystatechange = handle_update;
-    <% if @topic -%>
-    client.open("GET", "/main/update.xml?topic=<%= @topic.id %>&since=" + latest);
+    <% if @board -%>
+    client.open("GET", "/main/update.xml?board=<%= @board.id %>&since=" + latest);
     <% else -%>
     client.open("GET", "/main/update.xml?since=" + latest);
     <% end -%>
@@ -223,8 +223,8 @@ function request_backlog () {
     clear_error(backlog_error);
     var client = new XMLHttpRequest();
     client.onreadystatechange = handle_backlog;
-    <% if @topic -%>
-    client.open("GET", "/main/backlog.xml?topic=<%= @topic.id %>&before=" + earliest);
+    <% if @board -%>
+    client.open("GET", "/main/backlog.xml?board=<%= @board.id %>&before=" + earliest);
     <% else -%>
     client.open("GET", "/main/backlog.xml?before=" + earliest);
     <% end -%>

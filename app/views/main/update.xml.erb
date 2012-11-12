@@ -9,14 +9,14 @@
     </div>
     <div id="new_latest"><%= Post.last.id -%></div>
     <div id="new_indicators">
-    <% indicators = TopicUser.indicators(@user) -%>
+    <% indicators = BoardUser.indicators(@user) -%>
     <% for i in 0..(indicators.length - 1) -%>
     <% if indicators[i] != nil -%>
         <span id="indicator_<%=i%>" class="<%=indicators[i]%>"></span>
     <% end -%>
     <% end -%>
     <% if User.any_unconfirmed? -%>
-        <span id="indicator__SETTINGS" class="<%=TopicUser::EVENT%>"></span>
+        <span id="indicator__SETTINGS" class="<%=BoardUser::EVENT%>"></span>
     <% end -%>
     </div>
 </body>
