@@ -21,7 +21,7 @@ class BoardUser < ActiveRecord::Base
     indicators = []
     for tu in BoardUser.find_all_by_user_id(user.id)
       mytop = Board.find_by_id(tu.board)
-      if mytop
+      if mytop and tu.updated_to
         if (tu.last_reply and tu.last_reply > tu.updated_to)
           indicators[tu.board] = REPLY
         elsif (mytop.last_yell and mytop.last_yell > tu.updated_to)
@@ -33,6 +33,8 @@ class BoardUser < ActiveRecord::Base
         else
           indicators[tu.board] = OFF
         end
+      else
+        indicators[tu.board] = OFF
       end
     end
     return indicators
