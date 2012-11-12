@@ -141,6 +141,7 @@ body {
     border: 1px solid black;
     border-radius: #{$roundness-x}/#{$roundness-y};
     padding: 0.5em 1em;
+    background-color: $post-bg-color;
 }
 .section_heading {
     font-weight: bold;
