@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :content, :owner, :topic, :pinned, :yelled, :post_type, :reference, :hidden
+  attr_accessible :content, :owner, :board, :pinned, :yelled, :post_type, :reference, :hidden
    # These constants enumerate the different types of posts
    # You can add new types, but you cannot reorder types that are already here!
   NORMAL = 0
@@ -7,14 +7,14 @@ class Post < ActiveRecord::Base
   PINNING = 2
   UNPINNING = 3
   MAILING = 4
-  TOPIC_CREATION = 5
-  TOPIC_RENAMING = 6
-  TOPIC_DELETION = 7
+  BOARD_CREATION = 5
+  BOARD_RENAMING = 6
+  BOARD_DELETION = 7
   USER_CONFIRMATION = 8
   USER_EDITING = 9  # UNUSED
   YELLING = 10
   UNYELLING = 11
-  TOPIC_REORDERING = 12
+  BOARD_REORDERING = 12
   HIDING = 13
   UNHIDING = 14
   EDITING = 15
@@ -49,12 +49,12 @@ class Post < ActiveRecord::Base
       return " unpinned " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when MAILING
       return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user)
-    when TOPIC_CREATION
+    when BOARD_CREATION
       return " created " + content
-    when TOPIC_RENAMING
+    when BOARD_RENAMING
       lines = content.split("\n")
       return " renamed " + lines[0] + " to " + lines[1]
-    when TOPIC_DELETION
+    when BOARD_DELETION
       return " deleted " + content
     when USER_CONFIRMATION
       confirmed_user = User.find_by_id(reference)
@@ -74,8 +74,8 @@ class Post < ActiveRecord::Base
       return " yelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when UNYELLING
       return " unyelled " + Post.ref_link(reference.to_s, reference.to_s, nil)
-    when TOPIC_REORDERING
-      return " reordered " + (content || "a topic whose name was lost to a bug")
+    when BOARD_REORDERING
+      return " reordered " + (content || "a board whose name was lost to a bug")
     when HIDING
       return " hid " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when UNHIDING

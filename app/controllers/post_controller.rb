@@ -2,18 +2,18 @@ class PostController < ApplicationController
   def new
     @user = User.logged_in(session)
     if @user
-      @topic = Topic.find_by_id(params['topic'])
+      @board = Board.find_by_id(params['board'])
       if params['content'] and params['content'] =~ /\S/
         if !Post.last or Post.last.content != params['content']
-          @post = Post.new(content: params['content'], owner: @user.id, topic: @topic ? @topic.id : nil )
+          @post = Post.new(content: params['content'], owner: @user.id, board: @board ? @board.id : nil )
           @post.save!
-          if @topic
-            @topic.last_post = @post.id
-            @topic.save!
+          if @board
+            @board.last_post = @post.id
+            @board.save!
             for ref in @post.scan_for_refs
               @reffed = Post.find_by_id(ref)
               if @reffed and @reffed.owner
-                tu = TopicUser.get_by_ids(@topic.id, @reffed.owner)
+                tu = BoardUser.get_by_ids(@board.id, @reffed.owner)
                 tu.last_reply = @post.id
                 tu.save!
               end
@@ -21,10 +21,10 @@ class PostController < ApplicationController
           end
         end
       end
-      if @topic
-        redirect_to "/main/topic?topic=#{@topic.id}"
+      if @board
+        redirect_to "/main/board?board=#{@board.id}"
       else
-        redirect_to '/main/topic'
+        redirect_to '/main/board'
       end
     else
       redirect_to '/login/entrance'
@@ -38,18 +38,18 @@ class PostController < ApplicationController
       if post
         post.pinned = true
         post.save!
-        topic = Topic.find_by_id(post.topic)
-        event = Post.new(post_type: Post::PINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        board = Board.find_by_id(post.board)
+        event = Post.new(post_type: Post::PINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
-        if topic
-          topic.last_event = event.id;
-          topic.save!
-          redirect_to "/main/topic?topic=#{topic.id}"
+        if board
+          board.last_event = event.id;
+          board.save!
+          redirect_to "/main/board?board=#{board.id}"
         else
-          redirect_to "/main/topic"
+          redirect_to "/main/board"
         end
       else
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       end
     else
       redirect_to '/login/entrance'
@@ -62,18 +62,18 @@ class PostController < ApplicationController
       if post
         post.pinned = false
         post.save!
-        topic = Topic.find_by_id(post.topic)
-        event = Post.new(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        board = Board.find_by_id(post.board)
+        event = Post.new(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
-        if topic
-          topic.last_event = event.id;
-          topic.save!
-          redirect_to "/main/topic?topic=#{topic.id}"
+        if board
+          board.last_event = event.id;
+          board.save!
+          redirect_to "/main/board?board=#{board.id}"
         else
-          redirect_to "/main/topic"
+          redirect_to "/main/board"
         end
       else
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       end
     else
       redirect_to '/login/entrance'
@@ -87,18 +87,18 @@ class PostController < ApplicationController
         post.yelled = true
         post.save!
         Rails.logger.warn post.yelled
-        topic = Topic.find_by_id(post.topic)
-        event = Post.new(post_type: Post::YELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        board = Board.find_by_id(post.board)
+        event = Post.new(post_type: Post::YELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
-        if topic
-          topic.last_yell = event.id;
-          topic.save!
-          redirect_to "/main/topic?topic=#{topic.id}"
+        if board
+          board.last_yell = event.id;
+          board.save!
+          redirect_to "/main/board?board=#{board.id}"
         else
-          redirect_to "/main/topic"
+          redirect_to "/main/board"
         end
       else
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       end
     else
       redirect_to '/login/entrance'
@@ -111,18 +111,18 @@ class PostController < ApplicationController
       if post
         post.yelled = false
         post.save!
-        topic = Topic.find_by_id(post.topic)
-        event = Post.new(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        board = Board.find_by_id(post.board)
+        event = Post.new(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
-        if topic
-          topic.last_event = event.id;
-          topic.save!
-          redirect_to "/main/topic?topic=#{topic.id}"
+        if board
+          board.last_event = event.id;
+          board.save!
+          redirect_to "/main/board?board=#{board.id}"
         else
-          redirect_to "/main/topic"
+          redirect_to "/main/board"
         end
       else
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       end
     else
       redirect_to '/login/entrance'
@@ -135,18 +135,18 @@ class PostController < ApplicationController
       if post
         post.hidden = true
         post.save!
-        topic = Topic.find_by_id(post.topic)
-        event = Post.new(post_type: Post::HIDING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        board = Board.find_by_id(post.board)
+        event = Post.new(post_type: Post::HIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
-        if topic
-          topic.last_event = event.id;
-          topic.save!
-          redirect_to "/main/topic?topic=#{topic.id}"
+        if board
+          board.last_event = event.id;
+          board.save!
+          redirect_to "/main/board?board=#{board.id}"
         else
-          redirect_to "/main/topic"
+          redirect_to "/main/board"
         end
       else
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       end
     else
       redirect_to '/login/entrance'
@@ -159,18 +159,18 @@ class PostController < ApplicationController
       if post
         post.hidden = false
         post.save!
-        topic = Topic.find_by_id(post.topic)
-        event = Post.new(post_type: Post::UNHIDING, reference: post.id, owner: @user.id, topic: topic ? topic.id : nil)
+        board = Board.find_by_id(post.board)
+        event = Post.new(post_type: Post::UNHIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
-        if topic
-          topic.last_event = event.id;
-          topic.save!
-          redirect_to "/main/topic?topic=#{topic.id}"
+        if board
+          board.last_event = event.id;
+          board.save!
+          redirect_to "/main/board?board=#{board.id}"
         else
-          redirect_to "/main/topic"
+          redirect_to "/main/board"
         end
       else
-        redirect_to "/main/topic"
+        redirect_to "/main/board"
       end
     else
       redirect_to '/login/entrance'

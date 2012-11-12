@@ -1,5 +1,5 @@
 
-function get_ajaxifier (latest, earliest, topic) {
+function get_ajaxifier (latest, earliest, board) {
     var stream = document.getElementById('stream');
     var stream_post_list = document.getElementById('stream_post_list');
     var pinned_post_list = document.getElementById('pinned_post_list');
@@ -204,8 +204,8 @@ function get_ajaxifier (latest, earliest, topic) {
     function request_update () {
         var client = new XMLHttpRequest();
         client.onreadystatechange = handle_update;
-        if (topic != null)
-            client.open("GET", "/main/update.xml?topic=" + topic + "&since=" + latest);
+        if (board != null)
+            client.open("GET", "/main/update.xml?board=" + board + "&since=" + latest);
         else
             client.open("GET", "/main/update.xml?since=" + latest);
         client.send();
@@ -215,8 +215,8 @@ function get_ajaxifier (latest, earliest, topic) {
         clear_error(backlog_error);
         var client = new XMLHttpRequest();
         client.onreadystatechange = handle_backlog;
-        if (topic != null)
-            client.open("GET", "/main/backlog.xml?topic=" + topic + "&before=" + earliest);
+        if (board != null)
+            client.open("GET", "/main/backlog.xml?board=" + board + "&before=" + earliest);
         else
             client.open("GET", "/main/backlog.xml?before=" + earliest);
         client.send();

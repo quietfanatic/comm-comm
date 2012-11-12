@@ -195,23 +195,23 @@
     padding-right: 0.8em;
 }
 
-.topic_row .topic_id,
+.board_row .board_id,
 .user_row .user_id {
     display: inline-block;
     width: 3em;
 }
-.topic_row .topic_order {
+.board_row .board_order {
     display: inline-block;
     width: 6em;
 }
-.topic_row .topic_order input {
+.board_row .board_order input {
     width: 5em;
 }
-.topic_row .topic_name {
+.board_row .board_name {
     display: inline-block;
     width: 11em;
 }
-.topic_row .topic_name input {
+.board_row .board_name input {
     width: 10em;
 }
 

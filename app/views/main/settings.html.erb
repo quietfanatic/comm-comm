@@ -1,5 +1,5 @@
-<% provide(:in_topic, true) -%>
-<% provide(:topic_name, "_SETTINGS") -%>
+<% provide(:in_board, true) -%>
+<% provide(:board_name, "_SETTINGS") -%>
 <div class=settings_page>
     <div class=section>
     <div class=section_heading>Profile</div>
@@ -16,23 +16,23 @@
             <button type=submit>Change</button>
         <% end -%>
     </div>
-<% if @user.can_edit_topics -%>
+<% if @user.can_edit_boards -%>
     <div class=section>
-        <div class=section_heading>Topics</div>
-        <div class="topic_row topics_header">
-            <div class=topic_id>ID</div>
-            <div class=topic_name>Name</div>
+        <div class=section_heading>Boards</div>
+        <div class="board_row boards_header">
+            <div class=board_id>ID</div>
+            <div class=board_name>Name</div>
         </div>
-        <% for t in @topics -%>
-        <%= form_tag '/topic/edit',  action: 'POST' do %>
-        <div class=topic_row>
-            <div class=topic_id><%=t.id%>
+        <% for t in @boards -%>
+        <%= form_tag '/board/edit',  action: 'POST' do %>
+        <div class=board_row>
+            <div class=board_id><%=t.id%>
                 <input type=hidden name=id value="<%=t.id%>"/>
             </div>
-            <div class=topic_name>
+            <div class=board_name>
                 <input type=text name=name value="<%=t.name%>"/>
             </div>
-            <div class=topic_order>
+            <div class=board_order>
                 <input type=number name=order value="<%=t.order%>"/>
             </div>
             <button name=do value=change>Change</button>
@@ -40,13 +40,13 @@
         </div>
         <% end -%>
         <% end -%>
-        <%= form_tag '/topic/new', action: 'POST' do %>
-        <div class=topic_row>
-            <div class=topic_id>New</div>
-            <div class=topic_name>
+        <%= form_tag '/board/new', action: 'POST' do %>
+        <div class=board_row>
+            <div class=board_id>New</div>
+            <div class=board_name>
                 <input type=text name=name />
             </div>
-            <div class=topic_order>
+            <div class=board_order>
                 <input type-number name=order value="0.0"/>
             </div>
             <button type=submit>Create</button>
