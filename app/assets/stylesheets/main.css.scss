@@ -2,9 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$main-color: #2d7bc9;
-$secondary-color: adjust-hue($main-color, 120deg); //#f5a4c3;
-$third-color: adjust-hue($main-color, 240deg); //#fef6a8;
+
+
+@import 'vars';
 
 
 .stream {
@@ -34,17 +34,20 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     clear: both;
     margin: 0.5em 1em;
     border: 1px solid black;
-    border-radius: 0.6em;
-}
-.post.showing {
-    background-color: #ffffcf;
+    border-radius: #{$roundness-x}/#{$roundness-y};
+    background-color: $post-bg-color;
 }
 
 .stream .post.pinned,
 .post.event {
     border: none;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
+    background-color: inherit;
+    border-left: 1px solid $board-bg-color;
+    border-right: 1px solid $board-bg-color;
+}
+
+.post.showing {
+    background-color: $selected-bg-color;
 }
 
 
@@ -52,23 +55,23 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     display: block;
     min-height: 1.2em;
     margin-bottom: 0.2em;
-    color: #00007f;
+    color: $cs-normal-header;
 }
 .stream .post.pinned .post_info {
-    color: #7f7fbf;
+    color: $cs-normal-hidden;
 }
 .post.event .post_info {
-    color: #007f00;
+    color: $cs-event-header;
 }
 .post.yelled {
-    border: 2px solid #bf3f00;
+    border: 2px solid $cs-yell-header;
 }
 .post.yelled .post_info {
-    color: #bf3f00;
+    color: $cs-yell-header;
     font-weight: bold;
 }
 .stream .post.pinned.yelled .post_info {
-    color: #cf7f5f;
+    color: $cs-yell-hidden;
     font-weight: bold;
 }
 
@@ -161,13 +164,13 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 
 .postref {
     cursor: pointer; cursor: hand;
-    color: #00007f;
+    color: $cs-normal-reference;
 }
 .postref.event {
-    color: #007f00;
+    color: $cs-event-reference;
 }
 .postref.at_you {
-    color: #9f009f;
+    color: $cs-mention-reference;
 }
 .postref:hover {
     text-decoration: underline;
