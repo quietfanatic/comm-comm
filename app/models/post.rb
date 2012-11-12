@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  attr_accessible :content, :owner, :topic, :pinned, :yelled, :post_type, :reference
+  attr_accessible :content, :owner, :topic, :pinned, :yelled, :post_type, :reference, :hidden
    # These constants enumerate the different types of posts
    # You can add new types, but you cannot reorder types that are already here!
   NORMAL = 0

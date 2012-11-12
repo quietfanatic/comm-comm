@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121111065217) do
+ActiveRecord::Schema.define(:version => 20121112211047) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20121111065217) do
     t.integer  "post_type"
     t.integer  "reference"
     t.boolean  "yelled"
+    t.boolean  "hidden"
   end
 
   create_table "topic_users", :force => true do |t|
