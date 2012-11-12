@@ -14,5 +14,10 @@ class PostTest < ActionDispatch::IntegrationTest
 		click_on 'submit'
 		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
 	end
-
+	
+	test "should login" do
+		User.find_by_email('test@test.com').can_edit_posts == true
+		visit 'login/journey'
+		click_on
+	end
 end

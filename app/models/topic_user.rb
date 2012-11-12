@@ -21,16 +21,18 @@ class TopicUser < ActiveRecord::Base
     indicators = []
     for tu in TopicUser.find_all_by_user_id(user.id)
       mytop = Topic.find_by_id(tu.topic)
-      if (tu.last_reply and tu.last_reply > tu.updated_to)
-        indicators[tu.topic] = REPLY
-      elsif (mytop.last_yell and mytop.last_yell > tu.updated_to)
-        indicators[tu.topic] = YELL
-      elsif (mytop.last_post and mytop.last_post > tu.updated_to)
-        indicators[tu.topic] = POST
-      elsif (mytop.last_event and mytop.last_event > tu.updated_to)
-        indicators[tu.topic] = EVENT
-      else
-        indicators[tu.topic] = OFF
+      if mytop
+        if (tu.last_reply and tu.last_reply > tu.updated_to)
+          indicators[tu.topic] = REPLY
+        elsif (mytop.last_yell and mytop.last_yell > tu.updated_to)
+          indicators[tu.topic] = YELL
+        elsif (mytop.last_post and mytop.last_post > tu.updated_to)
+          indicators[tu.topic] = POST
+        elsif (mytop.last_event and mytop.last_event > tu.updated_to)
+          indicators[tu.topic] = EVENT
+        else
+          indicators[tu.topic] = OFF
+        end
       end
     end
     return indicators

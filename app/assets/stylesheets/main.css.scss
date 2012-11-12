@@ -36,6 +36,9 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     border: 1px solid black;
     border-radius: 0.6em;
 }
+.post.showing {
+    background-color: #ffffcf;
+}
 
 .stream .post.pinned,
 .post.event {
@@ -67,9 +70,6 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 .stream .post.pinned.yelled .post_info {
     color: #cf7f5f;
     font-weight: bold;
-}
-.post.showing .post_info {
-    color: #cf0000;
 }
 
 .post_id {
@@ -175,19 +175,6 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 
 
 /* SETTINGS */
-
-.section {
-    margin: 1em 1em;
-    border: 1px solid black;
-    border-radius: 0.6em;
-    padding: 0.5em 1em;
-}
-.section_heading {
-    font-weight: bold;
-    margin-bottom: 0.4em;
-    margin-left: 1em;
-}
-
 .profile_form div {
     line-height: 1.2em;
     margin-left: -1em;
@@ -197,11 +184,8 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
     float: left;
     width: 8em;
     text-align: right;
-    vertical-align: middle;
+    line-height: 1.6em;
     padding-right: 0.8em;
-}
-.profile_form input {
-    vertical-align: middle;
 }
 
 .topic_row .topic_id,
@@ -226,6 +210,10 @@ $third-color: adjust-hue($main-color, 240deg); //#fef6a8;
 
 .user_row .user_email {
     display: inline-block;
-    width: 16em;
+    min-width: 16em;
+}
+.user_row .user_name {
+    display: inline-block;
+    min-width: 16em;
 }
 

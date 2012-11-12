@@ -1,9 +1,8 @@
-<div class="misc_content">
-    <h4>Please log in to use this site.</h4>
-    <% if params["state"] == "incorrect" -%>
-    <div style="color:red">Sorry, the email or the password was a bit wrong.</div>
-    <% end %>
-    <%= form_tag "/login/login", class: "credentials_form" do -%>
+<div class="section login">
+<div class=section_heading>Please log in to use this site.</div>
+    <div class=login_error><%=params['error']||''%></div>
+    <div class=login_notice><%=params['notice']||''%></div>
+    <%= form_tag "/login/login", class: "login_form" do -%>
         <div>
             <label for="email">Email:</label>
             <input type="text" name="email">
@@ -12,9 +11,7 @@
             <label for="password">Password:</label>
             <input type="password" name="password">
         </div>
-        <button type="submit" id="login">Enter</button>
+        <button type="submit">Enter</button>
+        <a class=request_invitation id="request" href="/login/signup">Request an Invitation</a>
     <% end %>
-    <div class=request_invitation>
-        <a href="/login/signup" id="request">Request an Invitation</a>
-    </div>
 </div>

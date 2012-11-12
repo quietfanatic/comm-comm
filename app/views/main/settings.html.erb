@@ -56,10 +56,12 @@
 <% end -%>
 <% if @user.can_confirm_users or @user.can_edit_users -%>
     <div class=section>
+    <% if @unconfirmed_users.length > 0 -%>
         <div class=section_heading>Unconfirmed Users</div>
         <div class="user_row user_header">
             <div class=user_id>ID</div>
             <div class=user_email>email</div>
+            <div class=user_name>name</div>
         </div>
         <% for u in @unconfirmed_users -%>
         <%= form_tag '/user/confirm', action: 'POST' do %>
@@ -67,10 +69,15 @@
             <div class=user_id><%=u.id%></div>
                 <input type=hidden name=id value="<%=u.id%>"/>
             <div class=user_email><%=u.email%></div>
-            <button type=submit>Confirm</button>
+            <div class=user_name><%=u.name%></div>
+            <button name=do value=confirm>Confirm</button>
+            <button name=do value=deny>Deny</button>
         </div>
         <% end -%>
         <% end -%>
+    <% else -%>
+        <div class=section_heading>No Unconfirmed Users</div>
+    <% end -%>
     </div>
 <% end -%>
 </div>

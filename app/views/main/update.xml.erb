@@ -14,7 +14,10 @@
     <% if indicators[i] != nil -%>
         <span id="indicator_<%=i%>" class="<%=indicators[i]%>"></span>
     <% end -%>
-    <% end -%>        
+    <% end -%>
+    <% if User.any_unconfirmed? -%>
+        <span id="indicator__SETTINGS" class="<%=TopicUser::EVENT%>"></span>
+    <% end -%>
     </div>
 </body>
 </html>
