@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 <% owner = User.find_by_id(post.owner) -%>
 <% name = owner ? owner.name : '???' -%>
 <% divclass = 'post' -%>
@@ -59,7 +60,7 @@
             <% end -%>
                 <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
             </div>
-            <div class="post_date"><%= post.created_at.to_formatted_s(:short) %> </div>
+            <div class="post_date"><%= post.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short) %> </div>
         </div>
         <div class="post_content"><%=raw post.html_content(user) %></div>
     </div>
