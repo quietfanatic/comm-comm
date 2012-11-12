@@ -16,7 +16,7 @@
     <div class=new_post_form id=stream_post_form>
     <%= form_tag('/post/new') do -%>
         <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
-        <button type=submit tabindex=2 id=new_post_submit>Post</button>
+        <button type=submit tabindex=2 id="new_post_submit">Post</button>
         <% if @topic -%>
             <input type=hidden name=topic value="<%= @topic.id %>"/>
         <% end -%>
