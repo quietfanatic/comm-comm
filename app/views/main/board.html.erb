@@ -37,7 +37,7 @@
         document,
         <%= lastpost ? lastpost.id : 0 %>,
         <%= @posts ? @posts.first.id : 0 %>,
-        <%= @topic ? @topic.id : 'null' %>
+        <%= @board ? @board.id : 'null' %>
     );
     ajaxifier.scroll_stream();
     ajaxifier.start_updating();

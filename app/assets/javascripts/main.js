@@ -73,7 +73,6 @@ function get_ajaxifier (doc, latest, earliest, board) {
                     var wants_scroll = (stream.scrollTop > stream.scrollHeight - stream.offsetHeight - 120);
                      // Update posts
                     var added_posts = false;
-                    append_error("There are " + new_posts.childNodes.length + " new posts.\n");
                     while (new_posts.firstChild != null) {
                         post = new_posts.firstChild;
                         if (post.nodeType == post.ELEMENT_NODE) {
@@ -121,7 +120,6 @@ function get_ajaxifier (doc, latest, earliest, board) {
                             }
                         }
                          // Actually add the post
-                        append_error("Adding an element: " + post.textContent + "\n");
                         stream_post_list.appendChild(post);
                     }
                      // Update pinned posts
