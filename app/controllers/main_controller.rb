@@ -57,9 +57,9 @@ class MainController < ApplicationController
           smtp_username: params['smtp_username'] || '',
           smtp_password: params['smtp_password'] || '',
           smtp_starttls_auto: params.has_key?('smtp_starttls_auto'),
-          smtp_ssl_verify: params['smtp_ssl_verify'] || ''
+          smtp_ssl_verify: params['smtp_ssl_verify'] || '',
+          send_test_to: params['send_test_to'] || ''
         }
-        Rails.logger.warn("Saving site settings: " + SiteSettings.settings.to_s)
         
         SiteSettings.save!
         redirect_to '/main/settings'
@@ -97,6 +97,18 @@ class MainController < ApplicationController
         board_user.updated_to = @new_posts.last.id
         board_user.save!
       end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def test_mail
+    @user = User.logged_in(session)
+    if @user
+      to = params['send_test_to']
+      PostOffice.test(@user, to).deliver
+      SiteSettings.settings[:send_test_to] = to
+      SiteSettings.save!
+      redirect_to '/main/settings'
     else
       redirect_to '/login/entrance'
     end

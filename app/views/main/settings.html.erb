@@ -81,11 +81,11 @@
     </div>
 <% end -%>
 <% if @user.can_change_site_settings -%>
+    <% settings = SiteSettings.settings -%>
     <div class=section>
     <div class=section_heading>Site settings</div>
         <%= form_tag '/main/change_settings', class: 'site_settings_form' do %>
             <div>
-                <% settings = SiteSettings.settings -%>
                 <label for=frobnicate>Frobnicate Widgets</label>
                 <input type=checkbox id=frobnicate name=frobnicate <%= settings[:frobnicate] ? 'checked' : ''%> />
             </div>
@@ -134,6 +134,11 @@
                 </div>
             </div>
             <button type=submit>Change</button>
+        <% end -%>
+        <%= form_tag '/main/test_mail' do %>
+            <label for=send_test_to>Send test mail to:</label>
+            <input type=text id=send_test_to name=send_test_to value="<%=settings[:send_test_to]%>" />
+            <button type=submit>Send</button>
         <% end -%>
     </div>
 <% end -%>
