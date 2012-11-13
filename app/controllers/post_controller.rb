@@ -177,10 +177,4 @@ class PostController < ApplicationController
     end
   end
 
-  def edit
-  end
-
-  def delete
-  end
-
 end

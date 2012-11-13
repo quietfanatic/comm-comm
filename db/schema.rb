@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121113080839) do
+ActiveRecord::Schema.define(:version => 20121113084425) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20121113080839) do
     t.boolean  "can_edit_posts"
     t.boolean  "can_change_appearance"
     t.boolean  "can_change_site_settings"
+    t.boolean  "can_mail_posts"
   end
 
 end
