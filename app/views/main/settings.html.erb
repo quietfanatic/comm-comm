@@ -3,7 +3,7 @@
 <div class=settings_page>
     <div class=section>
     <div class=section_heading>Profile</div>
-        <%= form_tag '/user/edit', action: 'POST', class: 'profile_form' do %>
+        <%= form_tag '/user/edit', class: 'profile_form' do %>
             <input type=hidden name=id value="<%= @user.id %>" />
             <div>
                 <label for=email>Email address:</label>
@@ -24,7 +24,7 @@
             <div class=board_name>Name</div>
         </div>
         <% for t in @boards -%>
-        <%= form_tag '/board/edit',  action: 'POST' do %>
+        <%= form_tag '/board/edit' do %>
         <div class=board_row>
             <div class=board_id><%=t.id%>
                 <input type=hidden name=id value="<%=t.id%>"/>
@@ -40,7 +40,7 @@
         </div>
         <% end -%>
         <% end -%>
-        <%= form_tag '/board/new', action: 'POST' do %>
+        <%= form_tag '/board/new' do %>
         <div class=board_row>
             <div class=board_id>New</div>
             <div class=board_name>
@@ -64,7 +64,7 @@
             <div class=user_name>name</div>
         </div>
         <% for u in @unconfirmed_users -%>
-        <%= form_tag '/user/confirm', action: 'POST' do %>
+        <%= form_tag '/user/confirm' do %>
         <div class=user_row>
             <div class=user_id><%=u.id%></div>
                 <input type=hidden name=id value="<%=u.id%>"/>

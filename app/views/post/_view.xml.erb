@@ -20,7 +20,7 @@
             <div class="post_event"><%=raw post.event_string(user) %></div>
             <% end -%>
             <div class="post_buttons">
-            <%= form_tag '/post/button', action: 'POST' do %>
+            <%= form_tag '/post/button' do %>
                 <input type="hidden" name="id" value="<%= post.id %>" />
             <% if post.is_normal -%>
               <% if post.yelled -%>
