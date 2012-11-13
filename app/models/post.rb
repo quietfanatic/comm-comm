@@ -100,7 +100,7 @@ class Post < ActiveRecord::Base
     html.gsub!(/\[size=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/size\]/mi, '<span style="font-size: \2">\3</span>')
     html.gsub!(/\[url\](.*?)\[\/url\]/mi, '<a href="\1">\1</a>')
     html.gsub!(/\[url=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/url\]/mi, '<a href="\2">\3</a>')
-    html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 320px; max-height: 320px;" alt="\1"/>')
+    html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 100%; max-height: 320px;" alt="\1"/>')
     html.gsub!(/\[color=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/color\]/mi, '<span style="color: \2">\3</span>')
     html.gsub!(/(\A|[^"a-zA-Z])([a-zA-Z]+:\/\/[^\s<]+)/, '\1<a href="\2">\2</a>')
     html.gsub! /&gt;&gt;(\d+)/ do |m|
