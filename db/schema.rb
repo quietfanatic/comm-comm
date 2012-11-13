@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121113032935) do
+ActiveRecord::Schema.define(:version => 20121113080839) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -41,6 +41,20 @@ ActiveRecord::Schema.define(:version => 20121113032935) do
     t.integer  "reference"
     t.boolean  "yelled"
     t.boolean  "hidden"
+  end
+
+  create_table "site_settings", :force => true do |t|
+    t.boolean  "enable_mail"
+    t.string   "smtp_server"
+    t.integer  "smtp_port"
+    t.string   "smtp_auth"
+    t.string   "smtp_username"
+    t.string   "smtp_password"
+    t.boolean  "smtp_starttls_auto"
+    t.string   "smtp_ssl_verify"
+    t.string   "send_test_to"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "users", :force => true do |t|
