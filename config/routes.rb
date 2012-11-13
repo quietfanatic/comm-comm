@@ -17,12 +17,7 @@ CommComm::Application.routes.draw do
   root :to => 'main#board'
 
   post "post/new"
-  post 'post/pin'
-  post 'post/unpin'
-  post 'post/yell'
-  post 'post/unyell'
-  post 'post/hide'
-  post 'post/unhide'
+  post 'post/button'
   post 'board/new'
   post 'board/edit'
   post 'user/confirm'
