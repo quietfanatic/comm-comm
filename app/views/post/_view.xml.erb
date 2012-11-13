@@ -57,9 +57,11 @@
                 <% end -%>
               <% end -%>
             <% end -%>
-                <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
+                <button class="reply_button" type="button" onClick="ajaxifier.reply_to_post(<%= post.id %>)">≫ Reply</button>
             </div>
             <div class="post_date"><%= post.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short) %> </div>
         </div>
+        <% unless post.hidden -%>
         <div class="post_content"><%=raw post.html_content(user) %></div>
+        <% end -%>
     </div>

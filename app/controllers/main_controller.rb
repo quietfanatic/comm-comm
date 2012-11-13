@@ -44,6 +44,18 @@ class MainController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
+  def change_settings
+    @user = User.logged_in(session)
+    if @user
+      if @user.can_change_site_settings
+        SiteSettings.settings['frobnicate'] = params.has_key?('frobnicate')
+        SiteSettings.save!
+        redirect_to '/main/settings'
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
   def update
     @user = User.logged_in(session)
     if @user
@@ -63,6 +75,11 @@ class MainController < ApplicationController
       else
         @new_posts = []
       end
+      @pinned_posts = @new_posts.select { |p|
+        p.post_type == Post::PINNING
+      }.map { |p|
+        Post.find_by_id(p.reference)
+      }
       if @board and @new_posts and @new_posts.length > 0
         board_user = BoardUser.get(@board, @user)
         board_user.updated_to = @new_posts.last.id

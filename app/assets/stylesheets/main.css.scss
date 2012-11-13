@@ -188,12 +188,11 @@
 }
 
 .profile_form label {
-    float: left;
-    clear: both;
+    display: inline-block;
     width: 8em;
     text-align: right;
     line-height: 1.6em;
-    padding-right: 0.8em;
+    padding-right: 0.6em;
 }
 
 .board_row .board_id,

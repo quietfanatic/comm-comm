@@ -27,6 +27,7 @@ CommComm::Application.routes.draw do
   post 'board/edit'
   post 'user/confirm'
   post 'user/edit'
+  post 'main/change_settings'
 
 
   # The priority is based upon order of creation:

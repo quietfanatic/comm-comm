@@ -6,6 +6,7 @@ class BoardController < ApplicationController
         name = params['name']
         if name and name =~ /\S/
           board = Board.new(name: name)
+          board.save!
           event = Post.new(
             post_type: Post::BOARD_CREATION,
             board: board.id,
