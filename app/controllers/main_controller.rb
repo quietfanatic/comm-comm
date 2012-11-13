@@ -56,9 +56,10 @@ class MainController < ApplicationController
           smtp_auth: params['smtp_auth'] || '',
           smtp_username: params['smtp_username'] || '',
           smtp_password: params['smtp_password'] || '',
-          smtp_starttls_auto: params.has_key?('smtp_starttls_auto')
+          smtp_starttls_auto: params.has_key?('smtp_starttls_auto'),
           smtp_ssl_verify: params['smtp_ssl_verify'] || ''
         }
+        Rails.logger.warn("Saving site settings: " + SiteSettings.settings.to_s)
         
         SiteSettings.save!
         redirect_to '/main/settings'
