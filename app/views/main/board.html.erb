@@ -3,7 +3,7 @@
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= MainController::PPP -%>
-        <button class=backlog_button type=button onClick="request_backlog()">Backlog</button>
+        <button class=backlog_button type=button onClick="ajaxifier.request_backlog()">Backlog</button>
         <% end -%>
     </div>
     <div class=error_area id=backlog_error></div>
