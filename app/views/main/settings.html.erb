@@ -139,3 +139,22 @@
     </div>
 <% end -%>
 </div>
+<div class=section>
+<div class=section_heading>Manage User Permissions</div>
+
+    <% for u in User.all do-%>
+        <% if u.visible_name || u.email %>
+            <div class=section>
+            <div class=section_heading><%= u.visible_name || u.email %></div>
+            Can Edit Boards: <%= u.can_edit_boards ? "yes" : "no" %> <br>
+            Can Edit Posts: <%= u.can_edit_posts ? "yes" : "no" %> <br>
+            Can Edit Users: <%= u.can_edit_users ? "yes" : "no" %> <br>
+            Can Confirm Users: <%= u.can_confirm_users ? "yes" : "no" %><br>
+            Can Change Appearance: <%= u.can_change_appearance ? "yes" : "no" %><br>
+            Can Change Site Settings: <%= u.can_change_site_settings ? "yes" : "no" %><br>
+            Can Mail Posts: <%= u.can_mail_posts ? "yes" : "no" %> <br>
+        <% end %>
+        </div>
+    <% end %>
+
+</div>
