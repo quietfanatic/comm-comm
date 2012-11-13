@@ -80,4 +80,15 @@
     <% end -%>
     </div>
 <% end -%>
+<% if @user.can_change_site_settings -%>
+    <div class=section>
+    <div class=section_heading>Site settings</div>
+        <%= form_tag '/main/change_settings', class: 'site_settings_form' do %>
+            <label for=frobnicate>Frobnicate Widgets</label>
+            <% checked = SiteSettings.settings['frobnicate'] ? 'checked' : '' -%>
+            <input type=checkbox id=frobnicate name=frobnicate <%=checked%>/>
+            <button type=submit>Change</button>
+        <% end -%>
+    </div>
+<% end -%>
 </div>
