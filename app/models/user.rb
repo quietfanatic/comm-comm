@@ -3,7 +3,7 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   include BCrypt
 
-  attr_accessible :email, :username, :visible_name, :is_confirmed, :can_edit_boards, :can_edit_posts, :can_edit_users, :can_confirm_users
+  attr_accessible :email, :username, :visible_name, :is_confirmed, :can_edit_boards, :can_edit_posts, :can_edit_users, :can_confirm_users, :can_change_appearance, :can_change_site_settings
   attr_protected :session
 
   def name

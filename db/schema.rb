@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121112223324) do
+ActiveRecord::Schema.define(:version => 20121113032935) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -48,14 +48,16 @@ ActiveRecord::Schema.define(:version => 20121112223324) do
     t.string   "visible_name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
     t.string   "session"
     t.boolean  "is_confirmed"
     t.boolean  "can_edit_boards"
     t.boolean  "can_confirm_users"
     t.boolean  "can_edit_users"
     t.boolean  "can_edit_posts"
+    t.boolean  "can_change_appearance"
+    t.boolean  "can_change_site_settings"
   end
 
 end
