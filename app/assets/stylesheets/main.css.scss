@@ -54,7 +54,6 @@
 
 .post_info {
     display: block;
-    min-height: 1.2em;
     margin-bottom: 0.2em;
     color: $cs-normal-header;
 }
@@ -122,12 +121,12 @@
     cursor: pointer; cursor: hand;
     line-height: 1em;
     padding-left: 0em;
-    color: #00007f;
+    color: inherit;
 }
 
 .post_content {
     clear: both;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 0.2em 0.5em;
     white-space: pre-wrap;
     overflow-x: auto;
@@ -147,7 +146,7 @@
 
 .new_post_form {
     clear: both;
-    margin: 0.5em 1em;
+    margin: 0em 1em;
 }
 
 .new_post_form textarea {

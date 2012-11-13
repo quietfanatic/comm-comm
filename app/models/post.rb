@@ -25,6 +25,9 @@ class Post < ActiveRecord::Base
   def is_event
     return !is_normal
   end
+  def is_hidable (user)
+    return !pinned && !hidden && (owner == user.id || content =~ /\[img\]/)
+  end
 
   def self.ref_link (ref, text, user)
     post = Post.find_by_id(ref.to_i)

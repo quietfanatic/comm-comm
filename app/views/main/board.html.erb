@@ -9,7 +9,7 @@
     <div class=error_area id=backlog_error></div>
     <div class=post_list id=stream_post_list>
     <% for p in @posts || [] -%>
-        <%= render 'post/view', post: p, pinned: false, user: @user %>
+        <%= render partial: '/post/view.xml.erb', locals: {post: p, pinned: false, user: @user} %>
     <% end -%>
     </div>
     <div class=error_area id=update_error></div>
@@ -27,7 +27,7 @@
 <div class=pinned_posts>
     <div class=post_list id=pinned_post_list>
     <% for p in @pinned || [] -%>
-        <%= render 'post/view', post: p, pinned: true, user: @user %>
+        <%= render partial: '/post/view.xml.erb', locals: {post: p, pinned: true, user: @user} %>
     <% end -%>
     </div>
 </div>

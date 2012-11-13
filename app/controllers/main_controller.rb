@@ -48,8 +48,16 @@ class MainController < ApplicationController
     @user = User.logged_in(session)
     if @user
       if @user.can_change_site_settings
-        SiteSettings.settings['frobnicate'] = params.has_key?('frobnicate')
-        SiteSettings.save!
+        settings = SiteSettings.first_or_create
+        settings.enable_mail = params.has_key?('enable_mail')
+        settings.smtp_server = params['smtp_server'] || ''
+        settings.smtp_port = params['smtp_port'] || ''
+        settings.smtp_auth = params['smtp_auth'] || ''
+        settings.smtp_username = params['smtp_username'] || ''
+        settings.smtp_password = params['smtp_password'] || ''
+        settings.smtp_starttls_auto = params.has_key?('smtp_starttls_auto')
+        settings.smtp_ssl_verify = params['smtp_ssl_verify'] || ''
+        settings.save!
         redirect_to '/main/settings'
       end
     else
@@ -85,6 +93,19 @@ class MainController < ApplicationController
         board_user.updated_to = @new_posts.last.id
         board_user.save!
       end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def test_mail
+    @user = User.logged_in(session)
+    if @user
+      to = params['send_test_to']
+      settings = SiteSettings.first_or_create
+      settings.send_test_to = to
+      settings.save!
+      PostOffice.test(@user, to).deliver
+      redirect_to '/main/settings'
     else
       redirect_to '/login/entrance'
     end
