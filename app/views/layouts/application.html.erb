@@ -49,6 +49,9 @@
             <div class=tab_gap></div>
             <% tabclass = (in_board && board_name == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
             <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
+            <% tabclass = (in_board && board_name == "_ABOUT_US") ? 'board_tab current about_us_tab' : 'board_tab about_us_tab' -%>
+            <a class="<%=tabclass%>" href="/main/about_us"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT_US></span>About Us</a>
+
         <% end %>        
         <div class=tab_gap></div>
         </div>
