@@ -36,7 +36,7 @@
     var ajaxifier = get_ajaxifier(
         document,
         <%= lastpost ? lastpost.id : 0 %>,
-        <%= @posts ? @posts.first.id : 0 %>,
+        <%= @posts.first ? @posts.first.id : 0 %>,
         <%= @board ? @board.id : 'null' %>
     );
     ajaxifier.scroll_stream();
