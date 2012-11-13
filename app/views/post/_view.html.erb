@@ -61,5 +61,7 @@
             </div>
             <div class="post_date"><%= post.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short) %> </div>
         </div>
+        <% unless post.hidden -%>
         <div class="post_content"><%=raw post.html_content(user) %></div>
+        <% end -%>
     </div>
