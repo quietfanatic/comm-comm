@@ -40,7 +40,9 @@
             <% indclass = user.can_confirm_users && User.any_unconfirmed? ? BoardUser::EVENT : BoardUser::OFF -%>
             <a class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
             <% tabclass = (in_board && board_name == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
-            <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
+            <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About Comm Comm</a>
+            <% tabclass = (in_board && board_name == "_ABOUT_US") ? 'board_tab current about_us_tab' : 'board_tab about_us_tab' -%>
+            <a class="<%=tabclass%>" href="/main/about_us"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT_US></span>About Us</a>
         <% else -%>
             <% tabclass = (in_board && board_name == "_LOGIN") ? 'board_tab current login_tab' : 'board_tab login_tab' -%>
             <a class="<%=tabclass%>" href="/login/entrance"><span class="<%=BoardUser::OFF%>" id=indicator__LOGIN></span>Login</a>
