@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   end
 
   def self.logged_in(session)
-    return false unless session['session_id']
+    return false unless session.has_key?('session_id')
     user = User.find_by_session(session['session_id'])
     return false unless user
     return false unless user.is_confirmed

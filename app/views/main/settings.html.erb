@@ -103,7 +103,7 @@
                     <input type=text id=smtp_port name=smtp_port value="<%=SiteSettings.settings['smtp_server'] || ''%>" />
                 </div>
                 <div>
-                    <label for=smtp_port>Authentication Method:</label>
+                    <label for=smtp_auth>Authentication Method:</label>
                     <select id=smtp_auth>
                         <option value=plain <%=SiteSettings.settings['smtp_auth'] == 'plain' ? 'selected' : ''%> />plain</option>
                         <option value=login <%=SiteSettings.settings['smtp_auth'] == 'login' ? 'selected' : ''%> />login</option>

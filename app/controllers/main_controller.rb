@@ -48,7 +48,18 @@ class MainController < ApplicationController
     @user = User.logged_in(session)
     if @user
       if @user.can_change_site_settings
-        SiteSettings.settings['frobnicate'] = params.has_key?('frobnicate')
+        SiteSettings.settings = {
+          frobnicate: params.has_key?('frobnicate'),
+          enable_mail: params.has_key?('enable_mail'),
+          smtp_server: params['smtp_server'] || '',
+          smtp_port: params['smtp_port'] || '',
+          smtp_auth: params['smtp_auth'] || '',
+          smtp_username: params['smtp_username'] || '',
+          smtp_password: params['smtp_password'] || '',
+          smtp_starttls_auto: params.has_key?('smtp_starttls_auto')
+          smtp_ssl_verify: params['smtp_ssl_verify'] || ''
+        }
+        
         SiteSettings.save!
         redirect_to '/main/settings'
       end
