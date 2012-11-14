@@ -38,7 +38,7 @@ class PostOffice < ActionMailer::Base
     mail(
       to: recipients,
       from: settings.smtp_username,
-      subject: '[Comm Comm] ' + board_name
+      subject: '[WCS Comm] ' + board_name
     )
   end
 end
