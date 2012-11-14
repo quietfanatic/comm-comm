@@ -23,10 +23,11 @@
             </form></div>
             <% end -%>
         </div>
-        <% if user -%>
-        <% indicators = BoardUser.indicators(user) -%>
+
         <div class=board_tabs>
         <div class=tab_gap></div>
+        <% if user -%>
+        <% indicators = BoardUser.indicators(user) -%>
             <% tabclass = (in_board && board_name == "Uncategorized") ? 'board_tab current' : 'board_tab' -%>
             <a class="<%=tabclass%>" href="/main/board"><span class=indicator id=indicator_0></span>Uncategorized</a>
         <% for t in Board.order('"order", "id"').all -%>
@@ -38,9 +39,21 @@
             <% tabclass = (in_board && board_name == "_SETTINGS") ? 'board_tab current settings_tab' : 'board_tab settings_tab' -%>
             <% indclass = user.can_confirm_users && User.any_unconfirmed? ? BoardUser::EVENT : BoardUser::OFF -%>
             <a class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
+            <% tabclass = (in_board && board_name == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
+            <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
+        <% else -%>
+            <% tabclass = (in_board && board_name == "_LOGIN") ? 'board_tab current login_tab' : 'board_tab login_tab' -%>
+            <a class="<%=tabclass%>" href="/login/entrance"><span class="<%=BoardUser::OFF%>" id=indicator__LOGIN></span>Login</a>
+            <% tabclass = (in_board && board_name == "_SIGNUP") ? 'board_tab current signup_tab' : 'board_tab signup_tab' -%>
+            <a class="<%=tabclass%>" href="/login/signup"><span class="<%=BoardUser::OFF%>" id=indicator__SIGNUP></span>Request Invitation</a>
+            <div class=tab_gap></div>
+            <% tabclass = (in_board && board_name == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
+            <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
+
+        <% end %>        
         <div class=tab_gap></div>
         </div>
-        <% end -%>
+        
     </div>
     <div class=navigation_bottom></div>
 </div>

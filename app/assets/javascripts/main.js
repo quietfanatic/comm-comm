@@ -1,14 +1,14 @@
 
-function get_ajaxifier (latest, earliest, board) {
-    var stream = document.getElementById('stream');
-    var stream_post_list = document.getElementById('stream_post_list');
-    var pinned_post_list = document.getElementById('pinned_post_list');
-    var update_error = document.getElementById('update_error');
-    var backlog_area = document.getElementById('backlog_area');
-    var backlog_error = document.getElementById('backlog_error');
-    var new_post_content = document.getElementById('new_post_content');
+function get_ajaxifier (doc, latest, earliest, board) {
+    var stream = doc.getElementById('stream');
+    var stream_post_list = doc.getElementById('stream_post_list');
+    var pinned_post_list = doc.getElementById('pinned_post_list');
+    var update_error = doc.getElementById('update_error');
+    var backlog_area = doc.getElementById('backlog_area');
+    var backlog_error = doc.getElementById('backlog_error');
+    var new_post_content = doc.getElementById('new_post_content');
     var showing_post = null;
-    var update_delay = 4000;
+    var update_delay = 2000;
 
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
@@ -21,7 +21,7 @@ function get_ajaxifier (latest, earliest, board) {
         showing_post = null;
     }
     function show_post (ref) {
-        var pinned = document.getElementById("pinned_" + parseInt(ref));
+        var pinned = doc.getElementById("pinned_" + parseInt(ref));
         if (pinned) {
             if (pinned == showing_post) {
                 unshow_post();
@@ -34,7 +34,7 @@ function get_ajaxifier (latest, earliest, board) {
             }
         }
         else {
-            var post = document.getElementById("post_" + parseInt(ref));
+            var post = doc.getElementById("post_" + parseInt(ref));
             if (post) {
                 if (post == showing_post) {
                     unshow_post();
@@ -51,6 +51,9 @@ function get_ajaxifier (latest, earliest, board) {
             }
         }
     }
+    function get_post_id (post) {
+        return post.id.match(/_(\d+)$/)[1];
+    }
     function reply_to_post (ref) {
         new_post_content.value += ">>" + parseInt(ref) + " ";
         new_post_content.focus();
@@ -62,6 +65,7 @@ function get_ajaxifier (latest, earliest, board) {
                 if (this.responseXML != null) {
                     html = this.responseXML;
                     var new_posts = html.getElementById("new_posts");
+                    var new_pinned = html.getElementById("new_pinned");
                     if (new_posts == null) {
                         make_error(update_error, "Update error: The server didn't include new_posts");
                         return;
@@ -87,35 +91,29 @@ function get_ajaxifier (latest, earliest, board) {
                             var event_match = post.className.match(/(\s|^)this_(.*)_(.*)(\s|$)/);
                             if (event_match) {
                                 if (event_match[2] == "pins") {
-                                    var pinned = document.getElementById("post_" + event_match[3]);
-                                    if (pinned) {
-                                        pinned.className += " pinned";
-                                        pinned_pinned = pinned.cloneNode();
-                                        pinned_pinned.id = "pinned_" + event_match[3];
-                                        pinned_post_list.appendChild(pinned_pinned);
-                                    }
+                                     // Don't do anything; Server should send new pinned posts.
                                 }
                                 else if (event_match[2] == "unpins") {
-                                    var pinned_unpinned = document.getElementById("pinned_" + event_match[3]);
+                                    var pinned_unpinned = doc.getElementById("pinned_" + event_match[3]);
                                     if (pinned_unpinned) {
                                         pinned_post_list.removeChild(pinned_unpinned);
                                     }
-                                    var unpinned = document.getElementById("post_" + event_match[3]);
+                                    var unpinned = doc.getElementById("post_" + event_match[3]);
                                     if (unpinned) {
                                         unpinned.className = unpinned.className.replace(/(\s|^)pinned(\s|$)/, ' ');
                                     }
                                 }
                                 else if (event_match[2] == "yells") {
-                                    var yelled = document.getElementById("post_" + event_match[3]);
+                                    var yelled = doc.getElementById("post_" + event_match[3]);
                                     if (yelled) yelled.className += " yelled";
-                                    var pinned_yelled = document.getElementById("pinned_" + event_match[3]);
+                                    var pinned_yelled = doc.getElementById("pinned_" + event_match[3]);
                                     if (pinned_yelled) pinned_yelled.className += " yelled";
                                 }
                                 else if (event_match[2] == "unyells") {
-                                    var unyelled = document.getElementById("post_" + event_match[3]);
+                                    var unyelled = doc.getElementById("post_" + event_match[3]);
                                     if (unyelled)
                                         unyelled.className = unyelled.className.replace(/(\s|^)yelled(\s|$)/, ' ');
-                                    var pinned_unyelled = document.getElementById("pinned_" + event_match[3]);
+                                    var pinned_unyelled = doc.getElementById("pinned_" + event_match[3]);
                                     if (pinned_unyelled)
                                         pinned_unyelled.className = pinned_unyelled.className.replace(/(\s|^)yelled(\s|$)/, ' ');
                                 }
@@ -123,6 +121,29 @@ function get_ajaxifier (latest, earliest, board) {
                         }
                          // Actually add the post
                         stream_post_list.appendChild(post);
+                    }
+                     // Update pinned posts
+                    if (new_pinned != null) {
+                        while (new_pinned.firstChild != null) {
+                            post = new_pinned_posts.firstChild;
+                            if (post.nodeType = post.ELEMENT_NODE) {
+                                var found_slot = false;
+                                for (var i = 0; i < pinned_post_list.children.length; i++) {
+                                    p = pinned_post_list.children[i];
+                                    if (p.nodeType == p.ELEMENT_NODE)
+                                    if (get_post_id(p) > get_post_id(post)) {
+                                        found_slot = true;
+                                        pinned_post_list.insertBefore(post, p);
+                                    }
+                                }
+                                if (!found_slot) {
+                                    pinned_post_list.appendChild(post);
+                                }
+                            }
+                            else {
+                                new_pinned.removeChild(post);
+                            }
+                        }
                     }
                      // Update latest post id
                     new_latest = html.getElementById("new_latest");
@@ -134,7 +155,7 @@ function get_ajaxifier (latest, earliest, board) {
                         if (inds.length == 0) make_error(update_error, "Warning: Server sent an empty new_indicators");
                         for (var i = 0; i < inds.length; i++) {
                             var ind = inds[i];
-                            var old_ind = document.getElementById(ind.id);
+                            var old_ind = doc.getElementById(ind.id);
                             if (old_ind) {
                                 old_ind.className = ind.className;
                             }
@@ -144,9 +165,9 @@ function get_ajaxifier (latest, earliest, board) {
                         }
                     }
                      // Set new timeout
-                    if (added_posts) update_delay = 4000;
-                    else if (update_delay < 32000) update_delay += 4000;
-                    setTimeout( "request_update()", update_delay );
+                    if (added_posts) update_delay = 2000;
+                    else if (update_delay < 32000) update_delay += 2000;
+                    setTimeout( request_update, update_delay );
                      // Scroll to bottom
                     if (wants_scroll && added_posts) scroll_stream();
                 }
@@ -198,6 +219,9 @@ function get_ajaxifier (latest, earliest, board) {
     function make_error (loc, mess) {
         loc.textContent = mess;
     }
+    function append_error (loc, mess) {
+        loc.textContent += mess;
+    }
     function clear_error (loc) {
         loc.textContent = "";
     }
@@ -210,7 +234,6 @@ function get_ajaxifier (latest, earliest, board) {
             client.open("GET", "/main/update.xml?since=" + latest);
         client.send();
     }
-    setTimeout( "request_update()", update_delay );
     function request_backlog () {
         clear_error(backlog_error);
         var client = new XMLHttpRequest();
@@ -220,5 +243,21 @@ function get_ajaxifier (latest, earliest, board) {
         else
             client.open("GET", "/main/backlog.xml?before=" + earliest);
         client.send();
+    }
+    function start_updating () {
+        setTimeout( request_update, update_delay );
+    }
+    return {
+        scroll_stream: scroll_stream,
+        unshow_post: unshow_post,
+    	show_post: show_post,
+    	reply_to_post: reply_to_post,
+    	handle_update: handle_update,
+    	handle_backlog: handle_backlog,
+    	make_error: make_error,
+    	clear_error: clear_error,
+    	request_update: request_update,
+    	request_backlog: request_backlog,
+    	start_updating: start_updating,
     }
 }

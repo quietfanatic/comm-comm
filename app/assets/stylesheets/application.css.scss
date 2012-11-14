@@ -18,8 +18,7 @@
 
 body {
     overflow: hidden;
-    background-color: $navigation-bg-color;
-    background: url('https://cas.westmont.edu/themes/mywestmont/images/campus_bright.jpg') no-repeat center center fixed; 
+    background: $site-background;
     background-size: cover;
 }
 
@@ -30,6 +29,7 @@ body {
     width: 12em;
     bottom: 0;
     overflow: hidden;
+    color: $navigation-text-color;
 }
 .navigation_top {
     overflow: auto;
@@ -51,7 +51,7 @@ body {
 }
 .identity {
     text-align: center;
-    color: $cs-mention-reference;
+    color: $navigation-you-are-color;
 }
 .logout {
     margin-top: 1em;
@@ -141,13 +141,48 @@ body {
     border: 1px solid black;
     border-radius: #{$roundness-x}/#{$roundness-y};
     padding: 0.5em 1em;
+    background-color: $post-bg-color;
 }
 .section_heading {
     font-weight: bold;
-    margin-bottom: 0.4em;
     margin-left: 1em;
 }
-.section_heading:last-child {
+.section_content {
+    margin-top: 0.4em;
     margin-bottom: 0;
 }
+
+.show, .hide {
+    padding-left: 4em;
+}
+
+.showhider {
+    display: none;
+}
+.showhider + label {
+    cursor: pointer; cursor: hand;
+}
+.showhider + label:before {
+    content: "▶"
+}
+.showhider:checked + label:before {
+    content: "▼"
+}
+
+.showhider + label + * {
+    display: none;
+}
+.showhider:checked + label + * {
+    display: block;
+}
+
+
+
+.error {
+    color: #7f0000;
+}
+.notice {
+    color: #3f3f3f;
+}
+
 

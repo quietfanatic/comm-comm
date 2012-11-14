@@ -3,13 +3,13 @@
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= MainController::PPP -%>
-        <button class=backlog_button type=button onClick="request_backlog()">Backlog</button>
+        <button class=backlog_button type=button onClick="ajaxifier.request_backlog()">Backlog</button>
         <% end -%>
     </div>
     <div class=error_area id=backlog_error></div>
     <div class=post_list id=stream_post_list>
-    <% for p in @posts -%>
-        <%= render 'post/view', post: p, pinned: false, user: @user %>
+    <% for p in @posts || [] -%>
+        <%= render partial: '/post/view.xml.erb', locals: {post: p, pinned: false, user: @user} %>
     <% end -%>
     </div>
     <div class=error_area id=update_error></div>
@@ -26,11 +26,19 @@
 </div>
 <div class=pinned_posts>
     <div class=post_list id=pinned_post_list>
-    <% for p in @pinned -%>
-        <%= render 'post/view', post: p, pinned: true, user: @user %>
+    <% for p in @pinned || [] -%>
+        <%= render partial: '/post/view.xml.erb', locals: {post: p, pinned: true, user: @user} %>
     <% end -%>
     </div>
 </div>
 <script>
-    var ajaxifier = ajaxifier(0, 0, 0);
+    <% lastpost = Post.last =%>
+    var ajaxifier = get_ajaxifier(
+        document,
+        <%= lastpost ? lastpost.id : 0 %>,
+        <%= @posts.first ? @posts.first.id : 0 %>,
+        <%= @board ? @board.id : 'null' %>
+    );
+    ajaxifier.scroll_stream();
+    ajaxifier.start_updating();
 </script>

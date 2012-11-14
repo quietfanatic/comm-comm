@@ -18,12 +18,16 @@ class Post < ActiveRecord::Base
   HIDING = 13
   UNHIDING = 14
   EDITING = 15
+  MAILING = 16
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
   end
   def is_event
     return !is_normal
+  end
+  def is_hidable (user)
+    return !pinned && !hidden && (owner == user.id || content =~ /\[img\]/)
   end
 
   def self.ref_link (ref, text, user)
@@ -82,6 +86,8 @@ class Post < ActiveRecord::Base
       return " unhid " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when EDITING
       return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
+    when MAILING
+      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user) + " to " + Post.content.lines.length.to_s + " addresses"
     else
       return " generated a mysterious post"
     end
@@ -100,13 +106,28 @@ class Post < ActiveRecord::Base
     html.gsub!(/\[size=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/size\]/mi, '<span style="font-size: \2">\3</span>')
     html.gsub!(/\[url\](.*?)\[\/url\]/mi, '<a href="\1">\1</a>')
     html.gsub!(/\[url=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/url\]/mi, '<a href="\2">\3</a>')
-    html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 320px; max-height: 320px;" alt="\1"/>')
+    html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 100%; max-height: 320px;" alt="\1"/>')
     html.gsub!(/\[color=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/color\]/mi, '<span style="color: \2">\3</span>')
     html.gsub!(/(\A|[^"a-zA-Z])([a-zA-Z]+:\/\/[^\s<]+)/, '\1<a href="\2">\2</a>')
     html.gsub! /&gt;&gt;(\d+)/ do |m|
       Post.ref_link($1, '&gt;&gt;' + $1, user)
     end
     return html;
+  end
+  def text_content
+    return '' unless content;
+    text = content
+    text.gsub!(/\[b\](.*?)\[\/b\]/mi, '*\1*')
+    text.gsub!(/\[i\](.*?)\[\/i\]/mi, '/\1/')
+    text.gsub!(/\[u\](.*?)\[\/u\]/mi, '_\1_')
+    text.gsub!(/\[s\](.*?)\[\/s\]/mi, '-\1-')
+    text.gsub!(/\[del\](.*?)\[\/del\]/mi, '-\1-')
+    text.gsub!(/\[ins\](.*?)\[\/ins\]/mi, '+\1+')
+    text.gsub!(/\[code\](.*?)\[\/code\]/mi, '\1')
+    text.gsub!(/\[size=("|'|)([^\]]*)\1\](.*?)\[\/size\]/mi, '\3')
+    text.gsub!(/\[color=("|'|)([^\]]*)\1\](.*?)\[\/color\]/mi, '\3')
+    text.gsub!(/\[url\](.*?)\[\/ur;\]/mi, '\1')
+    return text
   end
 
   def scan_for_refs

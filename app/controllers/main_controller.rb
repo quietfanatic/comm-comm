@@ -44,6 +44,26 @@ class MainController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
+  def change_settings
+    @user = User.logged_in(session)
+    if @user
+      if @user.can_change_site_settings
+        settings = SiteSettings.first_or_create
+        settings.enable_mail = params.has_key?('enable_mail')
+        settings.smtp_server = params['smtp_server'] || ''
+        settings.smtp_port = params['smtp_port'] || ''
+        settings.smtp_auth = params['smtp_auth'] || ''
+        settings.smtp_username = params['smtp_username'] || ''
+        settings.smtp_password = params['smtp_password'] || ''
+        settings.smtp_starttls_auto = params.has_key?('smtp_starttls_auto')
+        settings.smtp_ssl_verify = params['smtp_ssl_verify'] || ''
+        settings.save!
+        redirect_to '/main/settings'
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
   def update
     @user = User.logged_in(session)
     if @user
@@ -63,10 +83,48 @@ class MainController < ApplicationController
       else
         @new_posts = []
       end
+      @pinned_posts = @new_posts.select { |p|
+        p.post_type == Post::PINNING
+      }.map { |p|
+        Post.find_by_id(p.reference)
+      }
       if @board and @new_posts and @new_posts.length > 0
         board_user = BoardUser.get(@board, @user)
         board_user.updated_to = @new_posts.last.id
         board_user.save!
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def test_mail
+    @user = User.logged_in(session)
+    if @user
+      to = params['send_test_to']
+      settings = SiteSettings.first_or_create
+      settings.send_test_to = to
+      settings.save!
+      PostOffice.test(@user, to).deliver
+      redirect_to '/main/settings'
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def mail
+    @user = User.logged_in(session)
+    if @user
+      @post = Post.find_by_id(params['id'])
+      if @post
+        @board = 
+        if @user.can_mail_posts == nil || @user.can_mail_posts and params['id']
+          if @post
+            @users = User.all
+          else
+            redirect_to '/main/board'
+          end
+        end
+      else
+        redirect_to '/main/board'
       end
     else
       redirect_to '/login/entrance'

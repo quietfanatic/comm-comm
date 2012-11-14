@@ -31,19 +31,72 @@ class PostController < ApplicationController
     end
   end
 
-  def pin
+  def button
     @user = User.logged_in(session)
     if @user
       post = Post.find_by_id(params['id'])
       if post
-        post.pinned = true
-        post.save!
         board = Board.find_by_id(post.board)
-        event = Post.new(post_type: Post::PINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
+        case params['do']
+        when 'pin'
+          post.pinned = true
+          post.save!
+          event = Post.new(post_type: Post::PINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+          event.save!
+          if board
+            board.last_event = event.id;
+            board.save!
+          end
+        when 'unpin'
+          post.pinned = false
+          post.save!
+          event = Post.new(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+          event.save!
+          if board
+            board.last_event = event.id;
+            board.save!
+          end
+        when 'yell'
+          post.yelled = true
+          post.save!
+          Rails.logger.warn post.yelled
+          event = Post.new(post_type: Post::YELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+          event.save!
+          if board
+            board.last_yell = event.id;
+            board.save!
+          end
+        when 'unyell'
+          post.yelled = false
+          post.save!
+          event = Post.new(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+          event.save!
+          if board
+            board.last_event = event.id;
+            board.save!
+          end
+        when 'hide'
+          post.hidden = true
+          post.save!
+          event = Post.new(post_type: Post::HIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+          event.save!
+          if board
+            board.last_event = event.id;
+            board.save!
+          end
+        when 'unhide'
+          post.hidden = false
+          post.save!
+          event = Post.new(post_type: Post::UNHIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+          event.save!
+          if board
+            board.last_event = event.id;
+            board.save!
+          end
+        when 'mail'
+          redirect_to "/main/mail?id=#{post.id}" and return
+        end
         if board
-          board.last_event = event.id;
-          board.save!
           redirect_to "/main/board?board=#{board.id}"
         else
           redirect_to "/main/board"
@@ -55,68 +108,33 @@ class PostController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
-  def unpin
+  def mail
     @user = User.logged_in(session)
     if @user
       post = Post.find_by_id(params['id'])
-      if post
-        post.pinned = false
-        post.save!
+      if post and @user.can_mail_posts != false
         board = Board.find_by_id(post.board)
-        event = Post.new(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-          redirect_to "/main/board?board=#{board.id}"
-        else
-          redirect_to "/main/board"
-        end
-      else
-        redirect_to "/main/board"
-      end
-    else
-      redirect_to '/login/entrance'
-    end
-  end
-  def yell
-    @user = User.logged_in(session)
-    if @user
-      post = Post.find_by_id(params['id'])
-      if post
+        recipients = params.keys.select { |k|
+          k.match(/^\d+$/)
+        }.map { |id|
+          User.find_by_id(id)
+        }.select { |u|
+          u
+        }.map { |u|
+          u.email
+        }.join(', ')
+        Rails.logger.warn "#{recipients}"
+        message = PostOffice.post(@user, post, recipients)
+        message.deliver if message
         post.yelled = true
         post.save!
-        Rails.logger.warn post.yelled
-        board = Board.find_by_id(post.board)
-        event = Post.new(post_type: Post::YELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+        event = Post.new(post_type: Post::MAILING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
         event.save!
         if board
           board.last_yell = event.id;
           board.save!
-          redirect_to "/main/board?board=#{board.id}"
-        else
-          redirect_to "/main/board"
         end
-      else
-        redirect_to "/main/board"
-      end
-    else
-      redirect_to '/login/entrance'
-    end
-  end
-  def unyell
-    @user = User.logged_in(session)
-    if @user
-      post = Post.find_by_id(params['id'])
-      if post
-        post.yelled = false
-        post.save!
-        board = Board.find_by_id(post.board)
-        event = Post.new(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
         if board
-          board.last_event = event.id;
-          board.save!
           redirect_to "/main/board?board=#{board.id}"
         else
           redirect_to "/main/board"
@@ -127,60 +145,6 @@ class PostController < ApplicationController
     else
       redirect_to '/login/entrance'
     end
-  end
-  def hide
-    @user = User.logged_in(session)
-    if @user
-      post = Post.find_by_id(params['id'])
-      if post
-        post.hidden = true
-        post.save!
-        board = Board.find_by_id(post.board)
-        event = Post.new(post_type: Post::HIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-          redirect_to "/main/board?board=#{board.id}"
-        else
-          redirect_to "/main/board"
-        end
-      else
-        redirect_to "/main/board"
-      end
-    else
-      redirect_to '/login/entrance'
-    end
-  end
-  def unhide
-    @user = User.logged_in(session)
-    if @user
-      post = Post.find_by_id(params['id'])
-      if post
-        post.hidden = false
-        post.save!
-        board = Board.find_by_id(post.board)
-        event = Post.new(post_type: Post::UNHIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-          redirect_to "/main/board?board=#{board.id}"
-        else
-          redirect_to "/main/board"
-        end
-      else
-        redirect_to "/main/board"
-      end
-    else
-      redirect_to '/login/entrance'
-    end
-  end
-
-  def edit
-  end
-
-  def delete
   end
 
 end

@@ -1,0 +1,24 @@
+<% provide(:in_board, true) -%>
+<% provide(:board_name, @post.board || 0) -%>
+<div class=mail_page>
+    <div class=section>
+    <div class=section_heading>Mail a post</div>
+    <%= form_tag '/post/mail', class: 'mail_form' do %>
+        <input type=hidden name=id value="<%= @post.id %>" />
+        <% for u in @users -%>
+        <div>
+            <input type=checkbox id="send_to_<%=u.id%>" name="<%=u.id%>" />
+            <label for="send_to_<%=u.id%>">
+                <span class=recipient_name><%=u.name%></span>
+                <span class=recipient_address>&lt;<%=u.email%>&gt;</span>
+            </label>
+        </div>
+        <% end -%>
+        <button type="submit">Send</button>
+        <div class=notice>
+            Please do not abuse the mail function.
+        </div>
+    <% end -%>
+    </div>
+</div>
+

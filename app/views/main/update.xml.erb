@@ -3,18 +3,25 @@
 <head><title>New post list for AJAX use</title></head>
 <body>
     <div id="new_posts" class="post_list">
-    <% for p in @new_posts -%>
+  <% for p in @new_posts -%>
     <%= render 'post/view', post: p, pinned: false, user: @user -%>
-    <% end -%>
+  <% end -%>
     </div>
     <div id="new_latest"><%= Post.last.id -%></div>
+  <% if @pinned_posts and @pinned_posts.length > 0 -%>
+    <div id="new_pinned">
+    <% for p in @pinned_posts -%>
+    <%= render 'post/view', post: p, pinned: true, user: @user -%>
+  <% end -%>
+    </div>
+  <% end -%>
     <div id="new_indicators">
     <% indicators = BoardUser.indicators(@user) -%>
-    <% for i in 0..(indicators.length - 1) -%>
+  <% for i in 0..(indicators.length - 1) -%>
     <% if indicators[i] != nil -%>
         <span id="indicator_<%=i%>" class="<%=indicators[i]%>"></span>
     <% end -%>
-    <% end -%>
+  <% end -%>
     <% if User.any_unconfirmed? -%>
         <span id="indicator__SETTINGS" class="<%=BoardUser::EVENT%>"></span>
     <% end -%>

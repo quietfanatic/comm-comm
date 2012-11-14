@@ -1,8 +1,12 @@
 
  /* PUT FAST-TWEAK-WORTHY SETTINGS HERE */
 
-$navigation-bg-color: #fbfbfb;
+
+$site-background: url('https://cas.westmont.edu/themes/mywestmont/images/campus_bright.jpg') no-repeat left top fixed;
+
 $board-bg-color: rgba(255, 255, 255, 0.8);
+$navigation-text-color: #000000;
+$navigation-you-are-color: #9f009f;
 
 $post-bg-color: #ffffff;
 $selected-bg-color: #ffffcf;
@@ -12,7 +16,7 @@ $roundness-y: 0.6em;
 
 // cs stands for color scheme
 $cs-normal-header: #00007f;
-$cs-normal-hidden: #7f7fbf;
+$cs-normal-hidden: #5f5fbf;
 $cs-normal-reference: #00007f;
 $cs-normal-indicator: #9f9fff;
 

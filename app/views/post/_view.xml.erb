@@ -20,46 +20,28 @@
             <div class="post_event"><%=raw post.event_string(user) %></div>
             <% end -%>
             <div class="post_buttons">
+            <%= form_tag '/post/button' do %>
+                <input type="hidden" name="id" value="<%= post.id %>" />
             <% if post.is_normal -%>
-<!--
-              <% if post.yelled -%>
-                <%= form_tag '/post/unyell', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="yell_button">△ Unyell</button>
-                <% end -%>
-              <% else -%>
-                <%= form_tag '/post/yell', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="unyell_button">⚠ Yell</button>
-                <% end -%>
-              <% end -%>
--->
-              <% if post.pinned -%>
-                <%= form_tag '/post/unpin', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="unpin_button">⤺ Unpin</button>
-                <% end -%>
-              <% else -%>
-               <% if post.hidden -%>
-                <%= form_tag '/post/unhide', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="unhide_button">⊚ Unhide</button>
-                <% end -%>
-               <% elsif post.owner == user.id or post.content =~ /\[img\]/ -%>
-                <%= form_tag '/post/hide', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="hide_button">⊗ Hide</button>
-                <% end -%>
-               <% end -%>
-                <%= form_tag '/post/pin', action: 'POST' do -%>
-                    <input type="hidden" name="id" value="<%= post.id %>" />
-                    <button type="submit" class="pin_button">⤻ Pin</button>
-                <% end -%>
-              <% end -%>
+             <% post.hidden and -%>
+                <button name="do" value="unhide" class="unhide_button">⊚ Unhide</button>
+             <% post.is_hidable(user) and -%>
+                <button name="do" value="hide" class="hide_button">⊗ Hide</button>
+             <% post.yelled and -%>
+                <button name="do" value="unyell" class="unyell_button">△ Unyell</button>
+             <% !post.yelled and -%>
+                <button name="do" value="mail" class="mail_button">@ Mail</button>
+             <% post.pinned and -%>
+                <button name="do" value="unpin" class="unpin_button">⤺ Unpin</button>
+             <% !post.hidden and !post.pinned and -%>
+                <button name="do" value="pin" class="pin_button">⤻ Pin</button>
             <% end -%>
-                <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>)">≫ Reply</button>
+                <button class="reply_button" type="button" onClick="ajaxifier.reply_to_post(<%= post.id %>)">≫ Reply</button>
+            <% end -%>
             </div>
             <div class="post_date"><%= post.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short) %> </div>
         </div>
+        <% unless post.hidden -%>
         <div class="post_content"><%=raw post.html_content(user) %></div>
+        <% end -%>
     </div>

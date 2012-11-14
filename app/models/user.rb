@@ -3,7 +3,7 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   include BCrypt
 
-  attr_accessible :email, :username, :visible_name, :is_confirmed, :can_edit_boards, :can_edit_posts, :can_edit_users, :can_confirm_users
+  attr_accessible :email, :username, :visible_name, :is_confirmed, :can_edit_boards, :can_edit_posts, :can_edit_users, :can_confirm_users, :can_change_appearance, :can_change_site_settings, :can_mail_posts
   attr_protected :session
 
   def name
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   end
 
   def self.logged_in(session)
-    return false unless session['session_id']
+    return false unless session.has_key?('session_id')
     user = User.find_by_session(session['session_id'])
     return false unless user
     return false unless user.is_confirmed

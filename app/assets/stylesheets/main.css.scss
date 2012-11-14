@@ -54,7 +54,6 @@
 
 .post_info {
     display: block;
-    min-height: 1.2em;
     margin-bottom: 0.2em;
     color: $cs-normal-header;
 }
@@ -65,16 +64,11 @@
 .post.event .post_info {
     color: $cs-event-header;
 }
-.post.yelled {
-    border: 2px solid $cs-yell-header;
-}
 .post.yelled .post_info {
     color: $cs-yell-header;
-    font-weight: bold;
 }
 .stream .post.pinned.yelled .post_info {
     color: $cs-yell-hidden;
-    font-weight: bold;
 }
 
 .post_id {
@@ -122,12 +116,12 @@
     cursor: pointer; cursor: hand;
     line-height: 1em;
     padding-left: 0em;
-    color: #00007f;
+    color: inherit;
 }
 
 .post_content {
     clear: both;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 0.2em 0.5em;
     white-space: pre-wrap;
     overflow-x: auto;
@@ -147,7 +141,7 @@
 
 .new_post_form {
     clear: both;
-    margin: 0.5em 1em;
+    margin: 0em 1em;
 }
 
 .new_post_form textarea {
@@ -188,11 +182,11 @@
 }
 
 .profile_form label {
-    float: left;
+    display: inline-block;
     width: 8em;
     text-align: right;
     line-height: 1.6em;
-    padding-right: 0.8em;
+    padding-right: 0.6em;
 }
 
 .board_row .board_id,
@@ -222,5 +216,48 @@
 .user_row .user_name {
     display: inline-block;
     min-width: 16em;
+}
+
+.mail_settings_form label {
+    margin-left: -1em;
+    margin-right: 0.6em;
+    text-align: right;
+    display: inline-block;
+    min-width: 12em;
+}
+.mail_settings_form input {
+    width: 17em;
+}
+
+.change_button {
+    margin: 1em;
+}
+.change_button:last-child {
+    margin-bottom: 0;
+}
+
+.user_table {
+    display: table;
+}
+.user_header,
+.user_row {
+    display: table-row;
+}
+.user_header > div,
+.user_row > div {
+    display: table-cell;
+    padding-right: 0.4em;
+}
+
+ /* MAIL */
+
+
+.recipient_name {
+    display: inline-block;
+    min-width: 10em;
+    margin-right: 0.6em;
+}
+.mail_form button {
+    margin: 0.8em 2em;
 }
 
