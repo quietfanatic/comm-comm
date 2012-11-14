@@ -110,6 +110,26 @@ class MainController < ApplicationController
       redirect_to '/login/entrance'
     end
   end
+  def mail
+    @user = User.logged_in(session)
+    if @user
+      @post = Post.find_by_id(params['id'])
+      if @post
+        @board = 
+        if @user.can_mail_posts == nil || @user.can_mail_posts and params['id']
+          if @post
+            @users = User.all
+          else
+            redirect_to '/main/board'
+          end
+        end
+      else
+        redirect_to '/main/board'
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
   def backlog
     @user = User.logged_in(session)
     if @user

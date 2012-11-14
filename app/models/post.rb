@@ -18,6 +18,7 @@ class Post < ActiveRecord::Base
   HIDING = 13
   UNHIDING = 14
   EDITING = 15
+  MAILING = 16
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
@@ -85,6 +86,8 @@ class Post < ActiveRecord::Base
       return " unhid " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when EDITING
       return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
+    when MAILING
+      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user) + " to " + Post.content.lines.length + " addresses"
     else
       return " generated a mysterious post"
     end
@@ -110,6 +113,20 @@ class Post < ActiveRecord::Base
       Post.ref_link($1, '&gt;&gt;' + $1, user)
     end
     return html;
+  end
+  def text_content
+    return '' unless content;
+    text = content
+    text.gsub!(/\[b\](.*?)\[\/b\]/mi, '*\1*')
+    text.gsub!(/\[i\](.*?)\[\/i\]/mi, '/\1/')
+    text.gsub!(/\[u\](.*?)\[\/u\]/mi, '_\1_')
+    text.gsub!(/\[s\](.*?)\[\/s\]/mi, '-\1-')
+    text.gsub!(/\[del\](.*?)\[\/del\]/mi, '-\1-')
+    text.gsub!(/\[ins\](.*?)\[\/ins\]/mi, '+\1+')
+    text.gsub!(/\[code\](.*?)\[\/code\]/mi, '\1')
+    text.gsub!(/\[size=("|'|)([^\]]*)\1\](.*?)\[\/size\]/mi, '\3')
+    text.gsub!(/\[color=("|'|)([^\]]*)\1\](.*?)\[\/color\]/mi, '\3')
+    text.gsub!(/\[url\](.*?)\[\/ur;\]/mi, '\1')
   end
 
   def scan_for_refs

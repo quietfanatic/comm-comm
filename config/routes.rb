@@ -1,30 +1,31 @@
 CommComm::Application.routes.draw do
 
-  get "login/entrance"
-  post "login/login"
-  get "login/signup"
-  post "login/journey"
-  get "login/journey"
-  post "login/logout"
+  get 'login/entrance'
+  post 'login/login'
+  get 'login/signup'
+  post 'login/journey'
+  get 'login/journey'
+  post 'login/logout'
   
-  get "main/topic"  # temporary redirect
-  get "main/board"
-  get "main/settings"
-  get "main/update"
-  get "main/backlog"
-  get "main/about"
+  get 'main/topic'  # temporary redirect
+  get 'main/board'
+  get 'main/settings'
+  get 'main/update'
+  get 'main/backlog'
+  get 'main/about'
+  get 'main/mail'
 
   root :to => 'main#board'
 
-  post "post/new"
+  post 'post/new'
   post 'post/button'
+  post 'post/mail'
   post 'board/new'
   post 'board/edit'
   post 'user/confirm'
   post 'user/edit'
   post 'main/change_settings'
   post 'main/test_mail'
-
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

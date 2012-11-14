@@ -93,7 +93,39 @@ class PostController < ApplicationController
             board.last_event = event.id;
             board.save!
           end
+        when 'mail'
+          redirect_to "/main/mail?id=#{post.id}" and return
         end
+        if board
+          redirect_to "/main/board?board=#{board.id}"
+        else
+          redirect_to "/main/board"
+        end
+      else
+        redirect_to "/main/board"
+      end
+    else
+      redirect_to '/login/entrance'
+    end
+  end
+  def mail
+    @user = User.logged_in(session)
+    if @user
+      post = Post.find_by_id(params['id'])
+      if post and @user.can_mail_posts != false
+        board = Board.find_by_id(post.board)
+        recipients = params.keys.select { |k|
+          k.match(/^\d+$/)
+        }.map { |id|
+          User.find_by_id(id)
+        }.select { |u|
+          u
+        }.map { |u|
+          u.email
+        }.join(', ')
+        Rails.logger.warn "#{recipients}"
+        message = PostOffice.post(@user, post, recipients)
+        message.deliver if message
         if board
           redirect_to "/main/board?board=#{board.id}"
         else
