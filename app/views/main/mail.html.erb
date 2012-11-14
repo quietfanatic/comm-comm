@@ -8,10 +8,16 @@
         <% for u in @users -%>
         <div>
             <input type=checkbox id="send_to_<%=u.id%>" name="<%=u.id%>" />
-            <label for="send_to_<%=u.id%>"><%=u.name%> &lt;<%=u.email%>&gt;</label>
+            <label for="send_to_<%=u.id%>">
+                <span class=recipient_name><%=u.name%></span>
+                <span class=recipient_address>&lt;<%=u.email%>&gt;</span>
+            </label>
         </div>
         <% end -%>
         <button type="submit">Send</button>
+        <div class=notice>
+            Please do not abuse the mail function.
+        </div>
     <% end -%>
     </div>
 </div>
