@@ -236,6 +236,19 @@
     margin-bottom: 0;
 }
 
+.user_table {
+    display: table;
+}
+.user_header,
+.user_row {
+    display: table-row;
+}
+.user_header > div,
+.user_row > div {
+    display: table-cell;
+    padding-right: 0.4em;
+}
+
  /* MAIL */
 
 

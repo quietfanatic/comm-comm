@@ -63,14 +63,14 @@
         <% if @unconfirmed_users.length > 0 -%>
         <div class=section_heading>Invitation Requests</div>
         <div class=section_content>
-            <div class="user_row user_header">
+            <div class="request_row user_header">
                 <div class=user_id>ID</div>
                 <div class=user_email>email</div>
                 <div class=user_name>name</div>
             </div>
             <% for u in @unconfirmed_users -%>
             <%= form_tag '/user/confirm' do %>
-            <div class=user_row>
+            <div class=request_row>
                 <div class=user_id><%=u.id%></div>
                     <input type=hidden name=id value="<%=u.id%>"/>
                 <div class=user_email><%=u.email%></div>
@@ -143,21 +143,65 @@
         </div>
     </div>
 <% end -%>
+<% if @user.can_edit_users -%>
     <div class=section>
-        <div class=section_heading>Manage User Permissions</div>
+        <div class=section_heading>Manage Users</div>
         <div class=section_content>
-        <% for u in User.all do-%>
-        <% if u.visible_name || u.email %>
-            <div class=section_heading><%= u.email %></div>
-            Can Edit Boards: <%= u.can_edit_boards ? "yes" : "no" %> <br>
-            Can Edit Posts: <%= u.can_edit_posts ? "yes" : "no" %> <br>
-            Can Edit Users: <%= u.can_edit_users ? "yes" : "no" %> <br>
-            Can Mail Posts: <%= u.can_mail_posts ? "yes" : "no" %> <br>
-            Can Confirm Users: <%= u.can_confirm_users ? "yes" : "no" %><br>
-            Can Change Appearance: <%= u.can_change_appearance ? "yes" : "no" %><br>
-            Can Change Site Settings: <%= u.can_change_site_settings ? "yes" : "no" %><br>
-        <% end %>
-        <% end %>
+        <div class=user_table>
+        <div class=user_header>
+            <!-- Have to match that silly Rails hidden input div -->
+            <div style="margin:0;padding:0;display:inline"></div>
+            <div>ID</div>
+            <div>Name</div>
+            <div>Email</div>
+            <div>A</div>
+            <div>B</div>
+            <div>C</div>
+            <div>D</div>
+            <div>E</div>
+            <div>F</div>
+            <div></div>
+            <div></div>
+        </div>
+        <% for u in User.all -%>
+        <%= form_tag '/user/change', class: 'user_row' do -%>
+            <div>
+                <%=u.id%>
+                <input type=hidden name=id value="<%=t.id%>"/>
+            </div>
+            <div>
+                <input type=text name=name value="<%=u.name%>"/>
+            </div>
+            <div>
+                <input type=text name=email value="<%=u.email%>"/>
+            </div>
+            <div>
+                <input type=checkbox name=can_mail_posts <%=u.can_mail_posts != false ? 'checked' : ''%> />
+            </div>
+            <div>
+                <input type=checkbox name=can_confirm_users <%=u.can_confirm_users ? 'checked' : ''%> />
+            </div>
+            <div>
+                <input type=checkbox name=can_change_appearance <%=u.can_change_appearance ? 'checked' : ''%> />
+            </div>
+            <div>
+                <input type=checkbox name=can_edit_boards <%=u.can_edit_boards ? 'checked' : ''%> />
+            </div>
+            <div>
+                <input type=checkbox name=can_edit_users <%=u.can_edit_users ? 'checked' : ''%> />
+            </div>
+            <div>
+                <input type=checkbox name=can_change_site_settings <%=u.can_change_site_settings ? 'checked' : ''%> />
+            </div>
+            <div>
+                <button name=do value=change>Change</button>
+            </div>
+            <div>
+                <button name=do value=delete>Delete</button>
+            </div>
+        <% end -%>
+        <% end -%>
         </div>
     </div>
+<% end -%>
 </div>
