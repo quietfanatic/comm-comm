@@ -21,6 +21,37 @@
             <% end -%>
         </div>
     </div>
+<% if @user.can_confirm_users or @user.can_edit_users -%>
+    <div class=section>
+        <% if @unconfirmed_users.length > 0 -%>
+        <input id=showhide_requests type=checkbox class=showhider checked />
+        <label for=showhide_requests>
+            <span class=section_heading>Invitation Requests</span>
+        </label>
+        <div class=section_content>
+            <div class="request_row user_header">
+                <div class=user_id>ID</div>
+                <div class=user_email>email</div>
+                <div class=user_name>name</div>
+            </div>
+            <% for u in @unconfirmed_users -%>
+            <%= form_tag '/user/confirm' do %>
+            <div class=request_row>
+                <div class=user_id><%=u.id%></div>
+                    <input type=hidden name=id value="<%=u.id%>"/>
+                <div class=user_email><%=u.email%></div>
+                <div class=user_name><%=u.name%></div>
+                <button name=do value=confirm>Confirm</button>
+                <button name=do value=deny>Deny</button>
+            </div>
+            <% end -%>
+            <% end -%>
+        </div>
+        <% else -%>
+        <div class=section_heading>No Invitation Requests</div>
+    <% end -%>
+    </div>
+<% end -%>
 <% if @user.can_edit_boards -%>
     <div class=section>
         <input id=showhide_boards type=checkbox class=showhider />
@@ -62,37 +93,6 @@
             </div>
             <% end -%>
         </div>
-    </div>
-    <% end -%>
-    <% if @user.can_confirm_users or @user.can_edit_users -%>
-    <div class=section>
-        <% if @unconfirmed_users.length > 0 -%>
-        <input id=showhide_requests type=checkbox class=showhider checked />
-        <label for=showhide_requests>
-            <span class=section_heading>Invitation Requests</span>
-        </label>
-        <div class=section_content>
-            <div class="request_row user_header">
-                <div class=user_id>ID</div>
-                <div class=user_email>email</div>
-                <div class=user_name>name</div>
-            </div>
-            <% for u in @unconfirmed_users -%>
-            <%= form_tag '/user/confirm' do %>
-            <div class=request_row>
-                <div class=user_id><%=u.id%></div>
-                    <input type=hidden name=id value="<%=u.id%>"/>
-                <div class=user_email><%=u.email%></div>
-                <div class=user_name><%=u.name%></div>
-                <button name=do value=confirm>Confirm</button>
-                <button name=do value=deny>Deny</button>
-            </div>
-            <% end -%>
-            <% end -%>
-        </div>
-        <% else -%>
-        <div class=section_heading>No Invitation Requests</div>
-    <% end -%>
     </div>
 <% end -%>
 <% if @user.can_change_site_settings -%>
