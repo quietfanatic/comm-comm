@@ -126,6 +126,14 @@ class PostController < ApplicationController
         Rails.logger.warn "#{recipients}"
         message = PostOffice.post(@user, post, recipients)
         message.deliver if message
+        post.yelled = true
+        post.save!
+        event = Post.new(post_type: Post::MAILING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
+        event.save!
+        if board
+          board.last_yell = event.id;
+          board.save!
+        end
         if board
           redirect_to "/main/board?board=#{board.id}"
         else
