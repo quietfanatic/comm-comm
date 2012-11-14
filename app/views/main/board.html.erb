@@ -15,8 +15,8 @@
     <div class=error_area id=update_error></div>
     <div class=new_post_form id=stream_post_form>
     <%= form_tag('/post/new') do -%>
-        <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
-        <button type=submit tabindex=2 id="new_post_submit">Post</button>
+        <textarea name=content tabindex=1 id="content" autofocus></textarea>
+        <button type=submit tabindex=2 id="submit">Post</button>
         <% if @board -%>
             <input type=hidden name=board value="<%= @board.id %>"/>
         <% end -%>

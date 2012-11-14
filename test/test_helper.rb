@@ -3,6 +3,8 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
 require 'database_cleaner'
+require 'rails_warden'
+require 'factory_girl_rails'
 DatabaseCleaner.strategy = :truncation
 
 class ActiveSupport::TestCase
@@ -19,6 +21,8 @@ end
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
+  include Warden::Test::Helpers
+  Warden.test_mode!
   
   Capybara.register_driver :selenium_chrome do |app|
     Capybara::Selenium::Driver.new(app, :browser => :chrome)
