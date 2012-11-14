@@ -8,7 +8,7 @@ function get_ajaxifier (doc, latest, earliest, board) {
     var backlog_error = doc.getElementById('backlog_error');
     var new_post_content = doc.getElementById('new_post_content');
     var showing_post = null;
-    var update_delay = 4000;
+    var update_delay = 2000;
 
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
@@ -165,8 +165,8 @@ function get_ajaxifier (doc, latest, earliest, board) {
                         }
                     }
                      // Set new timeout
-                    if (added_posts) update_delay = 4000;
-                    else if (update_delay < 32000) update_delay += 4000;
+                    if (added_posts) update_delay = 2000;
+                    else if (update_delay < 32000) update_delay += 2000;
                     setTimeout( request_update, update_delay );
                      // Scroll to bottom
                     if (wants_scroll && added_posts) scroll_stream();
