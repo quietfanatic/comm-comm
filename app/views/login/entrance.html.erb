@@ -1,19 +1,20 @@
 <% provide(:in_board, true) -%>
 <% provide(:board_name, "_LOGIN") -%>
 <div class="section login">
-<div class=section_heading>Please log in to use this site.</div>
-    <div class=login_error><%=params['error']||''%></div>
-    <div class=login_notice><%=params['notice']||''%></div>
-    <%= form_tag "/login/login", class: "login_form" do -%>
-        <div>
-            <label for="email">Email:</label>
-            <input type="text" name="email">
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" name="password">
-        </div>
-        <button type="submit">Enter</button>
-        
-    <% end %>
+    <div class=section_heading>Please log in to use this site.</div>
+
+        <div class=login_error><%=params['error']||''%></div>
+        <div class=login_notice><%=params['notice']||''%></div>
+        <%= form_tag "/login/login", class: "login_form" do -%>
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" name="email">
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" name="password">
+            </div>
+            <button type="submit">Enter</button>
+        <% end %>
+    </div>
 </div>
