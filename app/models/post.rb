@@ -87,7 +87,7 @@ class Post < ActiveRecord::Base
     when EDITING
       return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
     when MAILING
-      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user) + " to " + Post.content.lines.length + " addresses"
+      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user) + " to " + Post.content.lines.length.to_s + " addresses"
     else
       return " generated a mysterious post"
     end

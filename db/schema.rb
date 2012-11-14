@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121113084425) do
+ActiveRecord::Schema.define(:version => 20121114013217) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -53,8 +53,13 @@ ActiveRecord::Schema.define(:version => 20121113084425) do
     t.boolean  "smtp_starttls_auto"
     t.string   "smtp_ssl_verify"
     t.string   "send_test_to"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "logo_text"
+    t.string   "logo_image"
+    t.boolean  "force_https"
+    t.string   "mail_subject_prefix"
+    t.string   "mail_from_address"
   end
 
   create_table "users", :force => true do |t|
