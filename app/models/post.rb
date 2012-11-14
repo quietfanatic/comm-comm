@@ -127,6 +127,7 @@ class Post < ActiveRecord::Base
     text.gsub!(/\[size=("|'|)([^\]]*)\1\](.*?)\[\/size\]/mi, '\3')
     text.gsub!(/\[color=("|'|)([^\]]*)\1\](.*?)\[\/color\]/mi, '\3')
     text.gsub!(/\[url\](.*?)\[\/ur;\]/mi, '\1')
+    return text
   end
 
   def scan_for_refs
