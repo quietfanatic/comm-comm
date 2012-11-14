@@ -2,7 +2,10 @@
 <% provide(:board_name, "_SETTINGS") -%>
 <div class=settings_page>
     <div class=section>
-        <div class=section_heading>Profile</div>
+        <input id=showhide_profile type=checkbox class=showhider checked />
+        <label for=showhide_profile>
+            <span class=section_heading>Profile</span>
+        </label>
         <div class=section_content>
             <%= form_tag '/user/edit', class: 'profile_form' do %>
                 <input type=hidden name=id value="<%= @user.id %>" />
@@ -20,7 +23,10 @@
     </div>
 <% if @user.can_edit_boards -%>
     <div class=section>
-        <div class=section_heading>Boards</div>
+        <input id=showhide_boards type=checkbox class=showhider />
+        <label for=showhide_boards>
+            <span class=section_heading>Boards</span>
+        </label>
         <div class=section_content>
             <div class="board_row boards_header">
                 <div class=board_id>ID</div>
@@ -61,7 +67,10 @@
     <% if @user.can_confirm_users or @user.can_edit_users -%>
     <div class=section>
         <% if @unconfirmed_users.length > 0 -%>
-        <div class=section_heading>Invitation Requests</div>
+        <input id=showhide_requests type=checkbox class=showhider checked />
+        <label for=showhide_requests>
+            <span class=section_heading>Invitation Requests</span>
+        </label>
         <div class=section_content>
             <div class="request_row user_header">
                 <div class=user_id>ID</div>
@@ -89,7 +98,10 @@
 <% if @user.can_change_site_settings -%>
     <% settings = SiteSettings.first_or_create -%>
     <div class=section>
-        <div class=section_heading>Mail settings</div>
+        <input id=showhide_mail type=checkbox class=showhider />
+        <label for=showhide_mail>
+            <span class=section_heading>Mail Configuration</span>
+        </label>
         <div class=section_content>
         <%= form_tag '/main/mail_settings', class: 'mail_settings_form' do %>
             <div>
@@ -145,7 +157,10 @@
 <% end -%>
 <% if @user.can_edit_users -%>
     <div class=section>
-        <div class=section_heading>Manage Users</div>
+        <input id=showhide_users type=checkbox class=showhider />
+        <label for=showhide_users>
+            <span class=section_heading>Manage Users</span>
+        </label>
         <div class=section_content>
         <div class=user_table>
         <div class=user_header>

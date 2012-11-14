@@ -145,12 +145,37 @@ body {
 }
 .section_heading {
     font-weight: bold;
-    margin-bottom: 0.4em;
     margin-left: 1em;
 }
-.section_heading:last-child {
+.section_content {
+    margin-top: 0.4em;
     margin-bottom: 0;
 }
+
+.show, .hide {
+    padding-left: 4em;
+}
+
+.showhider {
+    display: none;
+}
+.showhider + label {
+    cursor: pointer; cursor: hand;
+}
+.showhider + label:before {
+    content: "▶"
+}
+.showhider:checked + label:before {
+    content: "▼"
+}
+
+.showhider + label + * {
+    display: none;
+}
+.showhider:checked + label + * {
+    display: block;
+}
+
 
 
 .error {
