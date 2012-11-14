@@ -64,16 +64,11 @@
 .post.event .post_info {
     color: $cs-event-header;
 }
-.post.yelled {
-    border: 2px solid $cs-yell-header;
-}
 .post.yelled .post_info {
     color: $cs-yell-header;
-    font-weight: bold;
 }
 .stream .post.pinned.yelled .post_info {
     color: $cs-yell-hidden;
-    font-weight: bold;
 }
 
 .post_id {
