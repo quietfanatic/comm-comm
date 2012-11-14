@@ -20,7 +20,7 @@ class PostOffice < ActionMailer::Base
     settings = set_settings
     if user.can_change_site_settings
       mail(
-        to: recipients,
+        to: recipient,
         from: settings.smtp_username,
         subject: 'Comm Comm Mail Test',
       )
