@@ -170,10 +170,10 @@ body {
     content: "▼"
 }
 
-.showhider ~ div {
+.showhider ~ .section_content {
     display: none;
 }
-.showhider:checked ~ div {
+.showhider:checked ~ .section_content {
     display: block;
 }
 
