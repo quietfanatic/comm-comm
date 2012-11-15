@@ -26,6 +26,7 @@ CommComm::Application.routes.draw do
   post 'user/edit'
   post 'main/mail_settings'
   post 'main/test_mail'
+  post 'main/board_settings'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

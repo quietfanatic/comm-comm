@@ -60,6 +60,23 @@ class MainController < ApplicationController
       redirect_to '/main/settings'
     end
   end
+
+  def board_settings
+    logged_in do
+      if @user.can_edit_boards
+        settings = SiteSettings.first_or_create
+        if Board.find_by_id(params['initial_board'].to_i)
+          settings.initial_board = params['initial_board'].to_i
+        end
+        if Board.find_by_id(params['sitewide_event_board'].to_i)
+          settings.sitewide_event_board = params['sitewide_event_board'].to_i
+        end
+        settings.save!
+      end
+      redirect_to '/main/settings'
+    end
+  end   
+
   def update
     logged_in do
       @board = Board.find_by_id(params['board'])

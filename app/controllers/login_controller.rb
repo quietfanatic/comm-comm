@@ -6,7 +6,12 @@ class LoginController < ApplicationController
     if user and session.has_key?('session_id')
       if user.password == params["password"]
         Session.create(user_id: user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'])
-        redirect_to "/main/board"
+        initial = SiteSettings.first_or_create.initial_board
+        if initial
+          redirect_to "/main/board?board=#{initial}"
+        else
+          redirect_to "/main/board"
+        end
       else
         redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
       end
