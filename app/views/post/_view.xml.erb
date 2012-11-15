@@ -29,7 +29,7 @@
                 <button name="do" value="hide" class="hide_button">⊗ Hide</button>
              <% post.yelled and -%>
                 <button name="do" value="unyell" class="unyell_button">△ Unyell</button>
-             <% !post.yelled and -%>
+             <% !post.yelled and !post.hidden and -%>
                 <button name="do" value="mail" class="mail_button">@ Mail</button>
              <% post.pinned and -%>
                 <button name="do" value="unpin" class="unpin_button">⤺ Unpin</button>
