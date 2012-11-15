@@ -62,6 +62,8 @@
             <div class="board_row boards_header">
                 <div class=board_id>ID</div>
                 <div class=board_name>Name</div>
+                <div class=board_order>Order</div>
+                <div class=board_ppp>Posts/Page</div>
             </div>
             <% for b in @boards -%>
             <%= form_tag '/board/edit' do %>
@@ -74,6 +76,9 @@
                 </div>
                 <div class=board_order>
                     <input type=number name=order value="<%=b.order%>"/>
+                </div>
+                <div class=board_ppp>
+                    <input type=number name=ppp value="<%=b.ppp%>"/>
                 </div>
                 <button name=do value=change>Change</button>
                 <button name=do value=delete>Delete</button>

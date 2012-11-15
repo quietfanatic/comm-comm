@@ -42,7 +42,6 @@ class BoardController < ApplicationController
             )
             event.save!
             board.last_event = event.id
-            board.save!
           end
           order = params['order']
           if order and order != board.order
@@ -56,8 +55,12 @@ class BoardController < ApplicationController
             )
             event.save!
             board.last_event = event.id
-            board.save!
           end
+          ppp = params['ppp']
+          if ppp and ppp != board.ppp
+            board.ppp = ppp
+          end
+          board.save!
         elsif params['do'] == 'delete'
            # Deletion of boards is NYI
         end

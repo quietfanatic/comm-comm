@@ -1,6 +1,5 @@
 class MainController < ApplicationController
 
-  PPP = 50  # Posts per page
   def topic
     redirect_to '/main/board'  # deprecation yay!
   end
@@ -8,7 +7,7 @@ class MainController < ApplicationController
     logged_in do
       @board = Board.find_by_id(params['board'])
       @posts = Post.where(board: @board ? @board.id : nil)
-      @posts = @posts.order('id desc').limit(PPP).all
+      @posts = @posts.order('id desc').limit(@board ? @board.ppp : 50).all
       @posts = @posts.reverse if @posts
 
       if @board
@@ -134,12 +133,12 @@ class MainController < ApplicationController
           @old_posts = Post.order('id desc').where(
             '"board" = :board AND "id" < :before',
             board: @board.id, before: before
-          ).limit(PPP).all
+          ).limit(@board.ppp).all
         else
           @old_posts = Post.order('id desc').where(
             '"board" IS NULL AND "id" < :before',
             before: before
-          ).limit(PPP).all
+          ).limit(50).all
         end
         @old_posts.reverse! if @old_posts
       end
