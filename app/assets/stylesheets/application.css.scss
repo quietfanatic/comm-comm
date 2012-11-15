@@ -164,9 +164,11 @@ body {
     cursor: pointer; cursor: hand;
 }
 .showhider + label:before {
+    width: 1em;
     content: "▶"
 }
 .showhider:checked + label:before {
+    width: 1em;
     content: "▼"
 }
 
