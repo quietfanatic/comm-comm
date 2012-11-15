@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
     return !is_normal
   end
   def is_hidable (user)
-    return !pinned && !hidden && (owner == user.id || content =~ /\[img\]/)
+    return !pinned && !hidden && (hidden == false || owner == user.id || content =~ /\[img\]/)
   end
 
   def self.ref_link (ref, text, user)
