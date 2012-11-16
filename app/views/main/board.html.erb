@@ -1,5 +1,4 @@
-<% provide(:in_board, true) -%>
-<% provide(:board_name, @board ? @board.name : "Uncategorized") -%>
+<% provide(:tab_id, @board ? @board.name : "Uncategorized") -%>
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= (@board ? @board.ppp : 50) -%>

@@ -8,8 +8,7 @@
 </head>
 <body>
 <% identity = @user ? @user.name : "not logged in." -%>
-<% in_board = yield(:in_board) -%>
-<% board_name = yield(:board_name) -%>
+<% tab_id = yield(:tab_id) -%>
 <div class=navigation>
     <div class=navigation_top>
         <div class=site_logo>Comm Comm</div>
@@ -27,26 +26,26 @@
         <div class=tab_gap></div>
         <% if @user -%>
         <% indicators = BoardUser.indicators(@user) -%>
-            <% tabclass = (in_board && board_name == "Uncategorized") ? 'board_tab current' : 'board_tab' -%>
+            <% tabclass = (tab_id == "Uncategorized") ? 'board_tab current' : 'board_tab' -%>
             <a class="<%=tabclass%>" href="/main/board"><span class=indicator id=indicator_0></span>Uncategorized</a>
         <% for t in Board.order('"order", "id"').all -%>
-            <% tabclass = (in_board && board_name == t.name) ? 'board_tab current' : 'board_tab' -%>
+            <% tabclass = (tab_id == t.name) ? 'board_tab current' : 'board_tab' -%>
             <% indclass = (indicators[t.id] == nil ? BoardUser::OFF : indicators[t.id]) -%>
             <a class="<%=tabclass%>" href="/main/board?board=<%=t.id%>"><span class="<%=indclass%>" id="indicator_<%=t.id%>"></span><%=t.name%></a>
         <% end -%>
         <div class=tab_gap></div>
-            <% tabclass = (in_board && board_name == "_SETTINGS") ? 'board_tab current settings_tab' : 'board_tab settings_tab' -%>
+            <% tabclass = (tab_id == "_SETTINGS") ? 'board_tab current settings_tab' : 'board_tab settings_tab' -%>
             <% indclass = @user.can_confirm_users && User.any_unconfirmed? ? BoardUser::EVENT : BoardUser::OFF -%>
             <a class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
-            <% tabclass = (in_board && board_name == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
+            <% tabclass = (tab_id == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
             <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
         <% else -%>
-            <% tabclass = (in_board && board_name == "_LOGIN") ? 'board_tab current login_tab' : 'board_tab login_tab' -%>
+            <% tabclass = (tab_id == "_LOGIN") ? 'board_tab current login_tab' : 'board_tab login_tab' -%>
             <a class="<%=tabclass%>" href="/login/entrance"><span class="<%=BoardUser::OFF%>" id=indicator__LOGIN></span>Login</a>
-            <% tabclass = (in_board && board_name == "_SIGNUP") ? 'board_tab current signup_tab' : 'board_tab signup_tab' -%>
+            <% tabclass = (tab_id == "_SIGNUP") ? 'board_tab current signup_tab' : 'board_tab signup_tab' -%>
             <a class="<%=tabclass%>" href="/login/signup"><span class="<%=BoardUser::OFF%>" id=indicator__SIGNUP></span>Request Invitation</a>
             <div class=tab_gap></div>
-            <% tabclass = (in_board && board_name == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
+            <% tabclass = (tab_id == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
             <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
 
         <% end %>        
