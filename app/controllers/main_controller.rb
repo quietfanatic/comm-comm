@@ -3,6 +3,7 @@ class MainController < ApplicationController
   def topic
     redirect_to '/main/board'  # deprecation yay!
   end
+
   def board
     logged_in do
       @board = Board.find_by_id(params['board'])
@@ -42,40 +43,6 @@ class MainController < ApplicationController
     logged_in?
   end
 
-  def mail_settings
-    logged_in do
-      if @user.can_change_site_settings
-        settings = SiteSettings.first_or_create
-        settings.enable_mail = params.has_key?('enable_mail')
-        settings.smtp_server = params['smtp_server'] || ''
-        settings.smtp_port = params['smtp_port'] || ''
-        settings.smtp_auth = params['smtp_auth'] || ''
-        settings.smtp_username = params['smtp_username'] || ''
-        settings.smtp_password = params['smtp_password'] || ''
-        settings.smtp_starttls_auto = params.has_key?('smtp_starttls_auto')
-        settings.smtp_ssl_verify = params['smtp_ssl_verify'] || ''
-        settings.save!
-      end
-      redirect_to '/main/settings'
-    end
-  end
-
-  def board_settings
-    logged_in do
-      if @user.can_edit_boards
-        settings = SiteSettings.first_or_create
-        if Board.find_by_id(params['initial_board'].to_i)
-          settings.initial_board = params['initial_board'].to_i
-        end
-        if Board.find_by_id(params['sitewide_event_board'].to_i)
-          settings.sitewide_event_board = params['sitewide_event_board'].to_i
-        end
-        settings.save!
-      end
-      redirect_to '/main/settings'
-    end
-  end   
-
   def update
     logged_in do
       @board = Board.find_by_id(params['board'])
@@ -106,16 +73,7 @@ class MainController < ApplicationController
       end
     end
   end
-  def test_mail
-    logged_in do
-      to = params['send_test_to']
-      settings = SiteSettings.first_or_create
-      settings.send_test_to = to
-      settings.save!
-      PostOffice.test(@user, to).deliver
-      redirect_to '/main/settings'
-    end
-  end
+
   def mail
     logged_in do
       @user = user
@@ -125,6 +83,7 @@ class MainController < ApplicationController
       @users = User.all
     end
   end
+
   def backlog
     logged_in do
       @board = Board.find_by_id(params['board'])

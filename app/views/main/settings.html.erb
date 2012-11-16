@@ -7,7 +7,7 @@
             <span class=section_heading>Profile</span>
         </label>
         <div class=section_content>
-            <%= form_tag '/user/edit', class: 'profile_form' do %>
+            <%= form_tag '/configure/profile', class: 'profile_form' do %>
                 <input type=hidden name=id value="<%= @user.id %>" />
                 <div>
                     <label for=email>Email address:</label>
@@ -35,7 +35,7 @@
                 <div class=user_name>name</div>
             </div>
             <% for u in @unconfirmed_users -%>
-            <%= form_tag '/user/confirm' do %>
+            <%= form_tag '/configure/confirm' do %>
             <div class=request_row>
                 <div class=user_id><%=u.id%></div>
                     <input type=hidden name=id value="<%=u.id%>"/>
@@ -66,7 +66,7 @@
                 <div class=board_ppp>Posts/Page</div>
             </div>
             <% for b in @boards -%>
-            <%= form_tag '/board/edit' do %>
+            <%= form_tag '/configure/change_board' do %>
             <div class=board_row>
                 <div class=board_id><%=b.id%>
                     <input type=hidden name=id value="<%=b.id%>"/>
@@ -81,11 +81,10 @@
                     <input type=number name=ppp value="<%=b.ppp%>"/>
                 </div>
                 <button name=do value=change>Change</button>
-                <button name=do value=delete>Delete</button>
             </div>
             <% end -%>
             <% end -%>
-            <%= form_tag '/board/new' do %>
+            <%= form_tag '/board/new_board' do %>
             <div class=board_row>
                 <div class=board_id>New</div>
                 <div class=board_name>
@@ -99,7 +98,7 @@
             <% end -%>
             <div class=section_sub_heading>Default boards</div>
             <% settings = SiteSettings.first_or_create -%>
-            <%= form_tag '/main/board_settings', class: 'board_settings_form' do %>
+            <%= form_tag '/configure/default_boards', class: 'default_boards_form' do %>
             <div>
                 <label for=initial_board>After logging in, go to</label>
                 <select id=initial_board name=initial_board>
@@ -129,7 +128,7 @@
             <span class=section_heading>Mail Configuration</span>
         </label>
         <div class=section_content>
-        <%= form_tag '/main/mail_settings', class: 'mail_settings_form' do %>
+        <%= form_tag '/configure/mail', class: 'configure_mail_form' do %>
             <div>
                 <label for=enable_mail>Enable Mailing Posts</label>
                 <input type=checkbox id=enable_mail name=enable_mail <%=settings.enable_mail ? 'checked' : ''%> />
@@ -205,7 +204,7 @@
             <div></div>
         </div>
         <% for u in User.all -%>
-        <%= form_tag '/user/change', class: 'user_row' do -%>
+        <%= form_tag '/configure/user', class: 'user_row' do -%>
             <div>
                 <%=u.id%>
                 <input type=hidden name=id value="<%=u.id%>"/>

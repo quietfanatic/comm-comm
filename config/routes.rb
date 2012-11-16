@@ -20,13 +20,14 @@ CommComm::Application.routes.draw do
   post 'post/new'
   post 'post/button'
   post 'post/mail'
-  post 'board/new'
-  post 'board/edit'
-  post 'user/confirm'
-  post 'user/edit'
-  post 'main/mail_settings'
-  post 'main/test_mail'
-  post 'main/board_settings'
+  post 'configure/profile'
+  post 'configure/confirm'
+  post 'configure/change_board'
+  post 'configure/new_board'
+  post 'configure/default_boards'
+  post 'configure/user'
+  post 'configure/mail'
+  post 'configure/test_mail'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
