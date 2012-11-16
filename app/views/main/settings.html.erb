@@ -20,6 +20,32 @@
             <% end -%>
         </div>
     </div>
+    <div class=section>
+        <input id=showhide_sessions type=checkbox class=showhider checked />
+        <label for=shuwhide_sessions>
+            <span class=section_heading>Sessions</span>
+        </label>
+        <div class=section_content>
+        <% no = 1 -%>
+        <%= form_tag '/configure/a_session', class: 'sessions_form' do %>
+        <% for s in Session.find_all_by_user_id(@user) -%>
+            <div><%=no%>.
+                IP Address: (NYI),
+                Logged in: <%=s.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short)%>,
+                Last activity: <%=s.updated_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short)%>
+            </div>
+            <div><%=s.user_agent%>
+            <% if s.id == @session.id -%>
+                (Current)
+            <% else -%>
+                <button name=logout value="<%=s.id%>">Log out</button>
+            <% end -%>
+            </div>
+        <% no += 1 -%>
+        <% end -%>
+        <% end -%>
+        </div>
+    </div>
 <% if @user.can_confirm_users or @user.can_edit_users -%>
     <div class=section>
         <% if @unconfirmed_users.length > 0 -%>
