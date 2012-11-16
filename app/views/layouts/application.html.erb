@@ -37,18 +37,15 @@
             <% tabclass = (tab_id == "_SETTINGS") ? 'board_tab current settings_tab' : 'board_tab settings_tab' -%>
             <% indclass = @user.can_confirm_users && User.any_unconfirmed? ? BoardUser::EVENT : BoardUser::OFF -%>
             <a class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
-            <% tabclass = (tab_id == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
-            <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
         <% else -%>
             <% tabclass = (tab_id == "_LOGIN") ? 'board_tab current login_tab' : 'board_tab login_tab' -%>
             <a class="<%=tabclass%>" href="/login/entrance"><span class="<%=BoardUser::OFF%>" id=indicator__LOGIN></span>Login</a>
             <% tabclass = (tab_id == "_SIGNUP") ? 'board_tab current signup_tab' : 'board_tab signup_tab' -%>
             <a class="<%=tabclass%>" href="/login/signup"><span class="<%=BoardUser::OFF%>" id=indicator__SIGNUP></span>Request Invitation</a>
             <div class=tab_gap></div>
+        <% end %>        
             <% tabclass = (tab_id == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
             <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
-
-        <% end %>        
         <div class=tab_gap></div>
         </div>
         
