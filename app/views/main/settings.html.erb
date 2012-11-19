@@ -79,7 +79,7 @@
 <% end -%>
 <% if @user.can_edit_boards -%>
     <div class=section>
-        <input id=showhide_boards type=checkbox class=showhider />
+        <input id=showhide_boards type=checkbox class=showhider <%= params['section'] == 'boards' ? 'checked' : ''%>/>
         <label for=showhide_boards>
             <span class=section_heading>Edit Boards</span>
         </label>
@@ -148,7 +148,7 @@
 <% if @user.can_change_site_settings -%>
     <% settings = SiteSettings.first_or_create -%>
     <div class=section>
-        <input id=showhide_mail type=checkbox class=showhider />
+        <input id=showhide_mail type=checkbox class=showhider <%= params['section'] == 'mail' ? 'checked' : ''%>/>
         <label for=showhide_mail>
             <span class=section_heading>Mail Configuration</span>
         </label>
@@ -207,7 +207,7 @@
 <% end -%>
 <% if @user.can_edit_users -%>
     <div class=section>
-        <input id=showhide_users type=checkbox class=showhider />
+        <input id=showhide_users type=checkbox class=showhider <%= params['section'] == 'users' ? 'checked' : ''%>/>
         <label for=showhide_users>
             <span class=section_heading>Manage Users</span>
         </label>
