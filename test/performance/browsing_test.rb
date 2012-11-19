@@ -9,7 +9,7 @@ class BrowsingTest < ActiveSupport::TestCase
 		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
 	end
 	
-	test "topic should exist" do
+	test "board should exist" do
 		visit '/main/board'
 		assert page.has_content?('Uncategorized'), "This page does not have the correct content."
 	end

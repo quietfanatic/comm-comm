@@ -1,8 +1,18 @@
 require 'test_helper'
+require 'rails_warden'
 
 class PostTest < ActionDispatch::IntegrationTest
 	setup do
 		Capybara.current_driver = Capybara.javascript_driver # :selenium by default
+	end
+	
+	test "should post" do
+		session = Capybara::Session.new(:user)
+		user = User.create(:email => 'test@test.com', :username => 'test', :password => 'asdfasdf', :is_confirmed => true)
+		session.visit '/main/board'
+		session.execute_script 'enter'
+		assert user.session == 1, "Wrong ID"
+		assert page.has_content?('Uncategorize'), "Wrong Content"
 	end
 	
 	# test "should login" do
@@ -28,21 +38,5 @@ class PostTest < ActionDispatch::IntegrationTest
 		# assert page.has_content?('Your request has been submitted.'), "This page does not have the correct content."
 	# end
 	
-	test "should post" do
-		visit '/'
-		#visit '/signup'
-		user = User.create(:email => 'test@test.com', :username => 'test', :password => 'asdfasdf', :is_confirmed => true)
-		login_as(user, :scope => :user)
-		#assert user.session != nil, "The user is not logged in."
-		#click_on 'logout'
-		fill_in 'email', :with => 'test@test.com'
-		fill_in 'password', :with => 'asdfasdf'
-		click_on 'enter'
-		assert user.session != nil, "The user is still not logged in."
-		click_on 'logout'
-		assert user.session == nil, "The user is not logged out."
-		#visit '/main/board'
-		#fill_in 'content', :with => 'test post'
-		#click_on 'submit'
-	end
+	
 end
