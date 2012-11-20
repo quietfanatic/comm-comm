@@ -146,10 +146,12 @@
                 <button type=submit>Merge</button>
             </div>
             <% end -%>
-            <% if settings.last_merge_event -%>
+            <% ev = Post.find_by_id(settings.last_merge_event) -%>
+            <% if ev -%>
+            <% cont = ev.content.match(/(.*)\n(.*)/) -%>
             <%= form_tag '/configure/undo_last_merge' do %>
             <div>
-                <button type=submit>Undo last merge</button>
+                <button type=submit>Undo merging <%=cont[1]%> into <%=cont[2]%></button>
             </div>
             <% end -%>
             <% end -%>
