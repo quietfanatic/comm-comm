@@ -100,11 +100,7 @@ class PostController < ApplicationController
         k.match(/^\d+$/)
       }.map { |id|
         User.find_by_id(id)
-      }.select { |u|
-        u
-      }.map { |u|
-        u.email
-      }.join(', ')
+      }
       Rails.logger.warn "#{recipients}"
       message = PostOffice.post(@user, post, recipients)
       message.deliver if message
