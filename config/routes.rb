@@ -25,6 +25,7 @@ CommComm::Application.routes.draw do
   post 'configure/confirm'
   post 'configure/change_board'
   post 'configure/new_board'
+  post 'configure/merge_boards'
   post 'configure/default_boards'
   post 'configure/user'
   post 'configure/mail'

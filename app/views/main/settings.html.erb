@@ -126,6 +126,25 @@
                 <div><button type=submit>Create</button></div>
             <% end -%>
             </div>
+            <%= form_tag '/configure/merge_boards', class: 'merge_boards_form' do %>
+            <div>
+                <label for=merge_from>Merge</label>
+                <select id=merge_from name=from>
+                    <option value="" selected></option>
+                <% for b in @boards -%>
+                    <option value="<%=b.id%>"><%=b.name%></option>
+                <% end -%>
+                </select>
+                <label for=merge_to>into</label>
+                <select id=merge_to name=to>
+                    <option value="" selected></option>
+                <% for b in @boards -%>
+                    <option value="<%=b.id%>"><%=b.name%></option>
+                <% end -%>
+                </select>
+                <button type=submit>Merge</button>
+            </div>
+            <% end -%>
             <div class=section_sub_heading>Default boards</div>
             <% settings = SiteSettings.first_or_create -%>
             <%= form_tag '/configure/default_boards', class: 'default_boards_form' do %>

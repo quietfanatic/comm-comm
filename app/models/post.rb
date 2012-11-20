@@ -18,7 +18,8 @@ class Post < ActiveRecord::Base
   HIDING = 13
   UNHIDING = 14
   EDITING = 15
-  MAILING = 16
+   # MAILING = 16 oops, made a duplicate
+  BOARD_MERGING = 17
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
@@ -86,8 +87,9 @@ class Post < ActiveRecord::Base
       return " unhid " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when EDITING
       return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
-    when MAILING
-      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user) + " to " + Post.content.lines.length.to_s + " addresses"
+    when BOARD_MERGING
+      lines = content.split("\n")
+      return " merged " + lines[0] + " into " + lines[1]
     else
       return " generated a mysterious post"
     end

@@ -116,6 +116,37 @@ class ConfigureController < ApplicationController
     end
   end
 
+  def merge_boards
+    logged_in do
+      redirect_to '/main/settings?section=boards'
+      return unless @user.can_edit_boards
+      from = Board.find_by_id(params['from'].to_i)
+      if from
+        to = Board.find_by_id(params['to'].to_i)
+        if to
+          for p in Post.find_all_by_board(from.id)
+             # TODO: do this with real SQL to be much faster
+            p.board = to.id
+            p.save
+          end
+          event = Post.new(
+            post_type: Post::BOARD_MERGING,
+            board: to.id,
+            reference: to.id,
+            owner: @user.id,
+            content: from.name + "\n" + to.name
+          )
+          event.save!
+          to.last_event = event.id
+          to.last_post = [from.last_post || 0, to.last_post || 0].max
+          to.last_yell = [from.last_yell || 0, to.last_yell || 0].max
+          to.save!
+          from.destroy
+        end
+      end
+    end
+  end
+
   def default_boards
     logged_in do
       if @user.can_edit_boards
