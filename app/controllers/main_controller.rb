@@ -22,7 +22,7 @@ class MainController < ApplicationController
       end
       if @board and @posts and @posts.length > 0
         board_user = BoardUser.get(@board, @user)
-        board_user.updated_to = @posts.last.id
+        board_user.updated_to = Post.last.id
         board_user.save!
       end
     end
@@ -68,7 +68,7 @@ class MainController < ApplicationController
       }
       if @board and @new_posts and @new_posts.length > 0
         board_user = BoardUser.get(@board, @user)
-        board_user.updated_to = @new_posts.last.id
+        board_user.updated_to = Post.last.id
         board_user.save!
       end
     end
