@@ -11,11 +11,13 @@ gem 'rails', '3.2.8'
 group :development, :test do
   gem 'sqlite3', '1.3.5'
   gem 'capybara', '1.1.3'
+  gem 'ruby-prof', '0.11.2'
   gem 'selenium-webdriver', '2.25.0'
   gem 'rspec-rails', '2.11.4'
-  gem 'ruby-prof', '0.11.2'
-  gem 'chromedriver-helper'
+  gem 'rack_session_access'
+  gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'rails_warden'
   gem 'nokogiri'
 end
 
