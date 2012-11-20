@@ -3,17 +3,25 @@ class LoginController < ApplicationController
   end
   def login
     user = User.find_by_email(params["email"])
-    if user and session.has_key?('session_id')
-      if user.password == params["password"]
-        Session.create(user_id: user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'])
-        initial = SiteSettings.first_or_create.initial_board
-        if initial
-          redirect_to "/main/board?board=#{initial}"
+    if user
+      if session.has_key?('session_id')
+        if user.password == params["password"]
+          old_sess = Session.find_by_token(params['session_id'])
+          if old_sess  # Could have different user agent.
+            old_sess.destroy
+          end
+          Session.create(user_id: user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'].byteslice(0, 250))
+          initial = SiteSettings.first_or_create.initial_board
+          if initial
+            redirect_to "/main/board?board=#{initial}"
+          else
+            redirect_to "/main/board"
+          end
         else
-          redirect_to "/main/board"
+          redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
         end
       else
-        redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
+        redirect_to "/login/entrance?error=Sorry,+you+must+have+cookies+enabled+to+log+in."
       end
     else
       redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
@@ -37,12 +45,12 @@ class LoginController < ApplicationController
     elsif User.find_by_email(params['email'])
       redirect_to "/login/signup?error=Sorry,+That+email+address+is+in+use."
     else
-      @user = User.create(
+      @new_user = User.create(
         email: params['email'],
         visible_name: params['name'],
         password: params['password']
       )
-      Session.create(user_id: @user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'])
+      Session.create(user_id: @new_user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'])
     end
   end
   def signup
