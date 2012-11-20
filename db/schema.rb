@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115230851) do
+ActiveRecord::Schema.define(:version => 20121115233940) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20121115230851) do
     t.float    "order",      :default => 0.0, :null => false
     t.integer  "last_post"
     t.integer  "last_yell"
-    t.integer  "ppp",        :default => 50
+    t.integer  "ppp",        :default => 50,  :null => false
   end
 
   create_table "posts", :force => true do |t|

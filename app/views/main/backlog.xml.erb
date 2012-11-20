@@ -7,7 +7,7 @@
     <%= render 'post/view', post: p, pinned: false, user: @user -%>
     <% end -%>
     </div>
-    <% if @old_posts and @old_posts.length >= MainController::PPP -%>
+    <% if @old_posts and @old_posts.length >= (@board ? @board.ppp : 50) -%>
         <div id="new_earliest"><%= @old_posts.first.id %></div>
     <% end -%>
 </body>

@@ -3,11 +3,15 @@ class LoginController < ApplicationController
   end
   def login
     user = User.find_by_email(params["email"])
-    if user
+    if user and session.has_key?('session_id')
       if user.password == params["password"]
-        user.session = session['session_id']
-        user.save!
-        redirect_to "/main/board"
+        Session.create(user_id: user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'])
+        initial = SiteSettings.first_or_create.initial_board
+        if initial
+          redirect_to "/main/board?board=#{initial}"
+        else
+          redirect_to "/main/board"
+        end
       else
         redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
       end
@@ -38,15 +42,15 @@ class LoginController < ApplicationController
         visible_name: params['name'],
         password: params['password']
       )
+      Session.create(user_id: @user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'])
     end
   end
   def signup
   end
   def logout
-    user = User.find_by_session(session['session_id'])
-    if user
-      user.session = nil
-      user.save!
+    sess = Session.find_by_token(session['session_id'])
+    if sess
+      sess.destroy
     end
     redirect_to "/login/entrance?notice=You+have+been+logged+out."
   end

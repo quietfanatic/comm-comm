@@ -19,6 +19,7 @@
 body {
     overflow: hidden;
     background: $site-background;
+    background: $site-background-webkit;
     background-size: cover;
 }
 
@@ -152,6 +153,11 @@ body {
     margin-bottom: 0;
 }
 
+.section_sub_heading {
+    font-weight: bold;
+    margin: 1.5em 1em 0.5em 1em;
+}
+
 .show, .hide {
     padding-left: 4em;
 }
@@ -163,16 +169,18 @@ body {
     cursor: pointer; cursor: hand;
 }
 .showhider + label:before {
+    width: 1em;
     content: "▶"
 }
 .showhider:checked + label:before {
+    width: 1em;
     content: "▼"
 }
 
-.showhider + label + * {
+.showhider ~ .section_content {
     display: none;
 }
-.showhider:checked + label + * {
+.showhider:checked ~ .section_content {
     display: block;
 }
 
