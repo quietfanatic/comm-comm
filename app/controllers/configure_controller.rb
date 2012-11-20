@@ -51,14 +51,14 @@ class ConfigureController < ApplicationController
       redirect_to '/main/settings' and return unless @user.can_edit_boards
       name = params['name']
       if name and name =~ /\S/
-        board = Board.new(name: name)
+        board = Board.new(name: name, order: params['order'], ppp: params['ppp'])
         board.save!
         event = Post.new(
           post_type: Post::BOARD_CREATION,
           board: board.id,
           reference: board.id,
           owner: @user.id,
-          content: board.name
+          content: board.name,
         )
         event.save!
         board.last_event = event.id
