@@ -32,7 +32,7 @@
     </div>
 </div>
 <script>
-    <% lastpost = Post.last =%>
+    <% lastpost = Post.last -%>
     var ajaxifier = get_ajaxifier(
         document,
         <%= lastpost ? lastpost.id : 0 %>,
