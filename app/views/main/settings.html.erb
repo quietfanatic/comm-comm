@@ -86,43 +86,46 @@
             <span class=section_heading>Edit Boards</span>
         </label>
         <div class=section_content>
-            <div class="board_row boards_header">
-                <div class=board_id>ID</div>
-                <div class=board_name>Name</div>
-                <div class=board_order>Order</div>
-                <div class=board_ppp>Posts/Page</div>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
+                <!-- Have to match that silly Rails hidden input div -->
+                <div style="margin:0;padding:0;display:inline"></div>
+                <div>ID</div>
+                <div>Name</div>
+                <div>Order</div>
+                <div>Posts/Page</div>
             </div>
             <% for b in @boards -%>
-            <%= form_tag '/configure/change_board' do %>
-            <div class=board_row>
-                <div class=board_id><%=b.id%>
+            <%= form_tag '/configure/change_board', class: 'pseudo_tr' do %>
+                <div><%=b.id%>
                     <input type=hidden name=id value="<%=b.id%>"/>
                 </div>
-                <div class=board_name>
+                <div>
                     <input type=text name=name value="<%=b.name%>"/>
                 </div>
-                <div class=board_order>
+                <div>
                     <input type=number name=order value="<%=b.order%>"/>
                 </div>
-                <div class=board_ppp>
+                <div>
                     <input type=number name=ppp value="<%=b.ppp%>"/>
                 </div>
-                <button name=do value=change>Change</button>
-            </div>
+                <div><button name=do value=change>Change</button></div>
             <% end -%>
             <% end -%>
-            <%= form_tag '/board/new_board' do %>
-            <div class=board_row>
-                <div class=board_id>New</div>
-                <div class=board_name>
+            <%= form_tag '/board/new_board', class: 'pseudo_tr' do %>
+                <div>New</div>
+                <div>
                     <input type=text name=name />
                 </div>
-                <div class=board_order>
-                    <input type-number name=order value="0.0"/>
+                <div>
+                    <input type=number name=order value="0.0"/>
                 </div>
-                <button type=submit>Create</button>
-            </div>
+                <div>
+                    <input type=number name=ppp value="50"/>
+                </div>
+                <div><button type=submit>Create</button></div>
             <% end -%>
+            </div>
             <div class=section_sub_heading>Default boards</div>
             <% settings = SiteSettings.first_or_create -%>
             <%= form_tag '/configure/default_boards', class: 'default_boards_form' do %>
@@ -155,50 +158,51 @@
             <span class=section_heading>Mail Configuration</span>
         </label>
         <div class=section_content>
-        <%= form_tag '/configure/mail', class: 'configure_mail_form' do %>
-            <div>
+        <%= form_tag '/configure/mail' do %>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
                 <label for=enable_mail>Enable Mailing Posts</label>
-                <input type=checkbox id=enable_mail name=enable_mail <%=settings.enable_mail ? 'checked' : ''%> />
+                <div><input type=checkbox id=enable_mail name=enable_mail <%=settings.enable_mail ? 'checked' : ''%> /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_server>SMTP Server:</label>
-                <input type=text id=smtp_server name=smtp_server value="<%=settings.smtp_server || ''%>" />
+                <div><input type=text id=smtp_server name=smtp_server value="<%=settings.smtp_server || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_port>Port:</label>
-                <input type=number id=smtp_port name=smtp_port value="<%=settings.smtp_port || ''%>" />
+                <div><input type=number id=smtp_port name=smtp_port value="<%=settings.smtp_port || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_auth>Authentication Method:</label>
-                <select id=smtp_auth name=smtp_auth>
+                <div><select id=smtp_auth name=smtp_auth>
                     <option value=plain <%=settings.smtp_auth == 'plain' ? 'selected' : ''%> />plain</option>
                     <option value=login <%=settings.smtp_auth == 'login' ? 'selected' : ''%> />login</option>
                     <option value=cram_md5 <%=settings.smtp_auth == 'cram_md5' ? 'selected' : ''%> />cram_md5</option>
-                </select>
+                </select></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_username>Username:</label>
-                <input type=text id=smtp_username name=smtp_username value="<%=settings.smtp_username || ''%>" />
+                <div><input type=text id=smtp_username name=smtp_username value="<%=settings.smtp_username || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_password>Password:</label>
-                <input type=password id=smtp_password name=smtp_password value="<%=settings.smtp_password || ''%>" />
+                <div><input type=password id=smtp_password name=smtp_password value="<%=settings.smtp_password || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_starttls_auto>Enable StartTLS Auto:</label>
-                <input type=checkbox id=smtp_starttls_auto name=smtp_starttls_auto <%=settings.smtp_starttls_auto ? 'checked' : ''%> />
+                <div><input type=checkbox id=smtp_starttls_auto name=smtp_starttls_auto <%=settings.smtp_starttls_auto ? 'checked' : ''%> /></div>
             </div>
-            <div> 
+            <div class=pseudo_tr> 
                 <label for=smtp_ssl_verify>OpenSSL Verify Mode:</label>
-                <select id=smtp_ssl_verify name=smtp_ssl_verify>
+                <div><select id=smtp_ssl_verify name=smtp_ssl_verify>
                     <option value=none <%=settings.smtp_ssl_verify == 'none' ? 'selected' : ''%> />none</option>
                     <option value=peer <%=settings.smtp_ssl_verify == 'peer' ? 'selected' : ''%> />peer</option>
                     <option value=client_once <%=settings.smtp_ssl_verify == 'client_once' ? 'selected' : ''%> />client_once</option>
                     <option value=fail_if_no_peer_cert <%=settings.smtp_ssl_verify == 'fail_if_no_peer_cert' ? 'selected' : ''%> />fail_if_no_peer_cert</option>
-                </select>
+                </select></div>
             </div>
-            <button class=change_button type=submit>Change</button>
-            <div>
+            </div>
+            <div><button class=change_button type=submit>Change</button></div>
                 <label for=send_test_to>Send test mail to:</label>
                 <input type=text id=send_test_to name=send_test_to value="<%=settings.send_test_to%>" />
                 <button name=do value=send_test>Send</button>
