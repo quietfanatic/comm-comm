@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+ # Primarily for byteslice
+ruby '1.9.3'
+
 gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
