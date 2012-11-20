@@ -83,7 +83,7 @@
     <div class=section>
         <input id=showhide_boards type=checkbox class=showhider <%= params['section'] == 'boards' ? 'checked' : ''%>/>
         <label for=showhide_boards>
-            <span class=section_heading>Edit Boards</span>
+            <span class=section_heading>Boards</span>
         </label>
         <div class=section_content>
             <div class=pseudo_table>
@@ -155,7 +155,7 @@
     <div class=section>
         <input id=showhide_mail type=checkbox class=showhider <%= params['section'] == 'mail' ? 'checked' : ''%>/>
         <label for=showhide_mail>
-            <span class=section_heading>Mail Configuration</span>
+            <span class=section_heading>Mail</span>
         </label>
         <div class=section_content>
         <%= form_tag '/configure/mail' do %>
@@ -215,7 +215,7 @@
     <div class=section>
         <input id=showhide_users type=checkbox class=showhider <%= params['section'] == 'users' ? 'checked' : ''%>/>
         <label for=showhide_users>
-            <span class=section_heading>Manage Users</span>
+            <span class=section_heading>Users</span>
         </label>
         <div class=section_content>
         <div class=pseudo_table>
