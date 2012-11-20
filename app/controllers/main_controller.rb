@@ -76,7 +76,6 @@ class MainController < ApplicationController
 
   def mail
     logged_in do
-      @user = user
       redirect_to '/main/board' and return unless @user.can_mail_posts != false
       @post = Post.find_by_id(params['id'])
       redirect_to '/main/board' and return unless @post
