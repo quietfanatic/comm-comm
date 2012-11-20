@@ -244,15 +244,13 @@
     margin-bottom: 0;
 }
 
-.user_table {
+.pseudo_table {
     display: table;
 }
-.user_header,
-.user_row {
+.pseudo_tr {
     display: table-row;
 }
-.user_header > div,
-.user_row > div {
+.pseudo_tr > div {
     display: table-cell;
     padding-right: 0.4em;
 }

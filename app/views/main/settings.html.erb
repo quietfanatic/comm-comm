@@ -54,27 +54,29 @@
             <span class=section_heading>Invitation Requests</span>
         </label>
         <div class=section_content>
-            <div class="request_row user_header">
-                <div class=user_id>ID</div>
-                <div class=user_email>email</div>
-                <div class=user_name>name</div>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
+                <!-- Have to match that silly Rails hidden input div -->
+                <div style="margin:0;padding:0;display:inline"></div>
+                <div>ID</div>
+                <div>email</div>
+                <div>name</div>
             </div>
             <% for u in @unconfirmed_users -%>
-            <%= form_tag '/configure/confirm' do %>
-            <div class=request_row>
-                <div class=user_id><%=u.id%></div>
+            <%= form_tag '/configure/confirm', class: 'pseudo_tr' do %>
+                <div><%=u.id%></div>
                     <input type=hidden name=id value="<%=u.id%>"/>
-                <div class=user_email><%=u.email%></div>
-                <div class=user_name><%=u.name%></div>
-                <button name=do value=confirm>Confirm</button>
-                <button name=do value=deny>Deny</button>
+                <div><%=u.email%></div>
+                <div><%=u.name%></div>
+                <div><button name=do value=confirm>Confirm</button></div>
+                <div><button name=do value=deny>Deny</button></div>
+            <% end -%>
+            <% end -%>
             </div>
-            <% end -%>
-            <% end -%>
         </div>
         <% else -%>
         <div class=section_heading>No Invitation Requests</div>
-    <% end -%>
+        <% end -%>
     </div>
 <% end -%>
 <% if @user.can_edit_boards -%>
@@ -212,8 +214,8 @@
             <span class=section_heading>Manage Users</span>
         </label>
         <div class=section_content>
-        <div class=user_table>
-        <div class=user_header>
+        <div class=pseudo_table>
+        <div class=pseudo_tr>
             <!-- Have to match that silly Rails hidden input div -->
             <div style="margin:0;padding:0;display:inline"></div>
             <div>ID</div>
@@ -229,7 +231,7 @@
             <div></div>
         </div>
         <% for u in User.all -%>
-        <%= form_tag '/configure/user', class: 'user_row' do -%>
+        <%= form_tag '/configure/user', class: 'pseudo_tr' do -%>
             <div>
                 <%=u.id%>
                 <input type=hidden name=id value="<%=u.id%>"/>
