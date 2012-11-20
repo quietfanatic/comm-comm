@@ -201,6 +201,14 @@
                     <option value=fail_if_no_peer_cert <%=settings.smtp_ssl_verify == 'fail_if_no_peer_cert' ? 'selected' : ''%> />fail_if_no_peer_cert</option>
                 </select></div>
             </div>
+            <div class=pseudo_tr>
+                <label for=mail_from>From address:</label>
+                <div><input class=long type=text id=mail_from name=mail_from value="<%=settings.mail_from || '"Example From" <from@example.com>'%>" /></div>
+            </div>
+            <div class=pseudo_tr>
+                <label for=mail_subject_prefix>Subject prefix:</label>
+                <div><input class=long type=text id=mail_subject_prefix name=mail_subject_prefix value="<%=settings.mail_subject_prefix || '[Comm Comm]'%>" /></div>
+            </div>
             </div>
             <div><button class=change_button type=submit>Change</button></div>
                 <label for=send_test_to>Send test mail to:</label>

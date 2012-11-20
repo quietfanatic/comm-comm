@@ -137,14 +137,20 @@ class ConfigureController < ApplicationController
       if @user.can_change_site_settings
         settings = SiteSettings.first_or_create
         settings.enable_mail = params.has_key?('enable_mail')
-        settings.smtp_server = params['smtp_server'] || ''
-        settings.smtp_port = params['smtp_port'] || ''
-        settings.smtp_auth = params['smtp_auth'] || ''
-        settings.smtp_username = params['smtp_username'] || ''
-        settings.smtp_password = params['smtp_password'] || ''
+        settings.smtp_server = params['smtp_server'] || nil
+        settings.smtp_port = params['smtp_port'] || nil
+        settings.smtp_auth = params['smtp_auth'] || nil
+        settings.smtp_username = params['smtp_username'] || nil
+        settings.smtp_password = params['smtp_password'] || nil
         settings.smtp_starttls_auto = params.has_key?('smtp_starttls_auto')
-        settings.smtp_ssl_verify = params['smtp_ssl_verify'] || ''
+        settings.smtp_ssl_verify = params['smtp_ssl_verify'] || nil
+        settings.mail_from = params['mail_from'] || nil
+        settings.mail_subject_prefix = params['mail_subject_prefix'] || nil
+        settings.send_test_to = params['send_test_to'] || nil
         settings.save!
+        if params['do'] == 'send_test'
+          PostOffice.test(@user, settings.send_test_to).deliver
+        end
       end
       redirect_to '/main/settings?section=mail'
     end

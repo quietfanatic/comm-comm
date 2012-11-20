@@ -21,8 +21,8 @@ class PostOffice < ActionMailer::Base
     if user.can_change_site_settings
       mail(
         to: recipient,
-        from: settings.smtp_username,
-        subject: 'Comm Comm Mail Test',
+        from: settings.mail_from || '"Example From" <from@example.com>"',
+        subject: (settings.mail_subject_prefix ? settings.mail_subject_prefix + ' ' : '') + 'Mail Test',
       )
     end
   end
@@ -37,8 +37,8 @@ class PostOffice < ActionMailer::Base
     @post = post
     mail(
       to: recipients,
-      from: settings.smtp_username,
-      subject: '[WCS Comm] ' + board_name
+      from: settings.mail_from || '"Example From" <from@example.com>"',
+      subject: (settings.mail_subject_prefix ? settings.mail_subject_prefix + ' ' : '') + board_name,
     )
   end
 end

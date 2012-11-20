@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115233940) do
+ActiveRecord::Schema.define(:version => 20121120055051) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20121115233940) do
     t.string   "mail_from_address"
     t.integer  "initial_board"
     t.integer  "sitewide_event_board"
+    t.string   "mail_from"
   end
 
   create_table "users", :force => true do |t|
