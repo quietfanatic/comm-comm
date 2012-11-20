@@ -20,6 +20,7 @@ class Post < ActiveRecord::Base
   EDITING = 15
    # MAILING = 16 oops, made a duplicate
   BOARD_MERGING = 17
+  BOARD_UNMERGING = 18
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY
@@ -88,8 +89,11 @@ class Post < ActiveRecord::Base
     when EDITING
       return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
     when BOARD_MERGING
-      lines = content.split("\n")
-      return " merged " + lines[0] + " into " + lines[1]
+      lines = content.match(/(.*)\n(.*)/)
+      return " merged " + lines[1] + " into " + lines[2]
+    when BOARD_UNMERGING
+      lines = content.match(/(.*)\n(.*)/)
+      return " unmerged " + lines[1] + " from " + lines[2]
     else
       return " generated a mysterious post"
     end

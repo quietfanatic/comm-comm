@@ -1,4 +1,5 @@
 <% provide(:tab_id, "_SETTINGS") -%>
+<% settings = SiteSettings.first_or_create -%>
 <div class=settings_page>
     <div class=section>
         <input id=showhide_profile type=checkbox class=showhider checked />
@@ -145,8 +146,14 @@
                 <button type=submit>Merge</button>
             </div>
             <% end -%>
+            <% if settings.last_merge_event -%>
+            <%= form_tag '/configure/undo_last_merge' do %>
+            <div>
+                <button type=submit>Undo last merge</button>
+            </div>
+            <% end -%>
+            <% end -%>
             <div class=section_sub_heading>Default boards</div>
-            <% settings = SiteSettings.first_or_create -%>
             <%= form_tag '/configure/default_boards', class: 'default_boards_form' do %>
             <div>
                 <label for=initial_board>After logging in, go to</label>

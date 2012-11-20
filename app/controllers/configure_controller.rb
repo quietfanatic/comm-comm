@@ -121,29 +121,70 @@ class ConfigureController < ApplicationController
       redirect_to '/main/settings?section=boards'
       return unless @user.can_edit_boards
       from = Board.find_by_id(params['from'].to_i)
-      if from
-        to = Board.find_by_id(params['to'].to_i)
-        if to
-          for p in Post.find_all_by_board(from.id)
-             # TODO: do this with real SQL to be much faster
-            p.board = to.id
-            p.save
-          end
-          event = Post.new(
-            post_type: Post::BOARD_MERGING,
-            board: to.id,
-            reference: to.id,
-            owner: @user.id,
-            content: from.name + "\n" + to.name
-          )
-          event.save!
-          to.last_event = event.id
-          to.last_post = [from.last_post || 0, to.last_post || 0].max
-          to.last_yell = [from.last_yell || 0, to.last_yell || 0].max
-          to.save!
-          from.destroy
+      return unless from
+      to = Board.find_by_id(params['to'].to_i)
+      return unless to and from.id != to.id
+      posts = Post.find_all_by_board(from.id)
+      for p in posts
+         # TODO: do this with real SQL to be much faster
+        p.board = to.id
+        p.save
+      end
+      event = Post.new(
+        post_type: Post::BOARD_MERGING,
+        board: to.id,
+        reference: from.id,
+        owner: @user.id,
+         # Yes we're storing the ids of all the affected posts.
+        content: from.name + "\n" + to.name + "\n" + posts.map{|p|p.id.to_s}.join("\n")
+      )
+      event.save!
+      to.last_event = event.id
+      to.last_post = [from.last_post || 0, to.last_post || 0].max
+      to.last_yell = [from.last_yell || 0, to.last_yell || 0].max
+      to.save!
+       # Don't destroy from, in case we want to undo.
+      settings = SiteSettings.first_or_create
+      settings.last_merge_event = event.id
+      settings.save!
+    end
+  end
+
+  def undo_last_merge
+    logged_in do
+      redirect_to '/main/settings?section=boards'
+      return unless @user.can_edit_boards
+      settings = SiteSettings.first_or_create
+      return unless settings.last_merge_event
+      ev = Post.find_by_id(settings.last_merge_event)
+      return unless ev and ev.post_type == Post::BOARD_MERGING
+      from = Board.find_by_id(ev.board)
+      to = Board.find_by_id(ev.reference)
+      lines = ev.content.split("\n")
+      posts = []
+      for l in lines[2, lines.length - 2]
+        p = Post.find_by_id(l.to_i)
+        if p and p.board
+          p.board = to.id
+          p.save
+          posts << p
         end
       end
+      ev.board = to.id
+      ev.save!
+      event = Post.new(
+        post_type: Post::BOARD_UNMERGING,
+        board: to.id,
+        reference: from.id,
+        owner: @user.id,
+        content: to.name + "\n" + from.name + "\n" + posts.map{|p|p.id.to_s}.join("\n")
+      )
+      event.save!
+      to.last_event = event.id
+      to.save!
+      settings = SiteSettings.first_or_create
+      settings.last_merge_event = nil
+      settings.save!
     end
   end
 
