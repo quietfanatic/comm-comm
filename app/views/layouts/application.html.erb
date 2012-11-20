@@ -28,7 +28,7 @@
         <% indicators = BoardUser.indicators(@user) -%>
             <% tabclass = (tab_id == "Uncategorized") ? 'board_tab current' : 'board_tab' -%>
             <a class="<%=tabclass%>" href="/main/board"><span class=indicator id=indicator_0></span>Uncategorized</a>
-        <% for t in Board.order('"order", "id"').all -%>
+        <% for t in Board.order('"order", "id"').where(visible: true).all -%>
             <% tabclass = (tab_id == t.name) ? 'board_tab current' : 'board_tab' -%>
             <% indclass = (indicators[t.id] == nil ? BoardUser::OFF : indicators[t.id]) -%>
             <a class="<%=tabclass%>" href="/main/board?board=<%=t.id%>"><span class="<%=indclass%>" id="indicator_<%=t.id%>"></span><%=t.name%></a>

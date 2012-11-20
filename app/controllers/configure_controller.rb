@@ -144,6 +144,8 @@ class ConfigureController < ApplicationController
       to.last_yell = [from.last_yell || 0, to.last_yell || 0].max
       to.save!
        # Don't destroy from, in case we want to undo.
+      from.visible = false
+      from.save!
       settings = SiteSettings.first_or_create
       settings.last_merge_event = event.id
       settings.save!
@@ -181,6 +183,7 @@ class ConfigureController < ApplicationController
       )
       event.save!
       to.last_event = event.id
+      to.visible = true
       to.save!
       settings = SiteSettings.first_or_create
       settings.last_merge_event = nil
