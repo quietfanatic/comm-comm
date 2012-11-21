@@ -268,6 +268,7 @@ class ConfigureController < ApplicationController
         @editee.can_change_site_settings = false
         @editee.can_edit_users = false
         @editee.save!
+        Session.find_by_user_id(@editee.id).destroy_all
       elsif params['do'] == 'reinstate'
         @editee.exiled = false
         @editee.save!
