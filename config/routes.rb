@@ -31,6 +31,7 @@ CommComm::Application.routes.draw do
   post 'configure/user'
   post 'configure/mail'
   post 'configure/test_mail'
+  post 'configure/updating'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

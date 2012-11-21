@@ -32,11 +32,14 @@
 </div>
 <script>
     <% lastpost = Post.last -%>
+    <% settings = SiteSettings.first_or_create -%>
     var ajaxifier = get_ajaxifier(
         document,
         <%= lastpost ? lastpost.id : 0 %>,
         <%= @posts.first ? @posts.first.id : 0 %>,
-        <%= @board ? @board.id : 'null' %>
+        <%= @board ? @board.id : 'null' %>,
+        <%= settings.min_update_interval %>,
+        <%= settings.max_update_interval %>
     );
     ajaxifier.scroll_stream();
     ajaxifier.start_updating();
