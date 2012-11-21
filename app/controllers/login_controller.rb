@@ -6,16 +6,20 @@ class LoginController < ApplicationController
     if user
       if session.has_key?('session_id')
         if user.password == params["password"]
-          old_sess = Session.find_by_token(params['session_id'])
-          if old_sess  # Could have different user agent.
-            old_sess.destroy
-          end
-          Session.create(user_id: user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'].byteslice(0, 250))
-          initial = SiteSettings.first_or_create.initial_board
-          if initial
-            redirect_to "/main/board?board=#{initial}"
+          if not user.exiled
+            old_sess = Session.find_by_token(params['session_id'])
+            if old_sess  # Could have different user agent.
+              old_sess.destroy
+            end
+            Session.create(user_id: user.id, token: session['session_id'], user_agent: request.env['HTTP_USER_AGENT'].byteslice(0, 250))
+            initial = SiteSettings.first_or_create.initial_board
+            if initial
+              redirect_to "/main/board?board=#{initial}"
+            else
+              redirect_to "/main/board"
+            end
           else
-            redirect_to "/main/board"
+            redirect_to "/login/entrance?error=Sorry,+that+account+has+been+disabled."
           end
         else
           redirect_to "/login/entrance?error=Sorry,+one+of+those+was+a+bit+wrong."
