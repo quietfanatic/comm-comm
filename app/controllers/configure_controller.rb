@@ -243,15 +243,35 @@ class ConfigureController < ApplicationController
     end
   end
 
-
-  def test_mail
+  def user
     logged_in do
-      to = params['send_test_to']
-      settings = SiteSettings.first_or_create
-      settings.send_test_to = to
-      settings.save!
-      PostOffice.test(@user, to).deliver
-      redirect_to '/main/settings?section=mail'
+      redirect_to '/main/settings?section=users'
+      return unless @user.can_edit_users
+      @editee = User.find_by_id(params['id'])
+      return unless @editee
+      if params['do'] == 'change'
+        @editee.visible_name = params['name'] if params.has_key?('name')
+        @editee.email = params['email'] if params.has_key?('email')
+        @editee.can_mail_posts = params.has_key?('can_mail_posts')
+        @editee.can_change_appearance = params.has_key?('can_change_appearance')
+        @editee.can_edit_boards = params.has_key?('can_edit_boards')
+        @editee.can_confirm_users = params.has_key?('can_confirm_users')
+        @editee.can_change_site_settings = params.has_key?('can_change_site_settings')
+        @editee.can_edit_users = params.has_key?('can_edit_users')
+        @editee.save!
+      elsif params['do'] == 'exile'
+        @editee.exiled = true
+        @editee.can_mail_posts = false
+        @editee.can_change_appearance = false
+        @editee.can_edit_boards = false
+        @editee.can_confirm_users = false
+        @editee.can_change_site_settings = false
+        @editee.can_edit_users = false
+        @editee.save!
+      elsif params['do'] == 'reinstate'
+        @editee.exiled = false
+        @editee.save!
+      end
     end
   end
 end
