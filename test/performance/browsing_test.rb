@@ -6,7 +6,7 @@ class BrowsingTest < ActiveSupport::TestCase
 
 	test "homepage should exist" do
 		visit '/'
-		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
+		assert page.has_content?('Comm Comm'), "This page does not have the correct content."
 	end
 	
 	test "board should exist" do
@@ -23,7 +23,7 @@ class BrowsingTest < ActiveSupport::TestCase
    
 	test "settings should exist" do
 		visit '/main/settings'
-		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
+		assert page.has_content?('Comm Comm'), "This page does not have the correct content."
 	end
 	
 	test "entrance should exist" do
