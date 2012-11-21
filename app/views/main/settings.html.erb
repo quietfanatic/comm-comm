@@ -330,7 +330,11 @@
                 <button name=do value=change>Change</button>
             </div>
             <div>
+            <% if u.exiled -%>
+                <button name=do value=reinstate>Reinstate</button>
+            <% else -%>
                 <button name=do value=exile>Exile</button>
+            <% end -%>
             </div>
         <% end -%>
         <% end -%>
