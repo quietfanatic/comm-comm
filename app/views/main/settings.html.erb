@@ -287,12 +287,12 @@
             <div>ID</div>
             <div>Name</div>
             <div>Email</div>
-            <div>A</div>
-            <div>B</div>
-            <div>C</div>
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
+            <div><abbr title="Can mail posts to others">M</abbr></div>
+            <div><abbr title="Can confirm new users">C</abbr></div>
+            <div><abbr title="Can change site appearance"/>A</abbr></div>
+            <div><abbr title="Can edit the boards">B</abbr></div>
+            <div><abbr title="Can change internal site configuration">S</abbr></div>
+            <div><abbr title="Can edit users and grant permissions, like this">U</abbr></div>
             <div></div>
             <div></div>
         </div>
@@ -321,10 +321,10 @@
                 <input type=checkbox name=can_edit_boards <%=u.can_edit_boards ? 'checked' : ''%> />
             </div>
             <div>
-                <input type=checkbox name=can_edit_users <%=u.can_edit_users ? 'checked' : ''%> />
+                <input type=checkbox name=can_change_site_settings <%=u.can_change_site_settings ? 'checked' : ''%> />
             </div>
             <div>
-                <input type=checkbox name=can_change_site_settings <%=u.can_change_site_settings ? 'checked' : ''%> />
+                <input type=checkbox name=can_edit_users <%=u.can_edit_users ? 'checked' : ''%> />
             </div>
             <div>
                 <button name=do value=change>Change</button>
@@ -334,6 +334,7 @@
             </div>
         <% end -%>
         <% end -%>
+        </div>
         </div>
     </div>
 <% end -%>
