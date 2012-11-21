@@ -14,6 +14,7 @@ Currently in the works.  The information below is for development purposes.
  * The ability to pin posts to make them more permanent (and unpin them)
  * The ability to hide posts that are yours or that contain images
  * The ability to mail posts to selected registered users
+ * bbcode markup in posts
  * Posts are scanned for references to other posts in >>1234 format
  * Activity indicators on each tab, colored differently for different types of activity, including replies to posts you've made
  * Button to reply to a post (automaticaly insert a reference into the post form textarea
