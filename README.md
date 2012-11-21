@@ -1,10 +1,9 @@
-comm-comm
-=========
+Community Communicator
+======================
 
-Community Communicator: An easy communication tool for small communities
+An easy communication tool for small communities
 
 Currently in the works.  The information below is for development purposes.
-
 
 ## Current features
 
