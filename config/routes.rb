@@ -25,10 +25,13 @@ CommComm::Application.routes.draw do
   post 'configure/confirm'
   post 'configure/change_board'
   post 'configure/new_board'
+  post 'configure/merge_boards'
+  post 'configure/undo_last_merge'
   post 'configure/default_boards'
   post 'configure/user'
   post 'configure/mail'
   post 'configure/test_mail'
+  post 'configure/updating'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,4 +1,5 @@
 <% provide(:tab_id, "_SETTINGS") -%>
+<% settings = SiteSettings.first_or_create -%>
 <div class=settings_page>
     <div class=section>
         <input id=showhide_profile type=checkbox class=showhider checked />
@@ -22,7 +23,7 @@
     </div>
     <div class=section>
         <input id=showhide_sessions type=checkbox class=showhider checked />
-        <label for=shuwhide_sessions>
+        <label for=showhide_sessions>
             <span class=section_heading>Sessions</span>
         </label>
         <div class=section_content>
@@ -54,75 +55,107 @@
             <span class=section_heading>Invitation Requests</span>
         </label>
         <div class=section_content>
-            <div class="request_row user_header">
-                <div class=user_id>ID</div>
-                <div class=user_email>email</div>
-                <div class=user_name>name</div>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
+                <!-- Have to match that silly Rails hidden input div -->
+                <div style="margin:0;padding:0;display:inline"></div>
+                <div>ID</div>
+                <div>email</div>
+                <div>name</div>
             </div>
             <% for u in @unconfirmed_users -%>
-            <%= form_tag '/configure/confirm' do %>
-            <div class=request_row>
-                <div class=user_id><%=u.id%></div>
+            <%= form_tag '/configure/confirm', class: 'pseudo_tr' do %>
+                <div><%=u.id%></div>
                     <input type=hidden name=id value="<%=u.id%>"/>
-                <div class=user_email><%=u.email%></div>
-                <div class=user_name><%=u.name%></div>
-                <button name=do value=confirm>Confirm</button>
-                <button name=do value=deny>Deny</button>
+                <div><%=u.email%></div>
+                <div><%=u.name%></div>
+                <div><button name=do value=confirm>Confirm</button></div>
+                <div><button name=do value=deny>Deny</button></div>
+            <% end -%>
+            <% end -%>
             </div>
-            <% end -%>
-            <% end -%>
         </div>
         <% else -%>
         <div class=section_heading>No Invitation Requests</div>
-    <% end -%>
+        <% end -%>
     </div>
 <% end -%>
 <% if @user.can_edit_boards -%>
     <div class=section>
         <input id=showhide_boards type=checkbox class=showhider <%= params['section'] == 'boards' ? 'checked' : ''%>/>
         <label for=showhide_boards>
-            <span class=section_heading>Edit Boards</span>
+            <span class=section_heading>Boards</span>
         </label>
         <div class=section_content>
-            <div class="board_row boards_header">
-                <div class=board_id>ID</div>
-                <div class=board_name>Name</div>
-                <div class=board_order>Order</div>
-                <div class=board_ppp>Posts/Page</div>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
+                <!-- Have to match that silly Rails hidden input div -->
+                <div style="margin:0;padding:0;display:inline"></div>
+                <div>ID</div>
+                <div>Name</div>
+                <div>Order</div>
+                <div>Posts/Page</div>
             </div>
             <% for b in @boards -%>
-            <%= form_tag '/configure/change_board' do %>
-            <div class=board_row>
-                <div class=board_id><%=b.id%>
+            <%= form_tag '/configure/change_board', class: 'pseudo_tr' do %>
+                <div><%=b.id%>
                     <input type=hidden name=id value="<%=b.id%>"/>
                 </div>
-                <div class=board_name>
+                <div>
                     <input type=text name=name value="<%=b.name%>"/>
                 </div>
-                <div class=board_order>
+                <div>
                     <input type=number name=order value="<%=b.order%>"/>
                 </div>
-                <div class=board_ppp>
+                <div>
                     <input type=number name=ppp value="<%=b.ppp%>"/>
                 </div>
-                <button name=do value=change>Change</button>
-            </div>
+                <div><button name=do value=change>Change</button></div>
             <% end -%>
             <% end -%>
-            <%= form_tag '/board/new_board' do %>
-            <div class=board_row>
-                <div class=board_id>New</div>
-                <div class=board_name>
+            <%= form_tag '/configure/new_board', class: 'pseudo_tr' do %>
+                <div>New</div>
+                <div>
                     <input type=text name=name />
                 </div>
-                <div class=board_order>
-                    <input type-number name=order value="0.0"/>
+                <div>
+                    <input type=number name=order value="0.0"/>
                 </div>
-                <button type=submit>Create</button>
+                <div>
+                    <input type=number name=ppp value="50"/>
+                </div>
+                <div><button type=submit>Create</button></div>
+            <% end -%>
+            </div>
+            <%= form_tag '/configure/merge_boards', class: 'merge_boards_form' do %>
+            <div>
+                <label for=merge_from>Merge</label>
+                <select id=merge_from name=from>
+                    <option value="" selected></option>
+                <% for b in @boards -%>
+                    <option value="<%=b.id%>"><%=b.name%></option>
+                <% end -%>
+                </select>
+                <label for=merge_to>into</label>
+                <select id=merge_to name=to>
+                    <option value="" selected></option>
+                <% for b in @boards -%>
+                    <option value="<%=b.id%>"><%=b.name%></option>
+                <% end -%>
+                </select>
+                <button type=submit>Merge</button>
             </div>
             <% end -%>
+            <% ev = Post.find_by_id(settings.last_merge_event) -%>
+            <% if ev -%>
+            <% cont = ev.content.match(/(.*)\n(.*)/) -%>
+            <%= form_tag '/configure/undo_last_merge' do %>
+            <div>
+                <button type=submit>Undo merging <%=cont[1]%> into <%=cont[2]%></button>
+            </div>
+            <% end -%>
+            <% end -%>
             <div class=section_sub_heading>Default boards</div>
-            <% settings = SiteSettings.first_or_create -%>
             <%= form_tag '/configure/default_boards', class: 'default_boards_form' do %>
             <div>
                 <label for=initial_board>After logging in, go to</label>
@@ -146,57 +179,92 @@
     </div>
 <% end -%>
 <% if @user.can_change_site_settings -%>
-    <% settings = SiteSettings.first_or_create -%>
+    <div class=section>
+        <input id=showhide_updating type=checkbox class=showhider <%= params['section'] == 'updating' ? 'checked' : ''%>/>
+        <label for=showhide_updating>
+            <span class=section_heading>Updating</span>
+        </label>
+        <div class=section_content>
+        <%= form_tag '/configure/updating' do %>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
+                <label for=min_update_interval>Minimum update interval:</label>
+                <div>
+                    <input type=number id=min_update_interval name=min_update_interval value=<%=settings.min_update_interval%> />
+                    <label for=min_update_interval>seconds</label>
+                </div>
+            </div>
+            <div class=pseudo_tr>
+                <label for=max_update_interval>Maximum update interval:</label>
+                <div>
+                    <input type=number id=max_update_interval name=max_update_interval value=<%=settings.max_update_interval%> />
+                    <label for=max_update_interval>seconds</label>
+                </div>
+            </div>
+            </div>
+            <div><button class=change_button type=submit>Change</button></div>
+        <% end -%>
+        </div>
+    </div>
     <div class=section>
         <input id=showhide_mail type=checkbox class=showhider <%= params['section'] == 'mail' ? 'checked' : ''%>/>
         <label for=showhide_mail>
-            <span class=section_heading>Mail Configuration</span>
+            <span class=section_heading>Mail</span>
         </label>
         <div class=section_content>
-        <%= form_tag '/configure/mail', class: 'configure_mail_form' do %>
-            <div>
+        <%= form_tag '/configure/mail' do %>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
                 <label for=enable_mail>Enable Mailing Posts</label>
-                <input type=checkbox id=enable_mail name=enable_mail <%=settings.enable_mail ? 'checked' : ''%> />
+                <div><input type=checkbox id=enable_mail name=enable_mail <%=settings.enable_mail ? 'checked' : ''%> /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_server>SMTP Server:</label>
-                <input type=text id=smtp_server name=smtp_server value="<%=settings.smtp_server || ''%>" />
+                <div><input type=text id=smtp_server name=smtp_server value="<%=settings.smtp_server || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_port>Port:</label>
-                <input type=number id=smtp_port name=smtp_port value="<%=settings.smtp_port || ''%>" />
+                <div><input type=number id=smtp_port name=smtp_port value="<%=settings.smtp_port || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_auth>Authentication Method:</label>
-                <select id=smtp_auth name=smtp_auth>
+                <div><select id=smtp_auth name=smtp_auth>
                     <option value=plain <%=settings.smtp_auth == 'plain' ? 'selected' : ''%> />plain</option>
                     <option value=login <%=settings.smtp_auth == 'login' ? 'selected' : ''%> />login</option>
                     <option value=cram_md5 <%=settings.smtp_auth == 'cram_md5' ? 'selected' : ''%> />cram_md5</option>
-                </select>
+                </select></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_username>Username:</label>
-                <input type=text id=smtp_username name=smtp_username value="<%=settings.smtp_username || ''%>" />
+                <div><input type=text id=smtp_username name=smtp_username value="<%=settings.smtp_username || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_password>Password:</label>
-                <input type=password id=smtp_password name=smtp_password value="<%=settings.smtp_password || ''%>" />
+                <div><input type=password id=smtp_password name=smtp_password value="<%=settings.smtp_password || ''%>" /></div>
             </div>
-            <div>
+            <div class=pseudo_tr>
                 <label for=smtp_starttls_auto>Enable StartTLS Auto:</label>
-                <input type=checkbox id=smtp_starttls_auto name=smtp_starttls_auto <%=settings.smtp_starttls_auto ? 'checked' : ''%> />
+                <div><input type=checkbox id=smtp_starttls_auto name=smtp_starttls_auto <%=settings.smtp_starttls_auto ? 'checked' : ''%> /></div>
             </div>
-            <div> 
+            <div class=pseudo_tr> 
                 <label for=smtp_ssl_verify>OpenSSL Verify Mode:</label>
-                <select id=smtp_ssl_verify name=smtp_ssl_verify>
+                <div><select id=smtp_ssl_verify name=smtp_ssl_verify>
                     <option value=none <%=settings.smtp_ssl_verify == 'none' ? 'selected' : ''%> />none</option>
                     <option value=peer <%=settings.smtp_ssl_verify == 'peer' ? 'selected' : ''%> />peer</option>
                     <option value=client_once <%=settings.smtp_ssl_verify == 'client_once' ? 'selected' : ''%> />client_once</option>
                     <option value=fail_if_no_peer_cert <%=settings.smtp_ssl_verify == 'fail_if_no_peer_cert' ? 'selected' : ''%> />fail_if_no_peer_cert</option>
-                </select>
+                </select></div>
             </div>
-            <button class=change_button type=submit>Change</button>
-            <div>
+            <div class=pseudo_tr>
+                <label for=mail_from>From address:</label>
+                <div><input class=long type=text id=mail_from name=mail_from value="<%=settings.mail_from || '"Example From" <from@example.com>'%>" /></div>
+            </div>
+            <div class=pseudo_tr>
+                <label for=mail_subject_prefix>Subject prefix:</label>
+                <div><input class=long type=text id=mail_subject_prefix name=mail_subject_prefix value="<%=settings.mail_subject_prefix || '[Comm Comm]'%>" /></div>
+            </div>
+            </div>
+            <div><button class=change_button type=submit>Change</button></div>
                 <label for=send_test_to>Send test mail to:</label>
                 <input type=text id=send_test_to name=send_test_to value="<%=settings.send_test_to%>" />
                 <button name=do value=send_test>Send</button>
@@ -209,27 +277,27 @@
     <div class=section>
         <input id=showhide_users type=checkbox class=showhider <%= params['section'] == 'users' ? 'checked' : ''%>/>
         <label for=showhide_users>
-            <span class=section_heading>Manage Users</span>
+            <span class=section_heading>Users</span>
         </label>
         <div class=section_content>
-        <div class=user_table>
-        <div class=user_header>
+        <div class=pseudo_table>
+        <div class=pseudo_tr>
             <!-- Have to match that silly Rails hidden input div -->
             <div style="margin:0;padding:0;display:inline"></div>
             <div>ID</div>
             <div>Name</div>
             <div>Email</div>
-            <div>A</div>
-            <div>B</div>
-            <div>C</div>
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
+            <div><abbr title="Can mail posts to others">M</abbr></div>
+            <div><abbr title="Can change site appearance"/>A</abbr></div>
+            <div><abbr title="Can edit the boards">B</abbr></div>
+            <div><abbr title="Can confirm new users">C</abbr></div>
+            <div><abbr title="Can change internal site configuration">S</abbr></div>
+            <div><abbr title="Can edit users and grant permissions, like this">U</abbr></div>
             <div></div>
             <div></div>
         </div>
         <% for u in User.all -%>
-        <%= form_tag '/configure/user', class: 'user_row' do -%>
+        <%= form_tag '/configure/user', class: 'pseudo_tr' do -%>
             <div>
                 <%=u.id%>
                 <input type=hidden name=id value="<%=u.id%>"/>
@@ -244,28 +312,33 @@
                 <input type=checkbox name=can_mail_posts <%=u.can_mail_posts != false ? 'checked' : ''%> />
             </div>
             <div>
-                <input type=checkbox name=can_confirm_users <%=u.can_confirm_users ? 'checked' : ''%> />
-            </div>
-            <div>
                 <input type=checkbox name=can_change_appearance <%=u.can_change_appearance ? 'checked' : ''%> />
             </div>
             <div>
                 <input type=checkbox name=can_edit_boards <%=u.can_edit_boards ? 'checked' : ''%> />
             </div>
             <div>
-                <input type=checkbox name=can_edit_users <%=u.can_edit_users ? 'checked' : ''%> />
+                <input type=checkbox name=can_confirm_users <%=u.can_confirm_users ? 'checked' : ''%> />
             </div>
             <div>
                 <input type=checkbox name=can_change_site_settings <%=u.can_change_site_settings ? 'checked' : ''%> />
             </div>
             <div>
+                <input type=checkbox name=can_edit_users <%=u.can_edit_users ? 'checked' : ''%> />
+            </div>
+            <div>
                 <button name=do value=change>Change</button>
             </div>
             <div>
-                <button name=do value=remove>Remove</button>
+            <% if u.exiled -%>
+                <button name=do value=reinstate>Reinstate</button>
+            <% else -%>
+                <button name=do value=exile>Exile</button>
+            <% end -%>
             </div>
         <% end -%>
         <% end -%>
+        </div>
         </div>
     </div>
 <% end -%>

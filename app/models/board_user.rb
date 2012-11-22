@@ -21,7 +21,7 @@ class BoardUser < ActiveRecord::Base
     indicators = []
     for tu in BoardUser.find_all_by_user_id(user.id)
       mytop = Board.find_by_id(tu.board)
-      if mytop
+      if mytop and mytop.visible
         if tu.updated_to
           if (tu.last_reply and tu.last_reply > tu.updated_to)
             indicators[tu.board] = REPLY

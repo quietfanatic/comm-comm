@@ -1,70 +1,43 @@
-comm-comm
-=========
+Community Communicator
+======================
 
-Community Communicator: An easy communication tool for small communities
+An easy communication tool for small communities
 
 Currently in the works.  The information below is for development purposes.
 
+## Current features
+
+ * Having users posting to multiple boards
+ * Simple and intuitive interface
+ * Invitation-only (new member accounts must be confirmed by someone who has the permission to do so)
+ * Live AJAX updating of new posts and events
+ * The ability to pin posts to make them more permanent (and unpin them)
+ * The ability to hide posts that are yours or that contain images
+ * The ability to mail posts to selected registered users
+ * bbcode markup in posts
+ * Posts are scanned for references to other posts in >>1234 format
+ * Activity indicators on each tab, colored differently for different types of activity, including replies to posts you've made
+ * Button to reply to a post (automaticaly insert a reference into the post form textarea
+ * Editing of boards: their names, order, posts-per-page
+ * Merging one board into another, and undoing the last merge done
+ * Editing of users, exiling bad users, reinstating previously exiled users
+ * Per-feature permissions to do various things.
+ * Detailed smtp configuration through UI
+ * Viewing and managing all your logged in sessions
+
+## Features on the radar, short term
+
+ * Editing posts that have been pinned (actually creates a new derived post)
+ * Checkboxes when you submit a post to automatically pin it or send through mail dialog page
+ * Having up to three nicknames in your profile.  Posts will be scanned for those nicknames and your username and treated accordingly as mentions
+ * Allow some boards to be publicly viewable
+ * Let users who have permission change aspects of the site's appearance
+
+## Long term plans
+
+ * Tagging of posts to differentiate between multiple topics during heavy usage, and filtering posts by their topic
+ * Allow some boards to be publicly postable (with some anti-spam protections)
+ * True live update, pushed from server to client, through a webSocket or comet or something
 
 
-
-### Stage 1: minimum viable product
-
-#### CONTROLLERS/VIEWS
-    1. login: Login screen
-        * Require member confirmation to join
-    2. content: Content page
-    3. settings: Nothing
-
-#### DATABASE
-    1. users: id, visible name, email, hashed & salted password, is confirmed
-    2. posts: owner, content, date posted
-
-### Stage 2: Pinning and 'topics'
-
-#### CONTROLLERS/VIEWS
-    - login
-        - entrance
-        - login (post and redirect)
-        - signup
-        - journey
-    - main
-        - topic
-            * Actually have multiple topics.  They'll be in tabs on the left.
-            * Allow posts to be pinned.
-            * Show only the N most recent non-pinned posts, but load more on request
-    - settings
-        - site
-            * Create, edit, and delete topics
-            * Global site settings (colorscheme perhaps?)
-        - users
-            * Allow confirming members and setting permissions
-        - preferences
-            * User-specific settings (notifications, display settings, etc.)
-            * Change your visible name
-        
-#### DATABASE
-    1. users: Implement system of permissions (prefixed with can)
-    2. posts: owner, content, date, topic, pinned
-        * Posts should be reply-toable and derivable by others
-    3. topics: name, subtitle, perhaps some admin-changeable appearance settings?
-
-### Stage 3: Email integration
-
-#### CONTROLLERS/VIEWS
-    * Should stay more or less the same
-
-#### DATABASE
-    1. users: same, but with one boolean per topic to recieve email notifications?
-    3. posts: same
-    3. topics: name, whether to send notifications by default
-
-#### EMAIL STUFF
-    * The user should receive an email digest of all the activity for each topic
-      that they've signed up for.  Heavy activity will be condensed to have multiple
-    * Each topic uses its name for the email subject, plus "re: " if appropriate
-    * Each topic has its own email address.  Messages sent to that address from
-      addresses owned by members are posted to the board.
-        * Is it possible to authenticate that messages are actually sent from the
-          address they say they're sent from?
 

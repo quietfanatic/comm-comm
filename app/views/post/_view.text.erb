@@ -1,5 +1,5 @@
 <% owner = User.find_by_id(post.owner) -%>
 <% name = owner ? owner.name : '???' -%>
-<%= post.id.to_s %>        <%= name %>        <%= post.created_at %>
+<%= post.id.to_s %>        <%=raw name %>        <%= post.created_at %>
 
-<%= post.text_content %>
+<%=raw post.text_content %>

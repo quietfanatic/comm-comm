@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121115233940) do
+ActiveRecord::Schema.define(:version => 20121121004900) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -22,13 +22,14 @@ ActiveRecord::Schema.define(:version => 20121115233940) do
 
   create_table "boards", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.integer  "last_event"
-    t.float    "order",      :default => 0.0, :null => false
+    t.float    "order",      :default => 0.0,  :null => false
     t.integer  "last_post"
     t.integer  "last_yell"
-    t.integer  "ppp",        :default => 50,  :null => false
+    t.integer  "ppp",        :default => 50,   :null => false
+    t.boolean  "visible",    :default => true, :null => false
   end
 
   create_table "posts", :force => true do |t|
@@ -62,8 +63,8 @@ ActiveRecord::Schema.define(:version => 20121115233940) do
     t.boolean  "smtp_starttls_auto"
     t.string   "smtp_ssl_verify"
     t.string   "send_test_to"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.string   "logo_text"
     t.string   "logo_image"
     t.boolean  "force_https"
@@ -71,6 +72,10 @@ ActiveRecord::Schema.define(:version => 20121115233940) do
     t.string   "mail_from_address"
     t.integer  "initial_board"
     t.integer  "sitewide_event_board"
+    t.string   "mail_from"
+    t.integer  "last_merge_event"
+    t.float    "min_update_interval",  :default => 4.0,  :null => false
+    t.float    "max_update_interval",  :default => 32.0, :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -89,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20121115233940) do
     t.boolean  "can_change_appearance"
     t.boolean  "can_change_site_settings"
     t.boolean  "can_mail_posts"
+    t.boolean  "exiled"
   end
 
 end

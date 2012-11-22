@@ -189,53 +189,6 @@
     padding-right: 0.6em;
 }
 
-.board_row .board_id,
-.user_row .user_id {
-    display: inline-block;
-    width: 3em;
-}
-.board_row .board_order {
-    display: inline-block;
-    width: 6em;
-}
-.board_row .board_order input {
-    width: 5em;
-}
-.board_row .board_name {
-    display: inline-block;
-    width: 11em;
-}
-.board_row .board_name input {
-    width: 10em;
-}
-.board_row .board_ppp {
-    display: inline-block;
-    width: 6em;
-}
-.board_row .board_ppp input {
-    width: 5em;
-}
-
-.user_row .user_email {
-    display: inline-block;
-    min-width: 16em;
-}
-.user_row .user_name {
-    display: inline-block;
-    min-width: 16em;
-}
-
-.mail_settings_form label {
-    margin-left: -1em;
-    margin-right: 0.6em;
-    text-align: right;
-    display: inline-block;
-    min-width: 12em;
-}
-.mail_settings_form input {
-    width: 17em;
-}
-
 .change_button {
     margin: 1em;
     margin-top: 0.5em;
@@ -244,18 +197,30 @@
     margin-bottom: 0;
 }
 
-.user_table {
+.pseudo_table {
     display: table;
 }
-.user_header,
-.user_row {
+.pseudo_tr {
     display: table-row;
 }
-.user_header > div,
-.user_row > div {
+.pseudo_tr > div {
     display: table-cell;
     padding-right: 0.4em;
 }
+.pseudo_tr > label {
+    display: table-cell;
+    text-align: right;
+    padding-right: 0.4em;
+}
+
+input[type=number] {
+    width: 4em;
+}
+
+input.long {
+    width: 24em;
+}
+
 
  /* MAIL */
 

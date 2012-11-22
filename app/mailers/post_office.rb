@@ -16,13 +16,13 @@ class PostOffice < ActionMailer::Base
       }
       return settings
   end
-  def test (user, recipient)
+  def test (user, send_to)
     settings = set_settings
     if user.can_change_site_settings
       mail(
-        to: recipient,
-        from: settings.smtp_username,
-        subject: 'Comm Comm Mail Test',
+        to: send_to,
+        from: settings.mail_from || '"Example From" <from@example.com>"',
+        subject: (settings.mail_subject_prefix ? settings.mail_subject_prefix + ' ' : '') + 'Mail Test',
       )
     end
   end
@@ -35,10 +35,13 @@ class PostOffice < ActionMailer::Base
       board_name = 'Uncategorized'
     end
     @post = post
+    to = recipients.map { |u|
+      '"' + u.name.gsub(/([\\"])/, '\\\1') + '" <' + u.email + '>'
+    }.join ', '
     mail(
-      to: recipients,
-      from: settings.smtp_username,
-      subject: '[WCS Comm] ' + board_name
+      to: to,
+      from: settings.mail_from || '"Example From" <from@example.com>"',
+      subject: (settings.mail_subject_prefix ? settings.mail_subject_prefix + ' ' : '') + board_name,
     )
   end
 end

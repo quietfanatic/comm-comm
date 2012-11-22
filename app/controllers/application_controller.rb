@@ -8,9 +8,12 @@ class ApplicationController < ActionController::Base
          # We're suspicious if the user agent is different but the session token is not
         if @session.user_agent.byteslice(0, 250) == request.env['HTTP_USER_AGENT'].byteslice(0, 250)
           @user = User.find_by_id(@session.user_id)
-          if @user
+          if @user and @user.is_confirmed
             Rails.logger.warn("Logged in user: #{@user.id} (#{@user.email})\n")
             return true
+          elsif @user
+            Rails.logger.warn("Logged in user is not confirmed: #{@user.id} (#{@user.email})\n")
+            return false
           else
             Rails.logger.warn("Session did not corresponde to valid user.\n")
             return false
