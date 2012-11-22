@@ -1,4 +1,4 @@
-require 'rails_warden'
+require 'test_helper'
 
 class PostTest < ActionDispatch::IntegrationTest
 	setup do
@@ -6,13 +6,8 @@ class PostTest < ActionDispatch::IntegrationTest
 	end
 	
 	test "should create new users" do
-		visit '/login/entrance'
-		click_on 'request'
-		fill_in 'email', :with => 'test@test.com'
-		fill_in 'name', :with => 'test'
-		fill_in 'password', :with => 'asdf'
-		fill_in 'confirm_password', :with => 'asdf'
-		click_on 'submit'
-		assert page.has_content?('Comm-Comm'), "This page does not have the correct content."
+		user = User.create(:email => 'test@test.com', :username => 'test', :password => 'asdfasdf', :is_confirmed => true)
+		visit 'main/board'
+		assert page.has_content?('Comm Comm'), "This page does not have the correct content."
 	end
 end
