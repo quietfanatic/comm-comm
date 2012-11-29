@@ -6,9 +6,11 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
     var update_error = doc.getElementById('update_error');
     var backlog_area = doc.getElementById('backlog_area');
     var backlog_error = doc.getElementById('backlog_error');
+    var new_post_form = doc.getElementById('new_post_form');
     var new_post_content = doc.getElementById('new_post_content');
     var showing_post = null;
     var update_delay = min_interval;
+    var timer = null;
 
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
@@ -168,7 +170,7 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
                     if (added_posts) update_delay = min_interval;
                     else if (update_delay < max_interval) update_delay += min_interval;
                     else update_delay = max_interval;
-                    setTimeout( request_update, update_delay*1000 );
+                    timer = setTimeout( request_update, update_delay*1000 );
                      // Scroll to bottom
                     if (wants_scroll && added_posts) scroll_stream();
                 }
@@ -246,7 +248,12 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
         client.send();
     }
     function start_updating () {
-        setTimeout( request_update, update_delay*1000 );
+        timer = setTimeout( request_update, update_delay*1000 );
+    }
+    function when_submitting () {
+        if (timer != null) clearTimeout(timer);
+        update_delay = min_interval;
+        request_update();
     }
     return {
         scroll_stream: scroll_stream,
@@ -260,5 +267,6 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
     	request_update: request_update,
     	request_backlog: request_backlog,
     	start_updating: start_updating,
+        when_submitting: when_submitting
     }
 }

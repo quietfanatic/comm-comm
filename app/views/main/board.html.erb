@@ -13,9 +13,9 @@
     </div>
     <div class=error_area id=update_error></div>
     <div class=new_post_form id=stream_post_form>
-    <%= form_tag('/post/new') do -%>
+    <%= form_tag '/post/new', id: 'new_post_form', remote: true do -%>
         <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
-        <button type=submit tabindex=2 id=new_post_submit>Post</button>
+        <button type=submit tabindex=2 id=new_post_submit onClick="ajaxifier.when_submitting();return true">Post</button>
         <% if @board -%>
             <input type=hidden name=board value="<%= @board.id %>"/>
         <% end -%>
@@ -41,6 +41,8 @@
         <%= settings.min_update_interval %>,
         <%= settings.max_update_interval %>
     );
+    npf = document.getElementById('new_post_form');
+    npf.setAttribute('data-remote', 'true');
     ajaxifier.scroll_stream();
     ajaxifier.start_updating();
 </script>
