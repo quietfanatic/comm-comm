@@ -18,7 +18,6 @@ class PostTest < ActionDispatch::IntegrationTest
 		assert page.has_content?('Comm Comm'), "This page does not have the correct content."
 		fill_in 'new_post_content', :with => 'Test Post'
 		click_on 'new_post_submit'
-		assert page.has_content?('Test Post'), "Posting did not work"
-		sleep 5
+		assert page.has_content?('Test Post'), "Posting did not work."
 	end
 end
