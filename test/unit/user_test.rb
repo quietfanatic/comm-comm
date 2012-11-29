@@ -7,11 +7,11 @@ class UserTest < ActionDispatch::IntegrationTest
 	
 	test "should create new users without errors" do
 		visit '/login/entrance'
-		click_on 'request'
+		click_on 'signup_tab'
 		fill_in 'email', :with => 'test@test.com'
 		fill_in 'name', :with => 'test'
-		fill_in 'password', :with => 'asdf'
-		fill_in 'confirm_password', :with => 'asdf'
+		fill_in 'password', :with => 'asdfasdf'
+		fill_in 'confirm_password', :with => 'asdfasdf'
 		click_on 'submit'
 		assert page.has_content?('Your request has been submitted.'), "This page does not have the correct content."
 		assert !page.has_content?('Sorry, you must provide an email address.')

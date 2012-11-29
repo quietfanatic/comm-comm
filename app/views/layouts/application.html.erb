@@ -27,25 +27,25 @@
         <% if @user -%>
         <% indicators = BoardUser.indicators(@user) -%>
             <% tabclass = (tab_id == "Uncategorized") ? 'board_tab current' : 'board_tab' -%>
-            <a class="<%=tabclass%>" href="/main/board"><span class=indicator id=indicator_0></span>Uncategorized</a>
+            <a id="uncategorized_tab" class="<%=tabclass%>" href="/main/board"><span class=indicator id=indicator_0></span>Uncategorized</a>
         <% for t in Board.order('"order", "id"').where(visible: true).all -%>
             <% tabclass = (tab_id == t.name) ? 'board_tab current' : 'board_tab' -%>
             <% indclass = (indicators[t.id] == nil ? BoardUser::OFF : indicators[t.id]) -%>
-            <a class="<%=tabclass%>" href="/main/board?board=<%=t.id%>"><span class="<%=indclass%>" id="indicator_<%=t.id%>"></span><%=t.name%></a>
+            <a id="<%= t.id %>_tab" class="<%=tabclass%>" href="/main/board?board=<%=t.id%>"><span class="<%=indclass%>" id="indicator_<%=t.id%>"></span><%=t.name%></a>
         <% end -%>
         <div class=tab_gap></div>
             <% tabclass = (tab_id == "_SETTINGS") ? 'board_tab current settings_tab' : 'board_tab settings_tab' -%>
             <% indclass = @user.can_confirm_users && User.any_unconfirmed? ? BoardUser::EVENT : BoardUser::OFF -%>
-            <a class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
+            <a id="settings_tab" class="<%=tabclass%>" href="/main/settings"><span class="<%=indclass%>" id=indicator__SETTINGS></span>Settings</a>
         <% else -%>
             <% tabclass = (tab_id == "_LOGIN") ? 'board_tab current login_tab' : 'board_tab login_tab' -%>
-            <a class="<%=tabclass%>" href="/login/entrance"><span class="<%=BoardUser::OFF%>" id=indicator__LOGIN></span>Login</a>
+            <a id="login_tab" class="<%=tabclass%>" href="/login/entrance"><span class="<%=BoardUser::OFF%>" id=indicator__LOGIN></span>Login</a>
             <% tabclass = (tab_id == "_SIGNUP") ? 'board_tab current signup_tab' : 'board_tab signup_tab' -%>
-            <a class="<%=tabclass%>" href="/login/signup"><span class="<%=BoardUser::OFF%>" id=indicator__SIGNUP></span>Request Invitation</a>
+            <a id="signup_tab" class="<%=tabclass%>" href="/login/signup"><span class="<%=BoardUser::OFF%>" id=indicator__SIGNUP></span>Request Invitation</a>
             <div class=tab_gap></div>
         <% end %>        
             <% tabclass = (tab_id == "_ABOUT") ? 'board_tab current about_tab' : 'board_tab about_tab' -%>
-            <a class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
+            <a id="about_tab" class="<%=tabclass%>" href="/main/about"><span class="<%=BoardUser::OFF%>" id=indicator__ABOUT></span>About</a>
         <div class=tab_gap></div>
         </div>
         
