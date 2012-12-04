@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+<% require 'bcrypt' %>
+
+one:
+  username: yo_mama
+  visible_name: yo_mama
+  email: yo_mama@bama.llama
+  password_digest: <%= BCrypt::Password.create('things') %>
+  session: 1234
+  is_confirmed: true
+  can_edit_boards: true
+  can_confirm_users: true
+  can_edit_posts: true
+  can_edit_users: true
+
+two:
+  email: yo_daddy@baddy.laddy
+  username: yo_daddy
+  visible_name: yo_daddy
+  password_digest: <%= BCrypt::Password.create('things') %>
+  is_confirmed: true
+  can_edit_boards: true
+  can_edit_posts: true
+  can_edit_users: true
+  can_confirm_users: true
+  session: 4321

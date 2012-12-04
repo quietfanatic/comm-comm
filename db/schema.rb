@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(:version => 20121121004900) do
     t.boolean  "can_change_appearance"
     t.boolean  "can_change_site_settings"
     t.boolean  "can_mail_posts"
-    t.boolean  "logged_in"
     t.boolean  "exiled"
   end
 
