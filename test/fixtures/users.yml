@@ -3,16 +3,16 @@
 <% require 'bcrypt' %>
 
 one:
-  email: yo_mama@bama.llama
   username: yo_mama
   visible_name: yo_mama
+  email: yo_mama@bama.llama
   password_digest: <%= BCrypt::Password.create('things') %>
+  session: 1234
   is_confirmed: true
   can_edit_boards: true
+  can_confirm_users: true
   can_edit_posts: true
   can_edit_users: true
-  can_confirm_users: true
-  session: 1234
 
 two:
   email: yo_daddy@baddy.laddy

@@ -41,7 +41,7 @@ class LoginController < ApplicationController
     elsif params['password'] !~ /\S/
       redirect_to "/login/signup?error=Sorry,+you+must+provide+a+password."
     elsif params['password'].length < 6
-      redirect_to "/login/signup?error=Sorry,+your+pasword+must+be+at+least+six+characters+long."
+      redirect_to "/login/signup?error=Sorry,+your+password+must+be+at+least+six+characters+long."
     elsif params['confirm_password'] !~ /\S/
       redirect_to "/login/signup?error=Sorry,+you+must+confirm+your+password."
     elsif params['password'] != params['confirm_password']
