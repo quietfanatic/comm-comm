@@ -11,6 +11,7 @@
 <% divclass += " this_unyells_" + post.reference.to_s if post.post_type == Post::UNYELLING -%>
 <% divclass += " this_hides_" + post.reference.to_s if post.post_type == Post::HIDING -%>
 <% divclass += " this_unhides_" + post.reference.to_s if post.post_type == Post::UNHIDING -%>
+<% divclass += " by_" + post.owner.to_s -%>
 <% divid = (pinned ? "pinned_" : "post_") + post.id.to_s -%>
     <div class="<%= divclass %>" id="<%= divid %>">
         <div class="post_info">

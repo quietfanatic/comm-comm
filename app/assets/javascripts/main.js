@@ -1,5 +1,5 @@
 
-function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval) {
+function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_interval) {
     var stream = doc.getElementById('stream');
     var stream_post_list = doc.getElementById('stream_post_list');
     var pinned_post_list = doc.getElementById('pinned_post_list');
@@ -118,6 +118,14 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
                                     var pinned_unyelled = doc.getElementById("pinned_" + event_match[3]);
                                     if (pinned_unyelled)
                                         pinned_unyelled.className = pinned_unyelled.className.replace(/(\s|^)yelled(\s|$)/, ' ');
+                                }
+                            }
+                             // Clear post content box if a post comes in that you posted.
+                             // Quite hacky I know.  We're waiting till we can overhaul the entire AJAX system.
+                            var by_match = post.className.match(/(\s|^)by_(.*)(\s|$)/);
+                            if (by_match) {
+                                if (parseInt(by_match[2]) == user) {
+                                    new_post_content.value = '';
                                 }
                             }
                         }
