@@ -19,6 +19,11 @@ class PostTest < ActionDispatch::IntegrationTest
 		fill_in 'new_post_content', :with => 'Test Post'
 		click_on 'new_post_submit'
 		assert page.has_content?('Test Post'), "Posting did not work."
+		post = Post.find(1)
+		assert page.has_content?(post.content), "The post isn't there in the first place."
+		sleep 2
+		click_on 'hide_button_1'
+		assert !page.has_content?(post.content), "Hiding the post didn't work."
 	end
 	
 	test "should hide posts" do
@@ -33,7 +38,9 @@ class PostTest < ActionDispatch::IntegrationTest
 		click_on 'enter'
 		visit '/main/board'
 		post = Post.find(1)
-		click_on 'hide_button'
-		assert (find('##{post}').className =~ /hidden/)
+		assert page.has_content?(post.content), "The post isn't there in the first place."
+		sleep 10
+		#click_on 'hide_button_1'
+		#assert !page.has_content?(post.content), "Hiding the post didn't work."
 	end
 end
