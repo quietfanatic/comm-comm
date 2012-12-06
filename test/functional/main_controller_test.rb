@@ -8,7 +8,7 @@ class MainControllerTest < ActionController::TestCase
 		cookies['_comm_comm_session'] = 1
 		page.set_rack_session(:session_id => 1, :user_id => user.id)
 		visit '/main/board'
-		assert_response :success
+		assert_response :success, "Board does not exist or cannot be reached."
 	end
 	
 	test "should get settings" do
@@ -18,7 +18,7 @@ class MainControllerTest < ActionController::TestCase
 		cookies['_comm_comm_session'] = 1
 		page.set_rack_session(:session_id => 1, :user_id => user.id)
 		visit '/main/settings'
-		assert_response :success
+		assert_response :success, "Settings does not exist or cannot be reached."
 	end
 	
 	test "should get about" do
@@ -28,7 +28,7 @@ class MainControllerTest < ActionController::TestCase
 		cookies['_comm_comm_session'] = 1
 		page.set_rack_session(:session_id => 1, :user_id => user.id)
 		visit '/main/settings'
-		assert_response :success
+		assert_response :success, "About does not exist or cannot be reached."
 	end
 
 end
