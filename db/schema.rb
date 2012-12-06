@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121121004900) do
+ActiveRecord::Schema.define(:version => 20121206230341) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(:version => 20121121004900) do
 
   create_table "posts", :force => true do |t|
     t.integer  "owner"
-    t.text     "content",    :limit => 255
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "board"
     t.boolean  "pinned"
     t.integer  "post_type"
