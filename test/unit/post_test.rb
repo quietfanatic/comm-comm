@@ -1,8 +1,9 @@
 require 'test_helper'
+require 'capybara-webkit'
 
 class PostTest < ActionDispatch::IntegrationTest
 	setup do
-		Capybara.current_driver = Capybara.javascript_driver # :selenium by default
+		Capybara.current_driver = Capybara.javascript_driver
 	end
 	
 	test "should create new posts" do
@@ -19,14 +20,10 @@ class PostTest < ActionDispatch::IntegrationTest
 		fill_in 'new_post_content', :with => 'Test Post'
 		click_on 'new_post_submit'
 		assert page.has_content?('Test Post'), "Posting did not work."
-		post = Post.find(1)
-		assert page.has_content?(post.content), "The post isn't there in the first place."
-		sleep 2
-		click_on 'hide_button_1'
-		assert !page.has_content?(post.content), "Hiding the post didn't work."
 	end
 	
 	test "should hide posts" do
+		Capybara.current_driver = :webkit
 		user = User.create(:email => 'test@test.com', :username => 'test', :password => 'asdfasdf', :is_confirmed => true)
 		user.session = 1
 		user.save!
@@ -39,8 +36,7 @@ class PostTest < ActionDispatch::IntegrationTest
 		visit '/main/board'
 		post = Post.find(1)
 		assert page.has_content?(post.content), "The post isn't there in the first place."
-		sleep 10
-		#click_on 'hide_button_1'
-		#assert !page.has_content?(post.content), "Hiding the post didn't work."
+		click_on 'hide_button_1'
+		assert !page.has_content?(post.content), "Hiding the post didn't work."
 	end
 end
