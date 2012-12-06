@@ -14,7 +14,6 @@ group :development, :test do
   gem 'selenium-webdriver', '2.25.0'
   gem 'rack_session_access'
   gem 'database_cleaner'
-  gem 'capybara-webkit', '0.9.0'
   gem 'nokogiri'
 end
 
