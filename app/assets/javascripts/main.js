@@ -1,14 +1,16 @@
 
-function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval) {
+function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_interval) {
     var stream = doc.getElementById('stream');
     var stream_post_list = doc.getElementById('stream_post_list');
     var pinned_post_list = doc.getElementById('pinned_post_list');
     var update_error = doc.getElementById('update_error');
     var backlog_area = doc.getElementById('backlog_area');
     var backlog_error = doc.getElementById('backlog_error');
+    var new_post_form = doc.getElementById('new_post_form');
     var new_post_content = doc.getElementById('new_post_content');
     var showing_post = null;
     var update_delay = min_interval;
+    var timer = null;
 
     function scroll_stream () {
         stream.scrollTop = stream.scrollHeight;
@@ -118,6 +120,14 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
                                         pinned_unyelled.className = pinned_unyelled.className.replace(/(\s|^)yelled(\s|$)/, ' ');
                                 }
                             }
+                             // Clear post content box if a post comes in that you posted.
+                             // Quite hacky I know.  We're waiting till we can overhaul the entire AJAX system.
+                            var by_match = post.className.match(/(\s|^)by_(.*)(\s|$)/);
+                            if (by_match) {
+                                if (parseInt(by_match[2]) == user) {
+                                    new_post_content.value = '';
+                                }
+                            }
                         }
                          // Actually add the post
                         stream_post_list.appendChild(post);
@@ -168,7 +178,7 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
                     if (added_posts) update_delay = min_interval;
                     else if (update_delay < max_interval) update_delay += min_interval;
                     else update_delay = max_interval;
-                    setTimeout( request_update, update_delay*1000 );
+                    timer = setTimeout( request_update, update_delay*1000 );
                      // Scroll to bottom
                     if (wants_scroll && added_posts) scroll_stream();
                 }
@@ -246,7 +256,12 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
         client.send();
     }
     function start_updating () {
-        setTimeout( request_update, update_delay*1000 );
+        timer = setTimeout( request_update, update_delay*1000 );
+    }
+    function when_submitting () {
+        if (timer != null) clearTimeout(timer);
+        update_delay = min_interval;
+        request_update();
     }
     return {
         scroll_stream: scroll_stream,
@@ -260,5 +275,6 @@ function get_ajaxifier (doc, latest, earliest, board, min_interval, max_interval
     	request_update: request_update,
     	request_backlog: request_backlog,
     	start_updating: start_updating,
+        when_submitting: when_submitting
     }
 }
