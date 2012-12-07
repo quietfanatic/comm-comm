@@ -63,6 +63,7 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
 
     function handle_update () {
         if (this.readyState == this.DONE) {
+            clear_error(update_error);
             if (this.status == 200) {
                 if (this.responseXML != null) {
                     html = this.responseXML;
@@ -86,7 +87,7 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
                                 var buttons = post.getElementsByTagName("button");
                                 for (var i = 0; i < buttons.length; i++) {
                                     if (buttons[i].className == "reply_button")
-                                        buttons[i].onclick = function(){reply_to_post(parseInt(pid_match[1]));};
+                                        buttons[i].onclick = function(){reply_to_post(parseInt(pid_match[1]));return false;};
                                 }
                             }
                              // Check if we need to pin/unpin/yell/unyell
@@ -149,6 +150,16 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
                                 if (!found_slot) {
                                     pinned_post_list.appendChild(post);
                                 }
+                                var pid_match = post.id.match(/pinned_(\d+)/);
+                                if (pid_match != null) {
+                                    var buttons = post.getElementsByTagName("button");
+                                    for (var i = 0; i < buttons.length; i++) {
+                                        if (buttons[i].className == "reply_button")
+                                            buttons[i].onclick = function(){reply_to_post(parseInt(pid_match[1]));return false;};
+                                        if (buttons[i].className == "edit_button")
+                                            buttons[i].onclick = function(){start_edit(parseInt(pid_match[1]));return false;};
+                                    }
+                                }
                             }
                             else {
                                 new_pinned.removeChild(post);
@@ -203,7 +214,7 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
         if (this.readyState == this.DONE) {
             if (this.status == 200) {
                 if (this.responseXML != null) {
-                    html = this.responseXML;
+                    var html = this.responseXML;
                     var old_posts = html.getElementById("old_posts");
                     if (old_posts == null) {
                         make_error(backlog_error, "Backlog error: The server didn't include old_posts");
@@ -232,6 +243,28 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
             else {
                 make_error(backlog_error, "Backlog error: The server returned " + this.status);
                 return;
+            }
+        }
+    }
+    function handle_edit_form (id) {
+        return function () {
+            if (this.readyState == this.DONE) {
+                if (this.status == 200) {
+                    if (this.responseXML != null) {
+                        var html = this.responseXML;
+                        var form_post = html.getElementById('editing_' + id);
+                        var old_post = doc.getElementById('pinned_' + id);
+                        if (old_post != null) {
+                            old_post.className += " really_hidden";
+                        }
+                        old_post.parentNode.insertBefore(form_post, old_post);
+                        var buttons = form_post.getElementsByTagName("button");
+                        for (var i = 0; i < buttons.length; i++) {
+                            if (buttons[i].className == "edit_cancel_button")
+                                buttons[i].onclick = function(){cancel_edit(id);return false;};
+                        }
+                    }
+                }
             }
         }
     }
@@ -264,6 +297,20 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
             client.open("GET", "/main/backlog.xml?before=" + earliest);
         client.send();
     }
+    function start_edit (id) {
+        var client = new XMLHttpRequest();
+        client.onreadystatechange = handle_edit_form(id);
+        client.open("GET", "/main/start_edit.xml?id=" + id);
+        client.send();
+    }
+    function cancel_edit (id) {
+        var form_post = doc.getElementById('editing_' + id);
+        if (form_post != null)
+            form_post.parentNode.removeChild(form_post);
+        var old_post = doc.getElementById('pined_' + id);
+        if (old_post != null)
+            old_post.className = old_post.className.replace(/(\s|^)really_hidden(\s|$)/, ' ');
+    }
     function start_updating () {
         timer = setTimeout( request_update, update_delay*1000 );
     }
@@ -284,6 +331,8 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
     	request_update: request_update,
     	request_backlog: request_backlog,
     	start_updating: start_updating,
-        when_submitting: when_submitting
+        when_submitting: when_submitting,
+        start_edit: start_edit,
+        cancel_edit: cancel_edit,
     }
 }

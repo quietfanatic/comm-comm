@@ -74,6 +74,12 @@ class MainController < ApplicationController
     end
   end
 
+  def start_edit
+    logged_in do
+      @post = Post.find_by_id(params['id'])
+    end
+  end
+
   def mail
     logged_in do
       redirect_to '/main/board' and return unless @user.can_mail_posts != false

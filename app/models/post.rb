@@ -17,13 +17,13 @@ class Post < ActiveRecord::Base
   BOARD_REORDERING = 12
   HIDING = 13
   UNHIDING = 14
-  EDITING = 15
+  EDIT = 15
    # MAILING = 16 oops, made a duplicate
   BOARD_MERGING = 17
   BOARD_UNMERGING = 18
 
   def is_normal
-    return post_type == nil || post_type == NORMAL || post_type == REPLY
+    return post_type == nil || post_type == NORMAL || post_type == REPLY || post_type == EDIT
   end
   def is_event
     return !is_normal
@@ -86,7 +86,7 @@ class Post < ActiveRecord::Base
       return " hid " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when UNHIDING
       return " unhid " + Post.ref_link(reference.to_s, reference.to_s, nil)
-    when EDITING
+    when EDIT
       return " edited " + Post.ref_link(reference.to_s, reference.to_s, user)
     when BOARD_MERGING
       lines = content.match(/(.*)\n(.*)/)

@@ -1,0 +1,29 @@
+<% owner = User.find_by_id(post.owner) -%>
+<% name = owner ? owner.name : '???' -%>
+<% divclass = 'post' -%>
+<% divclass += ' pinned' if post.pinned -%>
+<% divclass += ' hidden' if post.hidden -%>
+<% divclass += ' yelled' if post.yelled -%>
+<% divclass += ' event' if post.is_event -%>
+<% divclass += " this_pins_" + post.reference.to_s if post.post_type == Post::PINNING -%>
+<% divclass += " this_unpins_" + post.reference.to_s if post.post_type == Post::UNPINNING -%>
+<% divclass += " this_yells_" + post.reference.to_s if post.post_type == Post::YELLING -%>
+<% divclass += " this_unyells_" + post.reference.to_s if post.post_type == Post::UNYELLING -%>
+<% divclass += " this_hides_" + post.reference.to_s if post.post_type == Post::HIDING -%>
+<% divclass += " this_unhides_" + post.reference.to_s if post.post_type == Post::UNHIDING -%>
+<% divclass += " by_" + post.owner.to_s -%>
+    <div class="<%= divclass %>" id="editing_<%=post.id.to_s%>">
+        <div class="post_info">
+            <div class="post_id">(new)</div>
+            <div class="post_owner"><%= user.name %></div>
+            <div class="post_event">is editing <%= post.id.to_s %></div>
+            <div class="post_date"></div>
+        </div>
+        <%= form_tag '/post/edit', class: 'post_edit_form' do %>
+            <div class="post_edit_content">
+                <input type="hidden" name="id" value="<%= post.id.to_s %>" />
+                <textarea name="content"><%= post.content %></textarea>
+                <button type="submit">Submit</button><button type="button" class="edit_cancel_button">Cancel</button>
+            </div>
+        <% end %>
+    </div>

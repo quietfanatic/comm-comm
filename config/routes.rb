@@ -12,6 +12,7 @@ CommComm::Application.routes.draw do
   get 'main/settings'
   get 'main/update'
   get 'main/backlog'
+  get 'main/start_edit'
   get 'main/about'
   get 'main/mail'
 
@@ -20,6 +21,7 @@ CommComm::Application.routes.draw do
   post 'post/new'
   post 'post/button'
   post 'post/mail'
+  post 'post/edit'
   post 'configure/profile'
   post 'configure/a_session'
   post 'configure/confirm'

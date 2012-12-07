@@ -192,7 +192,7 @@
 
 .new_post_form textarea {
     font-family: inherit;
-    font-size: inherit;
+    font-size: 1.1em;
     display: block;
     width: 99%;
     height: 6em;
@@ -220,6 +220,20 @@
     text-decoration: underline;
 }
 
+.post_edit_content {
+    margin: 0.2em 0.5em;
+}
+
+.post_edit_form textarea {
+    font-family: inherit;
+    font-size: 1.1em;
+    display: block;
+    width: 99%;
+    height: 6em;
+    margin-left: auto;
+    margin-right: auto;
+    resize: vertical;
+}
 
 /* SETTINGS */
 .profile_form div {

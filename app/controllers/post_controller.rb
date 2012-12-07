@@ -23,6 +23,18 @@ class PostController < ApplicationController
       redirect_to '/main/board' + (board ? "?board=#{board.id}" : '')
     end
   end
+  def edit
+    logged_in do
+      old = Post.find_by_id(params['id'])
+      if params['content'] and params['content'] =~ /\S/
+        @post = Post.new(post_type: Post::EDIT, content: params['content'], owner: @user.id, board: old.board, pinned: true)
+        @post.save!
+        old.pinned = false
+        old.save!
+      end
+      redirect_to '/main/board' + (old.board ? "?board=#{old.board}" : '')
+    end
+  end
 
   def button
     logged_in do

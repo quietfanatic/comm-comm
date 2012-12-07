@@ -24,21 +24,27 @@
             <%= form_tag '/post/button' do %>
                 <input type="hidden" name="id" value="<%= post.id %>" />
             <% if post.is_normal -%>
-             <% post.hidden and -%>
+             <% if post.hidden -%>
                 <button name="do" value="unhide" class="unhide_button">⊚ Unhide</button>
+             <% end -%>
              <% if post.is_hidable(user) -%>
                 <button name="do" id="hide_button_<%= post.id %>" value="hide" class="hide_button">⊗ Hide</button>
              <% end -%>
-             <% post.yelled and -%>
+             <% if post.yelled -%>
                 <button name="do" value="unyell" class="unyell_button">△ Unyell</button>
-             <% !post.yelled and !post.hidden and -%>
+             <% end -%>
+             <% if !post.yelled and !post.hidden -%>
                 <button name="do" value="mail" class="mail_button">@ Mail</button>
-             <% post.pinned and -%>
+             <% end -%>
+             <% if post.pinned -%>
+                <button type="button" onclick="ajaxifier.start_edit(<%=post.id.to_s%>);return false" class="edit_button">⚒ Edit</button>
                 <button name="do" value="unpin" class="unpin_button">⤺ Unpin</button>
-             <% !post.hidden and !post.pinned and -%>
+             <% end -%>
+             <% if !post.hidden and !post.pinned -%>
                 <button name="do" value="pin" class="pin_button">⤻ Pin</button>
+             <% end -%>
             <% end -%>
-                <button class="reply_button" type="button" onClick="ajaxifier.reply_to_post(<%= post.id %>)">≫ Reply</button>
+                <button class="reply_button" type="button" onClick="ajaxifier.reply_to_post(<%= post.id %>);return false">≫ Reply</button>
             <% end -%>
             </div>
             <div class="post_date"><%= post.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short) %> </div>
