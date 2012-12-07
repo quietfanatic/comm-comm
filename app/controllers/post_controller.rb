@@ -26,8 +26,8 @@ class PostController < ApplicationController
   def edit
     logged_in do
       old = Post.find_by_id(params['id'])
-      if params['content'] and params['content'] =~ /\S/
-        @post = Post.new(post_type: Post::EDIT, content: params['content'], owner: @user.id, board: old.board, pinned: true)
+      if old and params['content'] and params['content'] =~ /\S/
+        @post = Post.new(post_type: Post::EDIT, reference: old.id, content: params['content'], owner: @user.id, board: old.board, pinned: true)
         @post.save!
         old.pinned = false
         old.save!
