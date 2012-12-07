@@ -187,7 +187,12 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
                     return;
                 }
             }
-            else if (this.status != 0) {
+            else if (this.status == 0) {
+                make_error(update_error, "No connectivity.  Please check your network connection.");
+                timer = setTimeout( request_update, max_interval );
+                return;
+            }
+            else {
                 make_error(update_error, "Update error: The server returned " + this.status);
                 return;
             }
@@ -220,7 +225,11 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
                     return;
                 }
             }
-            else if (this.status != 0) {
+            else if (this.status == 0) {
+                make_error(backlog_error, "No connectivity.  Please check your network connection.");
+                return;
+            }
+            else {
                 make_error(backlog_error, "Backlog error: The server returned " + this.status);
                 return;
             }
