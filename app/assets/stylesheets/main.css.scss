@@ -16,6 +16,7 @@
     overflow: auto;
 }
 
+
 .pinned_posts {
     position: absolute;
     right: 0;
@@ -23,6 +24,51 @@
     bottom: 0;
     width: 50%;
     overflow: auto;
+}
+
+#showhide_pinned {
+    display: none;
+}
+#showhide_pinned_area {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1em;
+    display: table-cell;
+    vertical-align: middle;
+}
+#showhide_pinned:checked ~ #showhide_pinned_area {
+    position: absolute;
+    left: auto;
+    right: 0;
+}
+#showhide_pinned_area div {
+    margin-top: -2em;
+    margin-bottom: -2em;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    height: 4em;
+    width: 1em;
+}
+#showhide_pinned_area span:before {
+    content: "▶";
+}
+#showhide_pinned:checked ~ #showhide_pinned_area span:before {
+    content: "◀";
+}
+#showhide_pinned:checked ~ .stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 1em;
+    width: auto;
+    overflow: auto;
+}
+#showhide_pinned:checked ~ .pinned_posts {
+    display: none;
 }
 
 .backlog_area {

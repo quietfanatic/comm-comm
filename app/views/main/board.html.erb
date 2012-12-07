@@ -1,4 +1,5 @@
 <% provide(:tab_id, @board ? @board.name : "Uncategorized") -%>
+<input id=showhide_pinned type=checkbox />
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= (@board ? @board.ppp : 50) -%>
@@ -29,6 +30,11 @@
         <%= render partial: '/post/view.xml.erb', locals: {post: p, pinned: true, user: @user} %>
     <% end -%>
     </div>
+</div>
+<div id=showhide_pinned_area>
+    <label for=showhide_pinned>
+        <div><span></span></div>
+    </label>
 </div>
 <script>
     <% lastpost = Post.last -%>
