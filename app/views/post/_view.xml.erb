@@ -13,11 +13,12 @@
 <% divclass += " this_unhides_" + post.reference.to_s if post.post_type == Post::UNHIDING -%>
 <% divclass += " by_" + post.owner.to_s -%>
 <% divid = (pinned ? "pinned_" : "post_") + post.id.to_s -%>
+<% event_string = post.event_string(user) -%>
     <div class="<%= divclass %>" id="<%= divid %>">
         <div class="post_info">
             <div class="post_id"><%= post.id.to_s %></div>
             <div class="post_owner"><%= name %></div>
-            <% if post.is_event -%>
+            <% if event_string -%>
             <div class="post_event"><%=raw post.event_string(user) %></div>
             <% end -%>
             <div class="post_buttons">

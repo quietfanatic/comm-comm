@@ -44,9 +44,9 @@ class Post < ActiveRecord::Base
   def event_string (user)
     case post_type
     when nil
-      return " wrote"
+      return nil
     when NORMAL
-      return " wrote"  # This and reply probably won't be shown
+      return nil
     when REPLY
       return " replied to " + Post.ref_link(reference.to_s, reference.to_s, user)
     when PINNING
