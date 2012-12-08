@@ -16,11 +16,6 @@
 
 @import "vars";
 
-body {
-    overflow: hidden;
-    background: url(http://www.profilerehab.com/twitter/images/small/black_pattern_background_1.jpg);
-}
-
 .navigation {
     position: absolute;
     left: 0;
@@ -40,7 +35,6 @@ body {
     padding: 0.5em;
     text-align: center;
     border-right: 1px solid black;
-    color: white;
 }
 .session_info {
     border-right: 1px solid black;
@@ -48,11 +42,9 @@ body {
 }
 .you_are {
     text-align: center;
-    color: white;
 }
 .identity {
     text-align: center;
-    color: #80EDC9;
 }
 .logout {
     margin-top: 1em;

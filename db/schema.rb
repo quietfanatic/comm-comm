@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121206230341) do
+ActiveRecord::Schema.define(:version => 20121207234641) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(:version => 20121206230341) do
     t.boolean  "smtp_starttls_auto"
     t.string   "smtp_ssl_verify"
     t.string   "send_test_to"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.string   "logo_text"
     t.string   "logo_image"
     t.boolean  "force_https"
@@ -74,8 +74,12 @@ ActiveRecord::Schema.define(:version => 20121206230341) do
     t.integer  "sitewide_event_board"
     t.string   "mail_from"
     t.integer  "last_merge_event"
-    t.float    "min_update_interval",  :default => 4.0,  :null => false
-    t.float    "max_update_interval",  :default => 32.0, :null => false
+    t.float    "min_update_interval",        :default => 4.0,  :null => false
+    t.float    "max_update_interval",        :default => 32.0, :null => false
+    t.string   "background_image"
+    t.string   "background_gradient_top"
+    t.string   "background_gradient_bottom"
+    t.string   "navigation_text_color"
   end
 
   create_table "users", :force => true do |t|

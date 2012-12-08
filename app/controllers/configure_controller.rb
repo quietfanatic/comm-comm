@@ -46,6 +46,24 @@ class ConfigureController < ApplicationController
     end
   end
 
+  def appearance
+    logged_in do
+      redirect_to '/main/settings' and return unless @user.can_change_appearance
+      settings = SiteSettings.first_or_create
+
+      def empty_is_nil(val)
+        return val && val =~ /\S/ ? val : nil
+      end
+
+      settings.background_gradient_top = empty_is_nil params['gradient_top']
+      settings.background_gradient_bottom = empty_is_nil params['gradient_bottom']
+      settings.background_image = empty_is_nil params['background_image']
+      settings.navigation_text_color = empty_is_nil params['navigation_text_color']
+      settings.save!
+      redirect_to '/main/settings?section=appearance'
+    end
+  end
+
   def new_board
     logged_in do
       redirect_to '/main/settings' and return unless @user.can_edit_boards

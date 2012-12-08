@@ -80,6 +80,37 @@
         <% end -%>
     </div>
 <% end -%>
+<% if @user.can_change_appearance -%>
+    <div class=section>
+        <input id=showhide_appearance type=checkbox class=showhider <%= params['section'] == 'appearance' ? 'checked' : ''%>/>
+        <label for=showhide_appearance>
+            <span class=section_heading>Appearance</span>
+        </label>
+        <div class=section_content>
+        <%= form_tag '/configure/appearance' do -%>
+            <div class=pseudo_table>
+            <div class=pseudo_tr>
+                <label for=gradient_top>Gradient top color:</label>
+                <div><input id=gradient_top name=gradient_top value="<%= settings.background_gradient_top || '#dfcfff'%>" /></div>
+            </div>
+            <div class=pseudo_tr>
+                <label for=gradient_bottom>Gradient bottom color:</label>
+                <div><input id=gradient_bottom name=gradient_bottom value="<%= settings.background_gradient_bottom || '#7f9fff'%>" /></div>
+            </div>
+            <div class=pseudo_tr>
+                <label for=tile_image>Tiled image:</label>
+                <div><input id=background_image name=background_image value="<%= settings.background_image || ''%>" /></div>
+            </div>
+            <div class=pseudo_tr>
+                <label for=navigation_text_color>Logo text color:</label>
+                <div><input id=navigation_text_color name=navigation_text_color value="<%= settings.navigation_text_color || '#000000'%>" /></div>
+            </div>
+            </div>
+            <button type=submit>Change</button>
+        <% end -%>
+        </div>
+    </div>
+<% end -%>
 <% if @user.can_edit_boards -%>
     <div class=section>
         <input id=showhide_boards type=checkbox class=showhider <%= params['section'] == 'boards' ? 'checked' : ''%>/>

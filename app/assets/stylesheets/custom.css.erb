@@ -1,0 +1,23 @@
+
+<% settings = SiteSettings.first_or_create %>
+
+body {
+    overflow: hidden;
+<% if settings.background_image %>
+    background: url("<%=settings.background_image%>");
+<% else %>
+    background: linear-gradient(<%=settings.background_gradient_top || '#dfcfff'%>, <%=settings.background_gradient_bottom || '#7f9fff'%>) no-repeat fixed;
+    background: -webkit-linear-gradient(<%=settings.background_gradient_top || '#dfcfff'%>, <%=settings.background_gradient_bottom || '#7f9fff'%>) no-repeat fixed;
+<% end %>
+
+}
+
+.site_logo {
+    color: <%= settings.navigation_text_color || '#000000' %>;
+}
+.you_are {
+    color: <%= settings.navigation_text_color || '#000000' %>;
+}
+.identity {
+    color: <%= settings.navigation_text_color || '#000000' %>;
+}

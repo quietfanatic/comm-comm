@@ -25,6 +25,7 @@ CommComm::Application.routes.draw do
   post 'configure/profile'
   post 'configure/a_session'
   post 'configure/confirm'
+  post 'configure/appearance'
   post 'configure/change_board'
   post 'configure/new_board'
   post 'configure/merge_boards'
