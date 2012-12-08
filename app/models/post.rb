@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
    # MAILING = 16 oops, made a duplicate
   BOARD_MERGING = 17
   BOARD_UNMERGING = 18
+  APPEARANCE_CHANGING = 19
+  EXILING = 20
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY || post_type == EDIT
@@ -94,6 +96,15 @@ class Post < ActiveRecord::Base
     when BOARD_UNMERGING
       lines = content.match(/(.*)\n(.*)/)
       return " unmerged " + lines[1] + " from " + lines[2]
+    when APPEARANCE_CHANGING
+      return " changed the site appearance"
+    when EXILING
+      exiled_user = User.find_by_id(reference)
+      if (exiled_user)
+        return " exiled " + exiled_user.name
+      else
+        return " exiled...somebody I can't find any more"
+      end
     else
       return " generated a mysterious post"
     end

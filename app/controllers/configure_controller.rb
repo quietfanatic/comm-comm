@@ -20,9 +20,9 @@ class ConfigureController < ApplicationController
   def a_session
     logged_in do
       if params.has_key?('logout')
-        sess = Session.find_by_id(params['logout'])
         if @user.can_edit_users or @user.id == sess.user_id
-          sess.destroy
+          sess = Session.find_by_id(params['logout'])
+          sess.destroy if sess
         end
       end
       redirect_to '/main/settings?section=sessions'
