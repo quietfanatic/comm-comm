@@ -60,6 +60,13 @@ class ConfigureController < ApplicationController
       settings.background_image = empty_is_nil params['background_image']
       settings.navigation_text_color = empty_is_nil params['navigation_text_color']
       settings.save!
+      event = Post.new( post_type: Post::APPEARANCE_CHANGING, board: settings.sitewide_event_board, owner: @user.id )
+      event.save!
+      board = Board.find_by_id(settings.sitewide_event_board)
+      if (board)
+        board.last_event = event.id
+        board.save!
+      end
       redirect_to '/main/settings?section=appearance'
     end
   end
@@ -267,6 +274,7 @@ class ConfigureController < ApplicationController
       return unless @user.can_edit_users
       @editee = User.find_by_id(params['id'])
       return unless @editee
+      settings = SiteSettings.first_or_create
       if params['do'] == 'change'
         @editee.visible_name = params['name'] if params.has_key?('name')
         @editee.email = params['email'] if params.has_key?('email')
@@ -277,6 +285,13 @@ class ConfigureController < ApplicationController
         @editee.can_change_site_settings = params.has_key?('can_change_site_settings')
         @editee.can_edit_users = params.has_key?('can_edit_users')
         @editee.save!
+        event = Post.new(post_type: Post::USER_EDITING, reference: @editee.id, owner: @user.id, board: settings.sitewide_event_board)
+        event.save!
+        board = Board.find_by_id(settings.sitewide_event_board)
+        if (board)
+          board.last_event = event.id
+          board.save!
+        end
       elsif params['do'] == 'exile'
         @editee.exiled = true
         @editee.can_mail_posts = false
@@ -286,10 +301,25 @@ class ConfigureController < ApplicationController
         @editee.can_change_site_settings = false
         @editee.can_edit_users = false
         @editee.save!
-        Session.find_by_user_id(@editee.id).destroy_all
+        ss = Session.find_by_user_id(@editee.id)
+        ss.destroy_all if ss
+        event = Post.new(post_type: Post::EXILING, reference: @editee.id, owner: @user.id, board: settings.sitewide_event_board)
+        event.save!
+        board = Board.find_by_id(settings.sitewide_event_board)
+        if (board)
+          board.last_event = event.id
+          board.save!
+        end
       elsif params['do'] == 'reinstate'
         @editee.exiled = false
         @editee.save!
+        event = Post.new(post_type: Post::REINSTATION, reference: @editee.id, owner: @user.id, board: settings.sitewide_event_board)
+        event.save!
+        board = Board.find_by_id(settings.sitewide_event_board)
+        if (board)
+          board.last_event = event.id
+          board.save!
+        end
       end
     end
   end

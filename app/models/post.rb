@@ -23,6 +23,7 @@ class Post < ActiveRecord::Base
   BOARD_UNMERGING = 18
   APPEARANCE_CHANGING = 19
   EXILING = 20
+  REINSTATION = 21
 
   def is_normal
     return post_type == nil || post_type == NORMAL || post_type == REPLY || post_type == EDIT
@@ -104,6 +105,13 @@ class Post < ActiveRecord::Base
         return " exiled " + exiled_user.name
       else
         return " exiled...somebody I can't find any more"
+      end
+    when REINSTATION
+      exiled_user = User.find_by_id(reference)
+      if (exiled_user)
+        return " reinstated " + exiled_user.name
+      else
+        return " reinstated...somebody I can't find any more"
       end
     else
       return " generated a mysterious post"
