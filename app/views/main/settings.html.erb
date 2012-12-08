@@ -327,7 +327,7 @@
             <div></div>
             <div></div>
         </div>
-        <% for u in User.all -%>
+        <% for u in @all_users -%>
         <%= form_tag '/configure/user', class: 'pseudo_tr' do -%>
             <div>
                 <%=u.id%>
