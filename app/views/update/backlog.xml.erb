@@ -1,0 +1,11 @@
+<% if @old_posts.length > 0 -%>
+<update earliest="<%=@old_posts.last.id%>">
+<% for p in @old_posts -%>
+    <prepend t="stream_post_list">
+<%= render 'post/view', post: p, pinned: false, user: @user -%>
+    </prepend>
+<% end -%>
+</update>
+<% else -%>
+<update />
+<% end -%>

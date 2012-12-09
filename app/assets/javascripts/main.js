@@ -13,7 +13,10 @@ function clear_error (loc) {
 
  // Get the database id of a post (which is embedded in its html id)
 function get_post_id (post) {
-    return parseInt(post.getAttribute('id').match(/_(\d+)$/)[1]);
+    if (post != null && 'id' in post)
+        return parseInt(post.id.match(/_(\d+)$/)[1]);
+    else
+        return null;
 }
 
  // Abstract out error message reporting and such.
@@ -199,7 +202,7 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
                 this_Updater.job = null;
                 this_Updater.timer = setTimeout( request_update, max_interval * 1000 );
             }
-        })
+        });
         client.open("GET", url);
         client.send();
         this_Updater.job = client;
@@ -211,6 +214,24 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
         request_update();
     }
     this.timer = setTimeout( request_update, this.delay * 1000 );
+
+    this.backlog_job = null;
+    this.backlog = function () {
+        if (this.backlog_job != null) return;
+        var client = new XMLHttpRequest();
+        client.onreadystatechange = wrap_xml_request({
+            handler: function (xml) {
+                var update = xml.documentElement;
+                this_Updater.earliest = update.getAttribute('earliest');
+                execute_actions(update);
+                this_Updater.backlog_job = null;
+            },
+            errloc: $('#backlog_error')[0],
+        });
+        client.open("GET", "/update/backlog.xml?board=" + board + "&before=" + this_Updater.earliest);
+        client.send();
+        this_Updater.backlog_job = client;
+    }
 }
 
  // scrolling control

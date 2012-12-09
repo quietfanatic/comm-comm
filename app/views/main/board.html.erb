@@ -3,7 +3,7 @@
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= (@board ? @board.ppp : 50) -%>
-        <button class=backlog_button type=button onclick="return false;">Backlog</button>
+        <button class=backlog_button type=button onclick="updater.backlog();return false;">Backlog</button>
         <% end -%>
     </div>
     <div class=error_area id=backlog_error></div>
@@ -39,8 +39,9 @@
 <script>
     <% lastpost = Post.last -%>
     <% settings = SiteSettings.first_or_create -%>
+    var updater;
     $(document).ready(function(){
-        var updater = new Updater (
+        updater = new Updater (
             <%= @posts.first ? @posts.first.id : 0 %>,
             <%= lastpost ? lastpost.id : 0 %>,
             <%= @board ? @board.id : 'null' %>,

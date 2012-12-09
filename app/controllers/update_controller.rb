@@ -25,4 +25,18 @@ class UpdateController < ApplicationController
     end
   end
 
+  def backlog
+    logged_in do
+      @board = Board.find_by_id(params['board'])
+      if @board
+        @old_posts = Post.order('id desc').where(
+          '"board" = :board AND "id" < :before',
+          board: @board.id, before: params['before']
+        ).limit(@board.ppp).all
+      else
+        @old_posts = []
+      end
+    end
+  end
+
 end

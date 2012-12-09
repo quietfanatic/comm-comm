@@ -9,13 +9,13 @@
 <update latest="<%=Post.last.id%>">
 <% for p in @new_posts -%>
     <append t="stream_post_list">
-        <%= render 'post/view', post: p, pinned: false, user: @user -%>
+<%= render 'post/view', post: p, pinned: false, user: @user -%>
     </append>
 <% case p.post_type -%>
 <% when Post::PINNING -%>
   <% with_ref p do |reffed| -%>
     <insert t="pinned_post_list">
-        <%= render 'post/view', post: reffed, pinned: true, user: @user -%>
+<%= render 'post/view', post: reffed, pinned: true, user: @user -%>
     </insert>
     <add_class t="post_<%=reffed.id%>" c="pinned" />
   <% end -%>
@@ -30,13 +30,13 @@
   <% with_ref p do |reffed| -%>
     <remove t="pinned_<%=reffed.id%>" />
     <replace t="post_<%=reffed.id%>">
-        <%= render 'post/view', post: reffed, pinned: false, user: @user -%>
+<%= render 'post/view', post: reffed, pinned: false, user: @user -%>
     </replace>
   <% end -%>
 <% when Post::EDIT -%>
     <remove t="pinned_<%=p.reference%>" />
     <insert t="pinned_post_list">
-        <%= render 'post/view', post: p, pinned: true, user: @user -%>
+<%= render 'post/view', post: p, pinned: true, user: @user -%>
     </insert>
 <% end -%>
 <% end -%>
