@@ -19,9 +19,10 @@ function get_post_id (post) {
         return null;
 }
 
- // Abstract out error message reporting and such.
-function wrap_xml_request (params) {
-    return function () {
+ // Abstract out XMLHttpRequest and error message reporting and such.
+function get_xml (params) {
+    var client = new XMLHttpRequest();
+    client.onreadystatechange = function () {
          // Wait until request is finished
         if (this.readyState != this.DONE)
             return;
@@ -57,6 +58,9 @@ function wrap_xml_request (params) {
             params.handler(xml);
         return;
     }
+    client.open("GET", params.url);
+    client.send();
+    return client;
 }
 
 
@@ -217,8 +221,8 @@ function Updater (min_interval, max_interval) {
     }
 
     function request_update () {
-        var client = new XMLHttpRequest();
-        client.onreadystatechange = wrap_xml_request({
+        this_Updater.job = get_xml({
+            url: "/update/update.xml?board=" + vars.board + "&since=" + vars.latest,
             handler: handle_update,
             errloc: errloc,
             on_network_error: function(){
@@ -226,9 +230,6 @@ function Updater (min_interval, max_interval) {
                 this_Updater.timer = setTimeout( request_update, max_interval * 1000 );
             }
         });
-        client.open("GET", "/update/update.xml?board=" + vars.board + "&since=" + vars.latest);
-        client.send();
-        this_Updater.job = client;
     }
     this.stop = function () {
         if (this.job != null)
@@ -253,8 +254,8 @@ function Updater (min_interval, max_interval) {
 var backlog_job = null;
 function backlog () {
     if (backlog_job != null) return;
-    var client = new XMLHttpRequest();
-    client.onreadystatechange = wrap_xml_request({
+    backlog_job = get_xml({
+        url: "/update/backlog.xml?board=" + vars.board + "&before=" + vars.earliest,
         handler: function (xml) {
             var update = xml.documentElement;
             execute_actions(update);
@@ -262,26 +263,20 @@ function backlog () {
         },
         errloc: $('#backlog_error')[0],
     });
-    client.open("GET", "/update/backlog.xml?board=" + vars.board + "&before=" + vars.earliest);
-    client.send();
-    backlog_job = client;
 }
 
  // This happens when you click the 'edit' button on a pinned post
 var start_edit_job = null;
 function start_edit (pid) {
     if (start_edit_job != null) return;
-    var client = new XMLHttpRequest();
-    client.onreadystatechange = wrap_xml_request({
+    start_edit_job = get_xml({
+        url: "/update/start_edit.xml?post=" + pid,
         handler: function (xml) {
             var update = xml.documentElement;
             execute_actions(update);
             start_edit_job = null;
         },
     });
-    client.open("GET", "/update/start_edit.xml?post=" + pid);
-    client.send();
-    start_edit_job = client;
 }
  // If you click the cancel button on a post you're editing
 function cancel_edit (pid) {
