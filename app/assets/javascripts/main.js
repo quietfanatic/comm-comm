@@ -65,6 +65,7 @@ function add_events (elem) {
     var pid = get_post_id(elem);
     if (pid != null) {
         $(elem).find('.reply_button').click(function(){reply_to_post(pid);return false});
+        $(elem).find('.edit_cancel_button').click(function(){cancel_edit(pid);return false});
     }
 }
 
@@ -96,7 +97,7 @@ var actions = {
     append: function (up) {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
-        $('#' + tid)[0].appendChild(elem);
+        $('#' + tid).append(elem);
         add_events(elem);
     },
      // Prepend to children of target
@@ -104,6 +105,20 @@ var actions = {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
         $('#' + tid).prepend(elem);
+        add_events(elem);
+    },
+     // Put after target
+    after: function (up) {
+        var elem = up.children[0];
+        var tid = up.getAttribute('t');
+        $('#' + tid).after(elem);
+        add_events(elem);
+    },
+     // Put before target
+    before: function (up) {
+        var elem = up.children[0];
+        var tid = up.getAttribute('t');
+        $('#' + tid).before(elem);
         add_events(elem);
     },
      // Insert into children of target sorted by id
@@ -224,6 +239,7 @@ function Updater (min_interval, max_interval) {
     this.timer = setTimeout( request_update, this.delay * 1000 );
 }
 
+ // This happens when you press the 'backlog' button to view old posts
 var backlog_job = null;
 function backlog () {
     if (backlog_job != null) return;
@@ -239,6 +255,28 @@ function backlog () {
     client.open("GET", "/update/backlog.xml?board=" + vars.board + "&before=" + vars.earliest);
     client.send();
     backlog_job = client;
+}
+
+ // This happens when you click the 'edit' button on a pinned post
+var start_edit_job = null;
+function start_edit (pid) {
+    if (start_edit_job != null) return;
+    var client = new XMLHttpRequest();
+    client.onreadystatechange = wrap_xml_request({
+        handler: function (xml) {
+            var update = xml.documentElement;
+            execute_actions(update);
+            start_edit_job = null;
+        },
+    });
+    client.open("GET", "/update/start_edit.xml?post=" + pid);
+    client.send();
+    start_edit_job = client;
+}
+ // If you click the cancel button on a post you're editing
+function cancel_edit (pid) {
+    $('#editing_' + pid).detach();
+    $('#pinned_' + pid).removeClass('really_hidden');
 }
 
  // scrolling control

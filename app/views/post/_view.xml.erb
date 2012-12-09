@@ -32,7 +32,7 @@
                 <button name="do" value="mail" class="mail_button">@ Mail</button>
              <% end -%>
              <% if post.pinned -%>
-                <button type="button" onclick="return false" class="edit_button">⚒ Edit</button>
+                <button type="button" onclick="start_edit(<%=post.id%>);return false" class="edit_button">⚒ Edit</button>
                 <button name="do" value="unpin" class="unpin_button">⤺ Unpin</button>
              <% end -%>
              <% if !post.hidden and !post.pinned -%>

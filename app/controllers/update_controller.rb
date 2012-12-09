@@ -39,4 +39,9 @@ class UpdateController < ApplicationController
     end
   end
 
+  def start_edit
+    logged_in do
+      @post = Post.find_by_id(params['post'])
+    end
+  end
 end

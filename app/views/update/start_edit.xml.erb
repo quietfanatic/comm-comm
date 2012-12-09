@@ -1,0 +1,10 @@
+<% if @post -%>
+<update>
+    <after t="pinned_<%=@post.id%>">
+<%= render 'post/edit', post: @post, user: @user -%>
+    </after>
+    <add_class t="pinned_<%=@post.id%>" c="really_hidden" />
+</update>
+<% else -%>
+<update />
+<% end -%>

@@ -5,14 +5,8 @@
 <% divclass += ' hidden' if post.hidden -%>
 <% divclass += ' yelled' if post.yelled -%>
 <% divclass += ' event' if post.is_event -%>
-<% divclass += " this_pins_" + post.reference.to_s if post.post_type == Post::PINNING -%>
-<% divclass += " this_unpins_" + post.reference.to_s if post.post_type == Post::UNPINNING -%>
-<% divclass += " this_yells_" + post.reference.to_s if post.post_type == Post::YELLING -%>
-<% divclass += " this_unyells_" + post.reference.to_s if post.post_type == Post::UNYELLING -%>
-<% divclass += " this_hides_" + post.reference.to_s if post.post_type == Post::HIDING -%>
-<% divclass += " this_unhides_" + post.reference.to_s if post.post_type == Post::UNHIDING -%>
 <% divclass += " by_" + post.owner.to_s -%>
-    <div class="<%= divclass %>" id="editing_<%=post.id.to_s%>">
+    <div class="<%= divclass %>" id="editing_<%=post.id.to_s%>" xmlns="http://www.w3.org/1999/xhtml">
         <div class="post_info">
             <div class="post_id">(new)</div>
             <div class="post_owner"><%= user.name %></div>
