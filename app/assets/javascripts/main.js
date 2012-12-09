@@ -202,7 +202,7 @@ function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_in
             }
             else if (this.status == 0) {
                 make_error(update_error, "No connectivity.  Please check your network connection.");
-                timer = setTimeout( request_update, max_interval );
+                timer = setTimeout( request_update, max_interval * 1000 );
                 return;
             }
             else {
