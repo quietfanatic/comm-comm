@@ -1,12 +1,12 @@
-<% if @old_posts.length > 0 -%>
 <update>
+<% if @old_posts.length > 0 -%>
     <set t="earliest" v="<%=@old_posts.last.id%>" />
 <% for p in @old_posts -%>
     <prepend t="stream_post_list">
 <%= render 'post/view', post: p, pinned: false, user: @user -%>
     </prepend>
 <% end -%>
-</update>
 <% else -%>
-<update />
+    <remove t="backlog_area" />
 <% end -%>
+</update>
