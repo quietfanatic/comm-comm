@@ -299,6 +299,35 @@ function near_bottom(elem) {
     return elem.scrollTop > elem.scrollHeight - elem.offsetHeight - 240;
 }
 
+ // There appears to be no other way to prevent images from pushing the stream down
+ // when loaded besides periodically checking the element's height.
+function Scroll_Protector () {
+    this_SP = this;
+    this.elems = [];
+    this.timer = null;
+    this.start = function (elem) {
+        this.elems.push([elem, elem.scrollHeight]);
+        if (this.elems.length == 1) {
+            this.timer = setInterval( protect, 100 );
+        }
+    };
+    this.stop = function (elem) {
+        this.elems.splice(this.elems.indexOf(elem), 1);
+        if (this.elems.length == 0) {
+            clearInterval(this.timer);
+        }
+    };
+    function protect () {
+        for (var i = 0; i < this_SP.elems.length; i++) {
+            var e = this_SP.elems[i];
+            if (e[0].scrollHeight != e[1]) {
+                e[0].scrollTop += e[0].scrollHeight - e[1];
+                e[1] = e[0].scrollHeight;
+            }
+        }
+    }
+}
+
  // When you click a reply button.
 function reply_to_post (pid) {
     var npc = $('#new_post_content')[0];

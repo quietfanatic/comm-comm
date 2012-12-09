@@ -40,7 +40,11 @@
     <% lastpost = Post.last -%>
     <% settings = SiteSettings.first_or_create -%>
     var updater;
-    $(document).ready(function(){
+    var sp;
+    var started = false;
+    function onready () {
+        if (started) return;
+        started = true;
         vars.earliest = <%= @posts.first ? @posts.first.id : 0 %>;
         vars.latest = <%= lastpost ? lastpost.id : 0 %>;
         vars.board = <%= @board ? @board.id : 'null' %>;
@@ -51,5 +55,13 @@
         <%# Set this with javascript so it works non-remotely when there's no script. %>
         //$('#new_post_form').attr('data-remote', 'true');
         scroll_to_bottom($('#stream')[0]);
-    })
+        sp = new Scroll_Protector();
+        sp.start($('#stream')[0]);
+    }
+    function onload () {
+        if (!started) onready();
+        sp.stop($('#stream')[0]);
+    }
+    $(window).load(onload);
+    $(document).ready(onready);
 </script>
