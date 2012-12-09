@@ -41,4 +41,12 @@
     </insert>
 <% end -%>
 <% end -%>
+<% for i in 0..(@indicators.length-1) -%>
+  <% if @indicators[i] and @indicators[i] != BoardUser::OFF -%>
+    <add_class t="indicator_<%=i%>" c="<%=@indicators[i]%>" />
+  <% end -%>
+<% end -%>
+  <% if @show_settings_indicator -%>
+    <add_class t="indicator__SETTINGS" c="<%=BoardUser::EVENT%>" />
+  <% end -%>
 </update>

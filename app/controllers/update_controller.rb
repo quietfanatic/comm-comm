@@ -17,11 +17,13 @@ class UpdateController < ApplicationController
         @new_posts = []
       end
       @new_posts = [] unless @new_posts
-      if @board and @new_posts and @new_posts.length > 0
+      if @board
         board_user = BoardUser.get(@board, @user)
         board_user.updated_to = Post.last.id
         board_user.save
       end
+      @indicators = BoardUser.indicators(@user)
+      @show_settings_indicator = User.any_unconfirmed?
     end
   end
 
