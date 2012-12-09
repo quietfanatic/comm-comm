@@ -89,7 +89,7 @@ class PostController < ApplicationController
       message.deliver if message
       post.yelled = true
       post.save!
-      event = Post.generate(type: Post::MAILING, reference: post.id, user: @user.id, board: board ? board.id : nil)
+      event = Post.generate(type: Post::MAILING, reference: post.id, user: @user.id, board: board ? board.id : nil, content: recipients.join("\n"))
       redirect_to '/main/board' + (board ? "?board=#{board.id}" : '')
     end
   end

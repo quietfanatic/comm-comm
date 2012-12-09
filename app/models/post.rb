@@ -57,7 +57,12 @@ class Post < ActiveRecord::Base
     when UNPINNING
       return " unpinned " + Post.ref_link(reference.to_s, reference.to_s, nil)
     when MAILING
-      return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user)
+      if content
+        lines = content.split("\n")
+        return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user) + " to " + lines.length.to_s + " address" + (lines.length > 1 ? "es" : "")
+      else
+        return " mailed " + Post.ref_link(reference.to_s, reference.to_s, user)
+      end
     when BOARD_CREATION
       return " created " + content
     when BOARD_RENAMING
