@@ -1,4 +1,6 @@
 
+
+
 function get_ajaxifier (doc, latest, earliest, board, user, min_interval, max_interval) {
     var stream = doc.getElementById('stream');
     var stream_post_list = doc.getElementById('stream_post_list');
