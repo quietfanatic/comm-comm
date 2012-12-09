@@ -1,6 +1,6 @@
 CommComm::Application.routes.draw do
 
-  root to: redirect { |params|
+  root to: redirect { |env, req|
     board = SiteSettings.first_or_create.initial_board
     if board
       "/main/board?board=#{board}"
