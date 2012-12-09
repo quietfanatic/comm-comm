@@ -1,5 +1,14 @@
 CommComm::Application.routes.draw do
 
+  root to: redirect { |params|
+    board = SiteSettings.first_or_create.initial_board
+    if board
+      "/main/board?board=#{board}"
+    else
+      '/main/board'
+    end
+  }
+
   get 'login/entrance'
   post 'login/login'
   get 'login/signup'
@@ -7,7 +16,6 @@ CommComm::Application.routes.draw do
   get 'login/journey'
   post 'login/logout'
   
-  get 'main/topic'  # temporary redirect
   get 'main/board'
   get 'main/settings'
   get 'main/update'
@@ -15,8 +23,6 @@ CommComm::Application.routes.draw do
   get 'main/start_edit'
   get 'main/about'
   get 'main/mail'
-
-  root :to => 'main#board'
 
   post 'post/new'
   post 'post/button'

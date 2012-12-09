@@ -157,7 +157,32 @@ class Post < ActiveRecord::Base
   end
 
   def scan_for_refs
-    return content.scan(/>>(\d+)/).map {|m| m[0].to_i}
+    return content ? content.scan(/>>(\d+)/).map {|m| m[0].to_i} : []
+  end
+
+  def self.generate (opts)
+    board_id = opts[:board] || SiteSettings.first_or_create.sitewide_event_board
+    post = Post.new(board: board_id, owner: opts[:user], content: opts[:content], post_type: opts[:type], reference: opts[:reference], pinned: opts[:pinned])
+    post.save!
+    board = Board.find_by_id(board_id)
+    if board
+      if post.post_type == YELLING || post.post_type == MAILING
+        board.last_yell = post.id
+      elsif post.is_event
+        board.last_event = post.id
+      else
+        board.last_post = post.id
+      end
+      board.save!
+      for ref in post.scan_for_refs
+        reffed = Post.find_by_id(ref)
+        if reffed and reffed.owner
+          tu = BoardUser.get_by_ids(board.id, reffed.owner)
+          tu.last_reply = post.id
+          tu.save!
+        end
+      end
+    end
   end
 
 end

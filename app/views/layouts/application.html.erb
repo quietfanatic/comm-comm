@@ -6,7 +6,7 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 <style>
-<%= render 'main/custom_style.css' %>
+<%= render template: 'main/_custom_style', formats: [:css] %>
 </style>
 </head>
 <body>

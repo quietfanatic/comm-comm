@@ -1,9 +1,5 @@
 class MainController < ApplicationController
 
-  def topic
-    redirect_to '/main/board'  # deprecation yay!
-  end
-
   def board
     logged_in do
       @board = Board.find_by_id(params['board'])

@@ -1,23 +1,13 @@
 class PostController < ApplicationController
   def new
     logged_in do
-      board = Board.find_by_id(params['board'])
       if params['content'] and params['content'] =~ /\S/
         if !Post.last or Post.last.content != params['content']
-          @post = Post.new(content: params['content'], owner: @user.id, board: board ? board.id : nil )
-          @post.save!
-          if board
-            board.last_post = @post.id
-            board.save!
-            for ref in @post.scan_for_refs
-              @reffed = Post.find_by_id(ref)
-              if @reffed and @reffed.owner
-                tu = BoardUser.get_by_ids(board.id, @reffed.owner)
-                tu.last_reply = @post.id
-                tu.save!
-              end
-            end
-          end
+          Post.generate(
+            board: params['board'],
+            user: @user.id,
+            content: params['content']
+          )
         end
       end
       redirect_to '/main/board' + (board ? "?board=#{board.id}" : '')
@@ -27,8 +17,14 @@ class PostController < ApplicationController
     logged_in do
       old = Post.find_by_id(params['id'])
       if old and params['content'] and params['content'] =~ /\S/
-        @post = Post.new(post_type: Post::EDIT, reference: old.id, content: params['content'], owner: @user.id, board: old.board, pinned: true)
-        @post.save!
+        Post.generate(
+          type: Post::EDIT,
+          reference: old.id,
+          content: params['content'],
+          user: @user.id,
+          board: old.board,
+          pinned: true
+        )
         old.pinned = false
         old.save!
       end
@@ -41,62 +37,37 @@ class PostController < ApplicationController
       post = Post.find_by_id(params['id'])
       redirect_to '/main/board' and return unless post
       board = Board.find_by_id(post.board)
+       # Oh ruby you're silly
+      @post = post
+      @board = board
+      def event (type)
+        Post.generate(type: type, reference: @post.id, user: @user.id, board: @board ? @board.id : nil)
+      end
       case params['do']
       when 'pin'
         post.pinned = true
         post.save!
-        event = Post.new(post_type: Post::PINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-        end
+        event Post::PINNING
       when 'unpin'
         post.pinned = false
         post.save!
-        event = Post.new(post_type: Post::UNPINNING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-        end
+        event Post::UNPINNING
       when 'yell'
         post.yelled = true
         post.save!
-        Rails.logger.warn post.yelled
-        event = Post.new(post_type: Post::YELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_yell = event.id;
-          board.save!
-        end
+        event Post::YELLING
       when 'unyell'
         post.yelled = false
         post.save!
-        event = Post.new(post_type: Post::UNYELLING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-        end
+        event Post::UNYELLING
       when 'hide'
         post.hidden = true
         post.save!
-        event = Post.new(post_type: Post::HIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-        end
+        event Post::HIDING
       when 'unhide'
         post.hidden = false
         post.save!
-        event = Post.new(post_type: Post::UNHIDING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-        event.save!
-        if board
-          board.last_event = event.id;
-          board.save!
-        end
+        event Post::UNHIDING
       when 'mail'
         redirect_to "/main/mail?id=#{post.id}" and return
       end
@@ -118,12 +89,7 @@ class PostController < ApplicationController
       message.deliver if message
       post.yelled = true
       post.save!
-      event = Post.new(post_type: Post::MAILING, reference: post.id, owner: @user.id, board: board ? board.id : nil)
-      event.save!
-      if board
-        board.last_yell = event.id;
-        board.save!
-      end
+      event = Post.generate(type: Post::MAILING, reference: post.id, user: @user.id, board: board ? board.id : nil)
       redirect_to '/main/board' + (board ? "?board=#{board.id}" : '')
     end
   end

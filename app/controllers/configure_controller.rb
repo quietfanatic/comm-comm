@@ -60,13 +60,7 @@ class ConfigureController < ApplicationController
       settings.background_image = empty_is_nil params['background_image']
       settings.navigation_text_color = empty_is_nil params['navigation_text_color']
       settings.save!
-      event = Post.new( post_type: Post::APPEARANCE_CHANGING, board: settings.sitewide_event_board, owner: @user.id )
-      event.save!
-      board = Board.find_by_id(settings.sitewide_event_board)
-      if (board)
-        board.last_event = event.id
-        board.save!
-      end
+      Post.generate type: Post::APPEARANCE_CHANGING, user: @user.id
       redirect_to '/main/settings?section=appearance'
     end
   end
@@ -78,16 +72,13 @@ class ConfigureController < ApplicationController
       if name and name =~ /\S/
         board = Board.new(name: name, order: params['order'], ppp: params['ppp'])
         board.save!
-        event = Post.new(
-          post_type: Post::BOARD_CREATION,
+        Post.generate(
+          type: Post::BOARD_CREATION,
           board: board.id,
           reference: board.id,
-          owner: @user.id,
+          user: @user.id,
           content: board.name,
         )
-        event.save!
-        board.last_event = event.id
-        board.save!
         redirect_to '/main/board?board=' + board.id.to_s
       else
         redirect_to '/main/board'
@@ -106,28 +97,24 @@ class ConfigureController < ApplicationController
           if name and name =~ /\S/ and name != board.name
             oldname = board.name
             board.name = name
-            event = Post.new(
-              post_type: Post::BOARD_RENAMING,
+            Post.generate(
+              type: Post::BOARD_RENAMING,
               board: board.id,
               reference: board.id,
-              owner: @user.id,
+              user: @user.id,
               content: oldname + "\n" + board.name
             )
-            event.save!
-            board.last_event = event.id
           end
           order = params['order']
           if order and order != board.order
             board.order = order
-            event = Post.new(
-              post_type: Post::BOARD_REORDERING,
+            Post.generate(
+              type: Post::BOARD_REORDERING,
               board: board.id,
               reference: board.id,
-              owner: @user.id,
+              user: @user.id,
               content: board.name
             )
-            event.save!
-            board.last_event = event.id
           end
           ppp = params['ppp']
           if ppp and ppp != board.ppp
@@ -285,13 +272,7 @@ class ConfigureController < ApplicationController
         @editee.can_change_site_settings = params.has_key?('can_change_site_settings')
         @editee.can_edit_users = params.has_key?('can_edit_users')
         @editee.save!
-        event = Post.new(post_type: Post::USER_EDITING, reference: @editee.id, owner: @user.id, board: settings.sitewide_event_board)
-        event.save!
-        board = Board.find_by_id(settings.sitewide_event_board)
-        if (board)
-          board.last_event = event.id
-          board.save!
-        end
+        Post.generate type: Post::USER_EDITING, reference: @editee.id, user: @user.id
       elsif params['do'] == 'exile'
         @editee.exiled = true
         @editee.can_mail_posts = false
@@ -303,23 +284,11 @@ class ConfigureController < ApplicationController
         @editee.save!
         ss = Session.find_by_user_id(@editee.id)
         ss.destroy_all if ss
-        event = Post.new(post_type: Post::EXILING, reference: @editee.id, owner: @user.id, board: settings.sitewide_event_board)
-        event.save!
-        board = Board.find_by_id(settings.sitewide_event_board)
-        if (board)
-          board.last_event = event.id
-          board.save!
-        end
+        Post.generate type: Post::EXILING, reference: @editee.id, user: @user.id
       elsif params['do'] == 'reinstate'
         @editee.exiled = false
         @editee.save!
-        event = Post.new(post_type: Post::REINSTATION, reference: @editee.id, owner: @user.id, board: settings.sitewide_event_board)
-        event.save!
-        board = Board.find_by_id(settings.sitewide_event_board)
-        if (board)
-          board.last_event = event.id
-          board.save!
-        end
+        Post.generate type: Post::REINSTATION, reference: @editee.id, user: @user.id
       end
     end
   end
