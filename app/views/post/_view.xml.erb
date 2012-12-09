@@ -5,12 +5,6 @@
 <% divclass += ' hidden' if post.hidden -%>
 <% divclass += ' yelled' if post.yelled -%>
 <% divclass += ' event' if post.is_event -%>
-<% divclass += " this_pins_" + post.reference.to_s if post.post_type == Post::PINNING -%>
-<% divclass += " this_unpins_" + post.reference.to_s if post.post_type == Post::UNPINNING -%>
-<% divclass += " this_yells_" + post.reference.to_s if post.post_type == Post::YELLING -%>
-<% divclass += " this_unyells_" + post.reference.to_s if post.post_type == Post::UNYELLING -%>
-<% divclass += " this_hides_" + post.reference.to_s if post.post_type == Post::HIDING -%>
-<% divclass += " this_unhides_" + post.reference.to_s if post.post_type == Post::UNHIDING -%>
 <% divclass += " by_" + post.owner.to_s -%>
 <% divid = (pinned ? "pinned_" : "post_") + post.id.to_s -%>
 <% event_string = post.event_string(user) -%>
@@ -38,14 +32,14 @@
                 <button name="do" value="mail" class="mail_button">@ Mail</button>
              <% end -%>
              <% if post.pinned -%>
-                <button type="button" onclick="ajaxifier.start_edit(<%=post.id.to_s%>);return false" class="edit_button">⚒ Edit</button>
+                <button type="button" onclick="return false" class="edit_button">⚒ Edit</button>
                 <button name="do" value="unpin" class="unpin_button">⤺ Unpin</button>
              <% end -%>
              <% if !post.hidden and !post.pinned -%>
                 <button name="do" value="pin" class="pin_button">⤻ Pin</button>
              <% end -%>
             <% end -%>
-                <button class="reply_button" type="button" onClick="ajaxifier.reply_to_post(<%= post.id %>);return false">≫ Reply</button>
+                <button class="reply_button" type="button" onClick="reply_to_post(<%= post.id %>);return false">≫ Reply</button>
             <% end -%>
             </div>
             <div class="post_date"><%= post.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:short) %> </div>

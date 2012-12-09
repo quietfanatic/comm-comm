@@ -18,9 +18,9 @@ CommComm::Application.routes.draw do
   
   get 'main/board'
   get 'main/settings'
-  get 'main/update'
-  get 'main/backlog'
-  get 'main/start_edit'
+  get 'update/update'
+  get 'update/backlog'
+  get 'update/start_edit'
   get 'main/about'
   get 'main/mail'
 

@@ -10,7 +10,7 @@ class PostController < ApplicationController
           )
         end
       end
-      redirect_to '/main/board' + (board ? "?board=#{board.id}" : '')
+      redirect_to '/main/board' + (params['board'] ? "?board=#{params['board']}" : '')
     end
   end
   def edit

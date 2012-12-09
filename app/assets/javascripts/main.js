@@ -13,7 +13,7 @@ function clear_error (loc) {
 
  // Get the database id of a post (which is embedded in its html id)
 function get_post_id (post) {
-    return parseInt(post.id.match(/_(\d+)$/)[1]);
+    return parseInt(post.getAttribute('id').match(/_(\d+)$/)[1]);
 }
 
  // Abstract out error message reporting and such.
@@ -51,7 +51,7 @@ function wrap_xml_request (params) {
         if ('errloc' in params)
             clear_error(params.errloc);
         if ('handler' in params)
-            handler(xml);
+            params.handler(xml);
         return;
     }
 }
@@ -101,7 +101,7 @@ var actions = {
         var tid = up.getAttribute('t');
         var list = $('#' + tid)[0];
         for (var i = 0; i < list.children.length; i++) {
-            if (elem.id < list.children[i].id)) {
+            if (elem.id < list.children[i].id) {
                 list.insertBefore(elem, list.children[i]);
             }
         }
@@ -118,14 +118,25 @@ var actions = {
     remove: function (up) {
         var tid = up.getAttribute('t');
         $('#' + tid).detach();
-    }
+    },
+     // Just appearance manipulation
+    add_class: function (up) {
+        var tid = up.getAttribute('t');
+        var cl = up.getAttribute('c');
+        $('#' + tid).addClass(cl);
+    },
+    remove_class: function (up) {
+        var tid = up.getAttribute('t');
+        var cl = up.getAttribute('c');
+        $('#' + tid).removeClass(cl);
+    },
 };
 
  // Take an xml update object and execute it.
-function execute_actions (xml) {
-    var did_something = xml.children.length > 0;
-    for (var i = 0; i < xml.children.length; i++) {
-        var up = xml.children[i];
+function execute_actions (update) {
+    var did_something = update.children.length > 0;
+    for (var i = 0; i < update.children.length; i++) {
+        var up = update.children[i];
          // Dispatch action based on tag name
         var action = up.tagName;
         if (action in actions) {
@@ -139,7 +150,8 @@ function execute_actions (xml) {
 }
 
  // This class represents the thing that gets automatic updates.
-function updater (earliest, latest, board, user, min_interval, max_interval) {
+function Updater (earliest, latest, board, min_interval, max_interval) {
+    var this_Updater = this;
 
     this.timer = null;
     this.delay = min_interval;
@@ -157,20 +169,20 @@ function updater (earliest, latest, board, user, min_interval, max_interval) {
     }
 
     function handle_update (xml) {
-        if (execute_actions(xml)) {
-            this.reset_delay();
+        if (execute_actions(xml.documentElement)) {
+            this_Updater.reset_delay();
         }
         else {
-            this.increase_delay();
+            this_Updater.increase_delay();
         }
-        this.job = null;
-        this.timer = setTimeout( request_update, this.delay * 1000 );        
+        this_Updater.job = null;
+        this_Updater.timer = setTimeout( request_update, this_Updater.delay * 1000 );        
     }
 
     function request_update () {
         var url = board == null
-            ? "/main/update.xml?since=" + latest
-            : "/main/update.xml?board=" + board + "&since=" + latest;
+            ? "/update/update.xml?since=" + latest
+            : "/update/update.xml?board=" + board + "&since=" + latest;
         var client = new XMLHttpRequest();
         client.onreadystatechange = wrap_xml_request({
             handler: handle_update,
@@ -190,6 +202,7 @@ function updater (earliest, latest, board, user, min_interval, max_interval) {
         this.reset_delay();
         request_update();
     }
+    this.timer = setTimeout( request_update, this.delay * 1000 );
 }
 
  // scrolling control

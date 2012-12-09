@@ -1,0 +1,45 @@
+<update latest="<%=Post.last.id%>">
+<% for p in @new_posts -%>
+    <append t="stream_post_list">
+        <%= render 'post/view', post: p, pinned: false, user: @user -%>
+    </append>
+<% def with_ref (&code)
+    if p
+      reffed = Post.find_by_id(p.reference)
+      if reffed
+        return code(reffed)
+      else
+        return ""
+      end
+    end
+   end -%>
+<% case p.post_type -%>
+<% when Post::PINNING -%>
+  <% with_ref do |reffed| -%>
+    <insert t="pinned_post_list">
+        <%= render 'post/view', post: reffed, pinned: true, user: @user -%>
+    </insert>
+    <add_class t="post_<%=reffed.id%>" />
+  <% end -%>
+<% when Post::UNPINNING -%>
+    <remove t="pinned_<%=p.reference%>" />
+    <remove_class t="post_<%=p.reference%>" c="pinned" />
+<% when Post::MAILING, Post::YELLING -%>
+    <add_class t="post_<%=p.reference%>" c="yelled" />
+<% when Post::UNYELLING -%>
+    <remove_class t="post_<%=p.reference%>" c="yelled" />
+<% when Post::HIDING, Post::UNHIDING -%>
+  <% with_ref do |reffed| -%>
+    <remove t="pinned_<%=reffed.id%>" />
+    <replace t="post_<%=reffed.id%>">
+        <%= render 'post/view', post: reffed, pinned: false, user: @user -%>
+    </replace>
+  <% end -%>
+<% when Post::EDIT -%>
+    <remove t="pinned_<%=p.reference%>" />
+    <insert t="pinned_post_list">
+        <%= render 'post/view', post: p, pinned: true, user: @user -%>
+    </insert>
+<% end -%>
+<% end -%>
+</update>

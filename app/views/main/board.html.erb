@@ -3,7 +3,7 @@
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= (@board ? @board.ppp : 50) -%>
-        <button class=backlog_button type=button onClick="ajaxifier.request_backlog()">Backlog</button>
+        <button class=backlog_button type=button onclick="return false;">Backlog</button>
         <% end -%>
     </div>
     <div class=error_area id=backlog_error></div>
@@ -14,9 +14,9 @@
     </div>
     <div class=error_area id=update_error></div>
     <div class=new_post_form id=stream_post_form>
-    <%= form_tag '/post/new', id: 'new_post_form', remote: true do -%>
+    <%= form_tag '/post/new', id: 'new_post_form' do -%>
         <textarea name=content tabindex=1 id=new_post_content autofocus></textarea>
-        <button type=submit tabindex=2 id=new_post_submit onClick="ajaxifier.when_submitting();return true">Post</button>
+        <button type=submit tabindex=2 id=new_post_submit>Post</button>
         <% if @board -%>
             <input type=hidden name=board value="<%= @board.id %>"/>
         <% end -%>
@@ -40,18 +40,15 @@
     <% lastpost = Post.last -%>
     <% settings = SiteSettings.first_or_create -%>
     $(document).ready(function(){
-        var ajaxifier = get_ajaxifier(
-            document,
-            <%= lastpost ? lastpost.id : 0 %>,
+        var updater = new Updater (
             <%= @posts.first ? @posts.first.id : 0 %>,
+            <%= lastpost ? lastpost.id : 0 %>,
             <%= @board ? @board.id : 'null' %>,
-            <%= @user.id %>,
             <%= settings.min_update_interval %>,
             <%= settings.max_update_interval %>
         );
         <%# Set this with javascript so it works non-remotely when there's no script. %>
-        $('#new_post_form').attr('data-remote', 'true');
-        ajaxifier.scroll_stream();
-        ajaxifier.start_updating();
+        //$('#new_post_form').attr('data-remote', 'true');
+        scroll_to_bottom($('#stream'));
     })
 </script>
