@@ -55,6 +55,7 @@ class ConfigureController < ApplicationController
         return val && val =~ /\S/ ? val : nil
       end
 
+      settings.logo_text = empty_is_nil params['logo_text']
       settings.background_gradient_top = empty_is_nil params['gradient_top']
       settings.background_gradient_bottom = empty_is_nil params['gradient_bottom']
       settings.background_image = empty_is_nil params['background_image']

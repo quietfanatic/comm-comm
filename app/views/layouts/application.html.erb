@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<% settings = SiteSettings.first_or_create -%>
 <html>
 <head>
-    <title>Comm Comm</title>
+    <title><%= settings.logo_text || 'Comm Comm' %></title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
@@ -14,7 +15,7 @@
 <% tab_id = yield(:tab_id) -%>
 <div class=navigation>
     <div class=navigation_top>
-        <div class=site_logo>Comm Comm</div>
+        <div class=site_logo><%= settings.logo_text || 'Comm Comm' %></div>
         <div class=session_info>
             <div class=you_are>You are:</div>
             <div class=identity><%=identity%></div>

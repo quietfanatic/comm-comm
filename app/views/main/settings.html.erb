@@ -90,6 +90,10 @@
         <%= form_tag '/configure/appearance' do -%>
             <div class=pseudo_table>
             <div class=pseudo_tr>
+                <label for=logo_text>Logo text:</label>
+                <div><input id=logo_text name=logo_text value="<%= settings.logo_text || 'Comm Comm'%>" /></div>
+            </div>
+            <div class=pseudo_tr>
                 <label for=gradient_top>Gradient top color:</label>
                 <div><input id=gradient_top name=gradient_top value="<%= settings.background_gradient_top || '#dfcfff'%>" class=short /></div>
             </div>
