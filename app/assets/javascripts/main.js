@@ -209,6 +209,10 @@ function Updater (min_interval, max_interval) {
     }
 
     function handle_update (xml) {
+         // scrolling control
+        var stream = $('#stream')[0];
+        var old_scrollHeight = stream.scrollHeight;
+         // do the update
         var update = xml.documentElement;
         if (execute_actions(update)) {
             this_Updater.reset_delay();
@@ -216,6 +220,9 @@ function Updater (min_interval, max_interval) {
         else {
             this_Updater.increase_delay();
         }
+         // fix scroll
+        stream.scrollTop += stream.scrollHeight - old_scrollHeight;
+         // reset timeout
         this_Updater.job = null;
         this_Updater.timer = setTimeout( request_update, this_Updater.delay * 1000 );        
     }
@@ -288,6 +295,10 @@ function cancel_edit (pid) {
 function scroll_to_bottom(elem) {
     elem.scrollTop = elem.scrollHeight;
 }
+function near_bottom(elem) {
+    return elem.scrollTop > elem.scrollHeight - elem.offsetHeight - 240;
+}
+
  // When you click a reply button.
 function reply_to_post (pid) {
     var npc = $('#new_post_content')[0];
