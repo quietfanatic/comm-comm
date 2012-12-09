@@ -17,7 +17,7 @@
     <insert t="pinned_post_list">
         <%= render 'post/view', post: reffed, pinned: true, user: @user -%>
     </insert>
-    <add_class t="post_<%=reffed.id%>" />
+    <add_class t="post_<%=reffed.id%>" c="pinned" />
   <% end -%>
 <% when Post::UNPINNING -%>
     <remove t="pinned_<%=p.reference%>" />

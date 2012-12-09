@@ -103,8 +103,11 @@ var actions = {
         for (var i = 0; i < list.children.length; i++) {
             if (elem.id < list.children[i].id) {
                 list.insertBefore(elem, list.children[i]);
+                add_events(elem);
+                return;
             }
         }
+        list.appendChild(elem);
         add_events(elem);
     },
      // Replace target with new content
