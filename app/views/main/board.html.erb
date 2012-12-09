@@ -3,7 +3,7 @@
 <div class=stream id=stream>
     <div class=backlog_area id=backlog_area>
         <% if @posts and @posts.length >= (@board ? @board.ppp : 50) -%>
-        <button class=backlog_button type=button onclick="updater.backlog();return false;">Backlog</button>
+        <button class=backlog_button type=button onclick="backlog();return false;">Backlog</button>
         <% end -%>
     </div>
     <div class=error_area id=backlog_error></div>
@@ -41,15 +41,15 @@
     <% settings = SiteSettings.first_or_create -%>
     var updater;
     $(document).ready(function(){
+        vars.earliest = <%= @posts.first ? @posts.first.id : 0 %>;
+        vars.latest = <%= lastpost ? lastpost.id : 0 %>;
+        vars.board = <%= @board ? @board.id : 'null' %>;
         updater = new Updater (
-            <%= @posts.first ? @posts.first.id : 0 %>,
-            <%= lastpost ? lastpost.id : 0 %>,
-            <%= @board ? @board.id : 'null' %>,
             <%= settings.min_update_interval %>,
             <%= settings.max_update_interval %>
         );
         <%# Set this with javascript so it works non-remotely when there's no script. %>
         //$('#new_post_form').attr('data-remote', 'true');
-        scroll_to_bottom($('#stream'));
+        scroll_to_bottom($('#stream')[0]);
     })
 </script>

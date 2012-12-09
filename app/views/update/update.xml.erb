@@ -6,7 +6,8 @@
       return ""
     end
    end -%>
-<update latest="<%=Post.last.id%>">
+<update>
+    <set t="latest" v="<%=Post.last.id%>" />
 <% for p in @new_posts -%>
     <append t="stream_post_list">
 <%= render 'post/view', post: p, pinned: false, user: @user -%>

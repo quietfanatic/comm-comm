@@ -79,7 +79,15 @@ function add_events (elem) {
 //         <post ...>...</post>
 //     </replace>
 //     <remove t="old_stuff" />
+//     <set t="latest" v="455" />
 // </update>
+
+ // These are the variables that the update format is allowed to set.
+var vars = {
+    earliest: null,
+    latest: null,
+    board: null,
+};
 
  // The tag name of each element in the update determines what it does.
  // The actions are all very abstract.  The concrete decision making will be done by the server.
@@ -136,6 +144,13 @@ var actions = {
         var cl = up.getAttribute('c');
         $('#' + tid).removeClass(cl);
     },
+    set: function (up) {
+        var tname = up.getAttribute('t');
+        var val = up.getAttribute('v');
+        if (tname in vars) {
+            vars[tname] = parseInt(val);
+        }
+    }
 };
 
  // Take an xml update object and execute it.
@@ -156,11 +171,8 @@ function execute_actions (update) {
 }
 
  // This class represents the thing that gets automatic updates.
-function Updater (earliest, latest, board, min_interval, max_interval) {
+function Updater (min_interval, max_interval) {
     var this_Updater = this;
-
-    this.earliest = earliest;
-    this.latest = latest;
 
     this.timer = null;
     this.delay = min_interval;
@@ -179,7 +191,6 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
 
     function handle_update (xml) {
         var update = xml.documentElement;
-        this_Updater.latest = parseInt(update.getAttribute('latest'));
         if (execute_actions(update)) {
             this_Updater.reset_delay();
         }
@@ -191,9 +202,6 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
     }
 
     function request_update () {
-        var url = board == null
-            ? "/update/update.xml?since=" + this_Updater.latest
-            : "/update/update.xml?board=" + board + "&since=" + this_Updater.latest;
         var client = new XMLHttpRequest();
         client.onreadystatechange = wrap_xml_request({
             handler: handle_update,
@@ -203,7 +211,7 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
                 this_Updater.timer = setTimeout( request_update, max_interval * 1000 );
             }
         });
-        client.open("GET", url);
+        client.open("GET", "/update/update.xml?board=" + vars.board + "&since=" + vars.latest);
         client.send();
         this_Updater.job = client;
     }
@@ -214,24 +222,23 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
         request_update();
     }
     this.timer = setTimeout( request_update, this.delay * 1000 );
+}
 
-    this.backlog_job = null;
-    this.backlog = function () {
-        if (this.backlog_job != null) return;
-        var client = new XMLHttpRequest();
-        client.onreadystatechange = wrap_xml_request({
-            handler: function (xml) {
-                var update = xml.documentElement;
-                this_Updater.earliest = update.getAttribute('earliest');
-                execute_actions(update);
-                this_Updater.backlog_job = null;
-            },
-            errloc: $('#backlog_error')[0],
-        });
-        client.open("GET", "/update/backlog.xml?board=" + board + "&before=" + this_Updater.earliest);
-        client.send();
-        this_Updater.backlog_job = client;
-    }
+var backlog_job = null;
+function backlog () {
+    if (backlog_job != null) return;
+    var client = new XMLHttpRequest();
+    client.onreadystatechange = wrap_xml_request({
+        handler: function (xml) {
+            var update = xml.documentElement;
+            execute_actions(update);
+            backlog_job = null;
+        },
+        errloc: $('#backlog_error')[0],
+    });
+    client.open("GET", "/update/backlog.xml?board=" + vars.board + "&before=" + vars.earliest);
+    client.send();
+    backlog_job = client;
 }
 
  // scrolling control
