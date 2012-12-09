@@ -1,21 +1,19 @@
+<% def with_ref (p, &code)
+    reffed = Post.find_by_id(p.reference)
+    if reffed
+      return code.call(reffed)
+    else
+      return ""
+    end
+   end -%>
 <update latest="<%=Post.last.id%>">
 <% for p in @new_posts -%>
     <append t="stream_post_list">
         <%= render 'post/view', post: p, pinned: false, user: @user -%>
     </append>
-<% def with_ref (&code)
-    if p
-      reffed = Post.find_by_id(p.reference)
-      if reffed
-        return code(reffed)
-      else
-        return ""
-      end
-    end
-   end -%>
 <% case p.post_type -%>
 <% when Post::PINNING -%>
-  <% with_ref do |reffed| -%>
+  <% with_ref p do |reffed| -%>
     <insert t="pinned_post_list">
         <%= render 'post/view', post: reffed, pinned: true, user: @user -%>
     </insert>
@@ -29,7 +27,7 @@
 <% when Post::UNYELLING -%>
     <remove_class t="post_<%=p.reference%>" c="yelled" />
 <% when Post::HIDING, Post::UNHIDING -%>
-  <% with_ref do |reffed| -%>
+  <% with_ref p do |reffed| -%>
     <remove t="pinned_<%=reffed.id%>" />
     <replace t="post_<%=reffed.id%>">
         <%= render 'post/view', post: reffed, pinned: false, user: @user -%>

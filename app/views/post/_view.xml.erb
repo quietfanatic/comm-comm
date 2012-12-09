@@ -8,7 +8,7 @@
 <% divclass += " by_" + post.owner.to_s -%>
 <% divid = (pinned ? "pinned_" : "post_") + post.id.to_s -%>
 <% event_string = post.event_string(user) -%>
-    <div class="<%= divclass %>" id="<%= divid %>">
+    <div class="<%= divclass %>" id="<%= divid %>" xmlns="http://www.w3.org/1999/xhtml">
         <div class="post_info">
             <div class="post_id"><%= post.id.to_s %></div>
             <div class="post_owner"><%= name %></div>

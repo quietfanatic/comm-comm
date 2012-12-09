@@ -153,6 +153,9 @@ function execute_actions (update) {
 function Updater (earliest, latest, board, min_interval, max_interval) {
     var this_Updater = this;
 
+    this.earliest = earliest;
+    this.latest = latest;
+
     this.timer = null;
     this.delay = min_interval;
     this.job = null;
@@ -160,16 +163,18 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
     var errloc = document.getElementById('update_error');
 
     this.increase_delay = function () {
-        this.delay += min_interval;
-        if (this.delay > max_interval)
-            this.delay = max_interval;
+        this_Updater.delay += min_interval;
+        if (this_Updater.delay > max_interval)
+            this_Updater.delay = max_interval;
     }
     this.reset_delay = function () {
-        this.delay = min_interval;
+        this_Updater.delay = min_interval;
     }
 
     function handle_update (xml) {
-        if (execute_actions(xml.documentElement)) {
+        var update = xml.documentElement;
+        this_Updater.latest = parseInt(update.getAttribute('latest'));
+        if (execute_actions(update)) {
             this_Updater.reset_delay();
         }
         else {
@@ -181,20 +186,20 @@ function Updater (earliest, latest, board, min_interval, max_interval) {
 
     function request_update () {
         var url = board == null
-            ? "/update/update.xml?since=" + latest
-            : "/update/update.xml?board=" + board + "&since=" + latest;
+            ? "/update/update.xml?since=" + this_Updater.latest
+            : "/update/update.xml?board=" + board + "&since=" + this_Updater.latest;
         var client = new XMLHttpRequest();
         client.onreadystatechange = wrap_xml_request({
             handler: handle_update,
             errloc: errloc,
             on_network_error: function(){
-                this.job = null;
-                this.timer = setTimeout( request_update, max_interval * 1000 );
+                this_Updater.job = null;
+                this_Updater.timer = setTimeout( request_update, max_interval * 1000 );
             }
         })
         client.open("GET", url);
         client.send();
-        this.job = client;
+        this_Updater.job = client;
     }
     this.update_now = function () {
         if (this.job)
