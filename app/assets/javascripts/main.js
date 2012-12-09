@@ -230,13 +230,23 @@ function Updater (min_interval, max_interval) {
         client.send();
         this_Updater.job = client;
     }
-    this.update_now = function () {
-        if (this.job)
+    this.stop = function () {
+        if (this.job != null)
             this.job.abort();
+        if (this.timer != null) {
+            clearTimeout(this.timer);
+            this.timer = null;
+        }
+    }
+    this.start = function () {
+        this.timer = setTimeout( request_update, this.delay * 1000 );
+    }
+    this.update_now = function () {
+        this.stop();
         this.reset_delay();
         request_update();
     }
-    this.timer = setTimeout( request_update, this.delay * 1000 );
+    this.start();
 }
 
  // This happens when you press the 'backlog' button to view old posts
