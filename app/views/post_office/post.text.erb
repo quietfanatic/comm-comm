@@ -1,5 +1,5 @@
 See the original post at http://comm-comm.herokuapp.com/main/board<%= @post.board ? '?board=' + @post.board.to_s : '' %>
 
 ================================
-<%= render 'post/view', locals: { post: @post } %>
+<%= render partial: 'post/view', locals: { post: @post } %>
 ================================
