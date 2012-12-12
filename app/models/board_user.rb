@@ -17,19 +17,20 @@ class BoardUser < ActiveRecord::Base
   REPLY = "indicator got_reply"
 
 
-  def self.indicators (user)
+  def self.indicators (user, since=nil)
     indicators = []
     for tu in BoardUser.find_all_by_user_id(user.id)
       mytop = Board.find_by_id(tu.board)
       if mytop and mytop.visible
-        if tu.updated_to
-          if (tu.last_reply and tu.last_reply > tu.updated_to)
+        updated_to = since ? since : tu.updated_to
+        if updated_to
+          if (tu.last_reply and tu.last_reply > updated_to)
             indicators[tu.board] = REPLY
-          elsif (mytop.last_yell and mytop.last_yell > tu.updated_to)
+          elsif (mytop.last_yell and mytop.last_yell > updated_to)
             indicators[tu.board] = YELL
-          elsif (mytop.last_post and mytop.last_post > tu.updated_to)
+          elsif (mytop.last_post and mytop.last_post > updated_to)
             indicators[tu.board] = POST
-          elsif (mytop.last_event and mytop.last_event > tu.updated_to)
+          elsif (mytop.last_event and mytop.last_event > updated_to)
             indicators[tu.board] = EVENT
           else
           indicators[tu.board] = OFF

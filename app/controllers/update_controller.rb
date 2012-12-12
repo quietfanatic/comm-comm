@@ -22,7 +22,7 @@ class UpdateController < ApplicationController
         board_user.updated_to = Post.last.id
         board_user.save
       end
-      @indicators = BoardUser.indicators(@user)
+      @indicators = BoardUser.indicators(@user, since)
       @show_settings_indicator = User.any_unconfirmed?
     end
   end
