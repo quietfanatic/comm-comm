@@ -71,11 +71,13 @@ function get_xml (params) {
     return client;
 }
 
-
+ // Using add_events to see if we have new content is pretty spaghettilicious.  We'll find a better way later.
+var have_new_content = false;
  // Add all appropriate event handlers to new content
 function add_events (elem) {
     var pid = get_post_id(elem);
     if (pid != null) {
+        have_new_content = true;
         $(elem).find('.reply_button').click(function(){reply_to_post(pid);return false});
         $(elem).find('.edit_cancel_button').click(function(){cancel_edit(pid);return false});
     }
@@ -222,7 +224,9 @@ function Updater (min_interval, max_interval) {
         var old_scrollHeight = stream.scrollHeight;
          // do the update
         var update = xml.documentElement;
-        if (execute_actions(update)) {
+        have_new_content = false;
+        execute_actions(update);
+        if (have_new_content) {
             this_Updater.reset_delay();
         }
         else {
