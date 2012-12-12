@@ -71,15 +71,17 @@ function get_xml (params) {
     return client;
 }
 
- // Using add_events to see if we have new content is pretty spaghettilicious.  We'll find a better way later.
 var have_new_content = false;
  // Add all appropriate event handlers to new content
-function add_events (elem) {
+function register_new_content (elem) {
     var pid = get_post_id(elem);
     if (pid != null) {
         have_new_content = true;
         $(elem).find('.reply_button').click(function(){reply_to_post(pid);return false});
         $(elem).find('.edit_cancel_button').click(function(){cancel_edit(pid);return false});
+    }
+    else if ($(elem).hasClass('indicator')) {
+        have_new_content = true;
     }
 }
 
@@ -112,28 +114,28 @@ var actions = {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
         $('#' + tid).append(elem);
-        add_events(elem);
+        register_new_content(elem);
     },
      // Prepend to children of target
     prepend: function (up) {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
         $('#' + tid).prepend(elem);
-        add_events(elem);
+        register_new_content(elem);
     },
      // Put after target
     after: function (up) {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
         $('#' + tid).after(elem);
-        add_events(elem);
+        register_new_content(elem);
     },
      // Put before target
     before: function (up) {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
         $('#' + tid).before(elem);
-        add_events(elem);
+        register_new_content(elem);
     },
      // Insert into children of target sorted by id
     insert: function (up) {
@@ -143,19 +145,19 @@ var actions = {
         for (var i = 0; i < list.children.length; i++) {
             if (elem.id < list.children[i].id) {
                 list.insertBefore(elem, list.children[i]);
-                add_events(elem);
+                register_new_content(elem);
                 return;
             }
         }
         list.appendChild(elem);
-        add_events(elem);
+        register_new_content(elem);
     },
      // Replace target with new content
     replace: function (up) {
         var elem = up.children[0];
         var tid = up.getAttribute('t');
         $('#' + tid)[0].replaceChild(post);
-        add_events(elem);
+        register_new_content(elem);
     },
      // Delete target
     remove: function (up) {
