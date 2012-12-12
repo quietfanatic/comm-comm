@@ -85,6 +85,14 @@ function register_new_content (elem) {
     }
 }
 
+function first_child (elem) {
+    for (var i = 0; i < elem.childNodes.length; i++) {
+        if (elem.childNodes[i].nodeType == elem.childNodes[i].ELEMENT_NODE)
+            return elem.childNodes[i];
+    }
+    return null;
+}
+
 
  // The XML format recieved by all AJAX request performed by the C² client is in a format like:
 
@@ -111,40 +119,41 @@ var vars = {
 var actions = {
      // Append to children of target
     append: function (up) {
-        var elem = up.children[0];
+        var elem = first_child(up);
         var tid = up.getAttribute('t');
         $('#' + tid).append(elem);
         register_new_content(elem);
     },
      // Prepend to children of target
     prepend: function (up) {
-        var elem = up.children[0];
+        var elem = first_child(up);
         var tid = up.getAttribute('t');
         $('#' + tid).prepend(elem);
         register_new_content(elem);
     },
      // Put after target
     after: function (up) {
-        var elem = up.children[0];
+        var elem = first_child(up);
         var tid = up.getAttribute('t');
         $('#' + tid).after(elem);
         register_new_content(elem);
     },
      // Put before target
     before: function (up) {
-        var elem = up.children[0];
+        var elem = first_child(up);
         var tid = up.getAttribute('t');
         $('#' + tid).before(elem);
         register_new_content(elem);
     },
      // Insert into children of target sorted by id
     insert: function (up) {
-        var elem = up.children[0];
+        var elem = first_child(up);
         var tid = up.getAttribute('t');
         var list = $('#' + tid)[0];
-        for (var i = 0; i < list.children.length; i++) {
-            if (elem.id < list.children[i].id) {
-                list.insertBefore(elem, list.children[i]);
+        for (var i = 0; i < list.childNodes.length; i++) {
+            var c = list.childNodes[i];
+            if (c.nodeType == c.ELEMENT_NODE && elem.id < c.id) {
+                list.insertBefore(elem, c);
                 register_new_content(elem);
                 return;
             }
@@ -154,7 +163,7 @@ var actions = {
     },
      // Replace target with new content
     replace: function (up) {
-        var elem = up.children[0];
+        var elem = first_child(up);
         var tid = up.getAttribute('t');
         $('#' + tid)[0].replaceChild(post);
         register_new_content(elem);
@@ -186,19 +195,19 @@ var actions = {
 
  // Take an xml update object and execute it.
 function execute_actions (update) {
-    var did_something = update.children.length > 0;
-    for (var i = 0; i < update.children.length; i++) {
-        var up = update.children[i];
-         // Dispatch action based on tag name
-        var action = up.tagName;
-        if (action in actions) {
-            actions[action](up);
-        }
-        else {
-         // No error reporting here right now.
+    for (var i = 0; i < update.childNodes.length; i++) {
+        var up = update.childNodes[i];
+        if (up.nodeType == up.ELEMENT_NODE) {
+             // Dispatch action based on tag name
+            var action = up.tagName;
+            if (action in actions) {
+                actions[action](up);
+            }
+            else {
+             // No error reporting here right now.
+            }
         }
     }
-    return did_something;
 }
 
  // This class represents the thing that gets automatic updates.
