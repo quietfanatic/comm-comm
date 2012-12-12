@@ -34,6 +34,14 @@ function get_xml (params) {
                 params.on_network_error();
             return;
         }
+         // 503 means service temporarily unavailable
+        if (this.status == 503) {
+            if ('errloc' in params)
+                make_error(params.errloc, "The server is temporarily unavailable.  Please wait.");
+            if ('on_network_error' in params)
+                params.on_network_error();
+            return;
+        }
          // Stop at an HTTP error.
         if (this.status != 200) {
             if ('errloc' in params)
