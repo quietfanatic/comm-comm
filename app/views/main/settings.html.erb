@@ -132,6 +132,7 @@
                 <div>Posts/Page</div>
             </div>
             <% for b in @boards -%>
+            <% if b.visible -%>
             <%= form_tag '/configure/change_board', class: 'pseudo_tr' do %>
                 <div><%=b.id%>
                     <input type=hidden name=id value="<%=b.id%>"/>
@@ -146,6 +147,7 @@
                     <input type=number name=ppp value="<%=b.ppp%>"/>
                 </div>
                 <div><button name=do value=change>Change</button></div>
+            <% end -%>
             <% end -%>
             <% end -%>
             <%= form_tag '/configure/new_board', class: 'pseudo_tr' do %>
