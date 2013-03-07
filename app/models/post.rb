@@ -139,6 +139,7 @@ class Post < ActiveRecord::Base
     html.gsub!(/\[img\](.*?)\[\/img\]/mi, '<img src="\1" style="max-width: 100%; max-height: 320px;" alt="\1"/>')
     html.gsub!(/\[wat\](.*?)\[\/wat\]/mi, '<img src="\1" style="max-width: 100%; max-height: 320px;" alt="\1"/>')
     html.gsub!(/\[color=(&quot;|&apos;|)([^\]]*)\1\](.*?)\[\/color\]/mi, '<span style="color: \2">\3</span>')
+    html.gsub!(/(\A|[^"a-zA-Z])([a-zA-Z]+:\/\/[^\s<]+)(png|jpe?g|gif)$/, '\1<a href="\2\3"><img src="\2\3" style="max-width: 100%; max-height: 320px;" alt="\1"/></a>')
     html.gsub!(/(\A|[^"a-zA-Z])([a-zA-Z]+:\/\/[^\s<]+)/, '\1<a href="\2">\2</a>')
     html.gsub! /&gt;&gt;(\d+)/ do |m|
       Post.ref_link($1, '&gt;&gt;' + $1, user)
