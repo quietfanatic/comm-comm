@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207234641) do
+ActiveRecord::Schema.define(:version => 20130315230039) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
