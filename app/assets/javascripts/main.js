@@ -26,12 +26,15 @@ function get_xml (params) {
          // Wait until request is finished
         if (this.readyState != this.DONE)
             return;
-         // 0 means a network error of some sort.
+         // 0 means a network error of some sort.  Either that or the request was aborted.
+         // At some point I'll learn how to tell the difference between these two cases.
         if (this.status == 0) {
-            if ('errloc' in params)
-                make_error(params.errloc, "No connectivity.  Please check your network connection.");
-            if ('on_network_error' in params)
-                params.on_network_error();
+            setTimeout(function(){
+                if ('errloc' in params)
+                    make_error(params.errloc, "No connectivity.  Please check your network connection.");
+                if ('on_network_error' in params)
+                    params.on_network_error();
+            }, 30000);
             return;
         }
          // 503 means service temporarily unavailable
