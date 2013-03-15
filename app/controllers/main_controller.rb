@@ -31,8 +31,6 @@ class MainController < ApplicationController
       end
       if @user.can_edit_users or @user.can_confirm_users
         @unconfirmed_users = User.where("is_confirmed = 'f' OR is_confirmed IS NULL").all
-      end
-      if @user.can_confirm_users
         @all_users = User.order('id').all
       end
     end
