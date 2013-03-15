@@ -30,8 +30,6 @@
         <div class=tab_gap></div>
         <% if @user -%>
         <% indicators = BoardUser.indicators(@user) -%>
-            <% tabclass = (tab_id == "Uncategorized") ? 'board_tab current' : 'board_tab' -%>
-            <a id="uncategorized_tab" class="<%=tabclass%>" href="/main/board"><span class=indicator id=indicator_0></span>Uncategorized</a>
         <% for t in Board.order('"order", "id"').where(visible: true).all -%>
             <% tabclass = (tab_id == t.name) ? 'board_tab current' : 'board_tab' -%>
             <% indclass = (indicators[t.id] == nil ? BoardUser::OFF : indicators[t.id]) -%>

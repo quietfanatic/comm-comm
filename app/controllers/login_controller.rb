@@ -16,7 +16,7 @@ class LoginController < ApplicationController
             if initial
               redirect_to "/main/board?board=#{initial}"
             else
-              redirect_to "/main/board"
+              redirect_to "/main/settings"
             end
           else
             redirect_to "/login/entrance?error=Sorry,+that+account+has+been+disabled."

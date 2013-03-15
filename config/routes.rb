@@ -5,7 +5,7 @@ CommComm::Application.routes.draw do
     if board
       "/main/board?board=#{board}"
     else
-      '/main/board'
+      '/main/settings'
     end
   }
 
