@@ -110,6 +110,8 @@
                 <div><input id=navigation_text_color name=navigation_text_color value="<%= settings.navigation_text_color || '#000000'%>" class=short /></div>
             </div>
             </div>
+            <label for=about_us_html>HTML content for the "About Us" section:</label><br>
+            <textarea id=about_us_html name=about_us_html class=configure_html><%= settings.about_us_html || "" %></textarea><br>
             <button type=submit>Change</button> <span class=notice>These changes will be visible to all users.</span>
         <% end -%>
         </div>

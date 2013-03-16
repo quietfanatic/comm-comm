@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315230039) do
+ActiveRecord::Schema.define(:version => 20130316011805) do
 
   create_table "board_users", :force => true do |t|
     t.integer "updated_to"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130315230039) do
     t.string   "background_gradient_top"
     t.string   "background_gradient_bottom"
     t.string   "navigation_text_color"
+    t.text     "about_us_html"
   end
 
   create_table "users", :force => true do |t|

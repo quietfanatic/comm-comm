@@ -1,11 +1,13 @@
 <% provide(:tab_id, "_ABOUT") -%>
 
+<% settings = SiteSettings.first_or_create -%>
 
-
+<% if settings.about_us_html -%>
 <div class=section>
     <div class=section_heading>About Us</div>
-    <p><i>We are <a href="http://www.westmont.edu/_academics/departments/computer_science/">Westmont Computer Science</a></i></p>
+    <%=raw settings.about_us_html %>
 </div>
+<% end -%>
 
 
 <div class=section>

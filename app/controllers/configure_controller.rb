@@ -60,6 +60,7 @@ class ConfigureController < ApplicationController
       settings.background_gradient_bottom = empty_is_nil params['gradient_bottom']
       settings.background_image = empty_is_nil params['background_image']
       settings.navigation_text_color = empty_is_nil params['navigation_text_color']
+      settings.about_us_html = empty_is_nil params['about_us_html']
       settings.save!
       Post.generate type: Post::APPEARANCE_CHANGING, user: @user.id
       redirect_to '/main/settings?section=appearance'
