@@ -17,6 +17,14 @@
                     <label for=name>Visible name:</label>
                     <input type=text name=name value="<%= @user.name %>" />
                 </div>
+                <div>
+                    <label for=password>Change password:</label>
+                    <input type=password name=password />
+                </div>
+                <div>
+                    <label for=confirm_password>Repeat password:</label>
+                    <input type=password name=confirm_password />
+                </div>
                 <button class=change_button type=submit>Change</button>
             <% end -%>
         </div>
