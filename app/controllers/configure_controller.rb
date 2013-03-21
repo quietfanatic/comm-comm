@@ -11,7 +11,7 @@ class ConfigureController < ApplicationController
         if params['name']
           editee.visible_name = params['name']
         end
-        if params['password'] && params['confirm_password']
+        if params['password'] && params['confirm_password'] && params['password'].match(/\S/)
           if params['password'] == params['confirm_password']
             editee.password = params['password']
           end
