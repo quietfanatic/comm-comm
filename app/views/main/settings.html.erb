@@ -17,15 +17,37 @@
                     <label for=name>Visible name:</label>
                     <input type=text name=name value="<%= @user.name %>" />
                 </div>
+                <button class=change_button type=submit>Change</button>
+            <% end -%>
+        </div>
+    </div>
+    <div class=section>
+        <input id=showhide_password type=checkbox class=showhider <%= params['section'] == 'password' ? 'checked' : '' %>/>
+        <label for=showhide_password>
+            <span class=section_heading>Password</span>
+        </label>
+        <div class=section_content>
+            <%= form_tag '/configure/password', class: 'password_form' do %>
+                <input type=hidden name=id value="<%= @user.id %>" />
                 <div>
-                    <label for=password>Change password:</label>
-                    <input type=password name=password />
+                    <label for=old_password>Old password:</label>
+                    <input type=password id=old_password name=old_password />
                 </div>
                 <div>
-                    <label for=confirm_password>Repeat password:</label>
-                    <input type=password name=confirm_password />
+                    <label for=new_password>New password:</label>
+                    <input type=password id=new_password name=new_password />
+                </div>
+                <div>
+                    <label for=confirm_password>Repeat:</label>
+                    <input type=password id=confirm_password name=confirm_password />
                 </div>
                 <button class=change_button type=submit>Change</button>
+                <% if params['password_success'] -%>
+                <span class=success><%= params['password_success'] %></span>
+                <% end -%>
+                <% if params['password_error'] -%>
+                <span class=error><%= params['password_error'] %></span>
+                <% end -%>
             <% end -%>
         </div>
     </div>

@@ -238,10 +238,21 @@
     line-height: 1.2em;
     margin-left: -1em;
 }
-
 .profile_form label {
     display: inline-block;
-    width: 10em;
+    width: 8em;
+    text-align: right;
+    line-height: 1.6em;
+    padding-right: 0.6em;
+}
+
+.password_form div {
+    line-height: 1.2em;
+    margin-left: -1em;
+}
+.password_form label {
+    display: inline-block;
+    width: 8em;
     text-align: right;
     line-height: 1.6em;
     padding-right: 0.6em;

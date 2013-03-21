@@ -29,6 +29,7 @@ CommComm::Application.routes.draw do
   post 'post/mail'
   post 'post/edit'
   post 'configure/profile'
+  post 'configure/password'
   post 'configure/a_session'
   post 'configure/confirm'
   post 'configure/appearance'

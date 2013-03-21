@@ -22,6 +22,26 @@ class ConfigureController < ApplicationController
     end
   end
 
+  def password
+    logged_in do
+      editee = User.find_by_id(params['id'])
+      if editee and (@user.can_edit_users or @user.id == editee.id)
+        if params['old_password'] && editee.password == params['old_password']
+          if params['new_password'] == params['confirm_password']
+            editee.password = params['new_password']
+            editee.save!
+            redirect_to '/main/settings?section=password&password_success=Your+password+has+been+changed.'
+          else
+            redirect_to '/main/settings?section=password&password_error=The+given+passwords+did+not+match.'
+          end
+        else
+          redirect_to '/main/settings?section=password&password_error=The+old+password+was+not+correct.'
+        end
+      end
+    end
+  end
+
+
   def a_session
     logged_in do
       if params.has_key?('logout')
